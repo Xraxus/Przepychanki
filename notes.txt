@@ -1,0 +1,14 @@
+Ilość użytkowników: 2-5
+Każdy gracz ma: pionki, liste zakupów, karty przepychanek, zdobyte towary
+
+Akcje w fazach:
+1- Każdy gracz dokłada wolne pionki
+2- Gracze nic, wyciagamy 3 karty dostawy towaru 
+3- gracze zagrywaja karty przepychanek lub pasuja
+4- gracze wybieraja towary ze sklepow i ich pionki wracaja + spekulanci zabieraja na bazar towar pierwszy na liscie
+5- gracz wybiera towary do wymiany na bazarze
+
+TePeZet automatycznie
+Sobota automatycznie
+
+~~
