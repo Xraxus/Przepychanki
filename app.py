@@ -89,36 +89,33 @@ def local_phase1():
     if request.method == 'POST':
         picked_card = request.form['card']
 
-        if not games[session['key']].can_use_card(picked_card):
-            return redirect('/local/phase1', code=302)
-        else:
-            if picked_card == "Pan tu nie stał":
-                return redirect('/local/phase1_use_pan')
-            elif picked_card=="Matka z dzieckiem":
-                return redirect('/local/phase1_use_matka')
-            elif picked_card=="Krytyka władzy":
-                return redirect('/local/phase1_use_krytyka')
-            elif picked_card=="Lista społeczna":
-                return redirect('/local/phase1_use_lista')
-            elif picked_card=="Szczęśliwy traf":
-                return redirect('/local/phase1_use_szczesliwy')
-            elif picked_card=="Remanent":
-                return redirect('/local/phase1_use_remanent')
-            elif picked_card=="Towar spod lady":
-                return redirect('/local/phase1_use_towar')
-            elif picked_card=="Kolega w Komitecie":
-                return redirect('/local/phase1_use_kolega')
-            elif picked_card=="Zwiększona dostawa":
-                return redirect('/local/phase1_use_zwiekszona')
-            elif picked_card=="Pomyłka w dostawie":
-                return redirect('/local/phase1_use_pomylka')
-            elif picked_card == "Spasuj":
-                games[session['key']].players[games[session['key']].current_player_index].do_pass()
-                if games[session['key']].did_all_players_pass():
-                    return redirect('/local/phase2', code=302)
-                else:
-                    games[session['key']].move_to_next_player()
-                    return render_template('local/phase1.htm', game=games[session['key']], player=games[session['key']].players[games[session['key']].current_player_index])
+        if picked_card == "Pan tu nie stał":
+            return redirect('/local/phase1_use_pan')
+        elif picked_card=="Matka z dzieckiem":
+            return redirect('/local/phase1_use_matka')
+        elif picked_card=="Krytyka władzy":
+            return redirect('/local/phase1_use_krytyka')
+        elif picked_card=="Lista społeczna":
+            return redirect('/local/phase1_use_lista')
+        elif picked_card=="Szczęśliwy traf":
+            return redirect('/local/phase1_use_szczesliwy')
+        elif picked_card=="Remanent":
+            return redirect('/local/phase1_use_remanent')
+        elif picked_card=="Towar spod lady":
+            return redirect('/local/phase1_use_towar')
+        elif picked_card=="Kolega w Komitecie":
+            return redirect('/local/phase1_use_kolega')
+        elif picked_card=="Zwiększona dostawa":
+            return redirect('/local/phase1_use_zwiekszona')
+        elif picked_card=="Pomyłka w dostawie":
+            return redirect('/local/phase1_use_pomylka')
+        elif picked_card == "Spasuj":
+            games[session['key']].players[games[session['key']].current_player_index].do_pass()
+            if games[session['key']].did_all_players_pass():
+                return redirect('/local/phase2', code=302)
+            else:
+                games[session['key']].move_to_next_player()
+                return render_template('local/phase1.htm', game=games[session['key']], player=games[session['key']].players[games[session['key']].current_player_index])
 
     else:
         if not games[session['key']].does_any_player_have_cards():
@@ -129,6 +126,9 @@ def local_phase1():
 def local_phase1_use_pan():
     if not check():
         return redirect('/', code=302)
+
+    if not games[session['key']].can_use_card("Pan tu nie stał"):
+        return redirect('/local/phase1', code=302)
 
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
@@ -144,6 +144,9 @@ def local_phase1_use_pan():
 def local_phase1_use_matka():
     if not check():
         return redirect('/', code=302)
+
+    if not games[session['key']].can_use_card("Matka z dzieckiem"):
+        return redirect('/local/phase1', code=302)
 
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
@@ -161,6 +164,9 @@ def local_phase1_use_krytyka():
     if not check():
         return redirect('/', code=302)
 
+    if not games[session['key']].can_use_card("Krytyka władzy"):
+        return redirect('/local/phase1', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -176,6 +182,9 @@ def local_phase1_use_krytyka():
 def local_phase1_use_lista():
     if not check():
         return redirect('/', code=302)
+
+    if not games[session['key']].can_use_card("Lista społeczna"):
+        return redirect('/local/phase1', code=302)
 
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
@@ -193,6 +202,9 @@ def local_phase1_use_szczesliwy():
     if not check():
         return redirect('/', code=302)
 
+    if not games[session['key']].can_use_card("Szczęśliwy traf"):
+        return redirect('/local/phase1', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -209,6 +221,9 @@ def local_phase1_use_remanent():
     if not check():
         return redirect('/', code=302)
 
+    if not games[session['key']].can_use_card("Remanent"):
+        return redirect('/local/phase1', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -223,6 +238,9 @@ def local_phase1_use_remanent():
 def local_phase1_use_towar():
     if not check():
         return redirect('/', code=302)
+
+    if not games[session['key']].can_use_card("Towar spod lady"):
+        return redirect('/local/phase1', code=302)
 
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
@@ -242,6 +260,9 @@ def local_phase1_use_kolega():
     if not check():
         return redirect('/', code=302)
 
+    if not games[session['key']].can_use_card("Kolega w Komitecie"):
+        return redirect('/local/phase1', code=302)
+
     if request.method == 'POST':
         games[session['key']].players[games[session['key']].current_player_index].remove_jostling_card("Kolega w Komitecie")
         games[session['key']].move_to_next_player()
@@ -252,6 +273,9 @@ def local_phase1_use_kolega():
 def local_phase1_use_zwiekszona():
     if not check():
         return redirect('/', code=302)
+
+    if not games[session['key']].can_use_card("Zwiększona dostawa"):
+        return redirect('/local/phase1', code=302)
 
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
@@ -267,6 +291,9 @@ def local_phase1_use_zwiekszona():
 def local_phase1_use_pomylka():
     if not check():
         return redirect('/', code=302)
+
+    if not games[session['key']].can_use_card("Pomyłka w dostawie"):
+        return redirect('/local/phase1', code=302)
 
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':

@@ -5,13 +5,12 @@ from inc.goodsDeck import GoodsDeck
 from inc.jostlingDeck import JostlingDeck
 
 class Board():
-    shop_types = ["Spożywczy", "RTV-AGD", "Odzież", "Meblowy", "Kiosk"]
 
     def __init__(self):
         self.shop_types = ["Spożywczy", "RTV-AGD", "Odzież", "Meblowy", "Kiosk"]
         self.supply_deck = SupplyDeck()  #Dostawy
         self.jostling_deck = JostlingDeck()#Przepychanki
-
+        self.week_days = None
         self.goods_deck = {
             "Spożywczy": GoodsDeck("Spożywczy"),
             "RTV-AGD": GoodsDeck("RTV-AGD"),

@@ -35,7 +35,7 @@
             </tr>
             <tr>
                 <th>Towary</th>
-                {% if shop_value.queue[0].color == game.players[game.current_player_index].color %}
+                {% if shop_value.queue and shop_value.queue[0].color == game.players[game.current_player_index].color %}
                     {% for good in shop_value.available_goods %}
                     <input type="hidden" name="shop_name" value="{{shop_value.name}}">
                     <td><button type="submit" id="{{ good.name }}" name="good" value="{{ good.name }}" >{{ good.name}}</button>, {{ good.description }}</td>

@@ -23,7 +23,7 @@ class Player():
 
 
     def __repr__(self):
-        return 'Name: %s, Color: %s, Mode: %s \nPawns: (%s) \nShopping list: (%s) \n' % (self.name, self.color, self.mode, self.pawns, self.shopping_list)
+        return 'Name: %s, Color: %s, Mode: %s \nPawns: (%s) \nJost cards: (%s) \n' % (self.name, self.color, self.mode, self.pawns, self.jostling_hand)
 
     def draw_jostling_card(self, jostling_deck):
         if len(self.jostling_hand) < 3:
@@ -48,8 +48,10 @@ class Player():
             self.pass_status = True
 
     def has_card(self, card):
-        if card in self.jostling_hand:
+        print(card)
+        if any(card_in_hand.name == card for card_in_hand in self.jostling_hand):
             return True
         else:
+            print("huehueheuhe")
             return False
 

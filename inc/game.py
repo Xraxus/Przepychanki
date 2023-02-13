@@ -223,6 +223,7 @@ class Game():
         return self.board.shops.get(shop_name).queue[0]
 
     def can_use_card(self, card_name):
+        print(self.players[self.current_player_index])
         if card_name=="Spasuj":
             return True
         elif self.players[self.current_player_index].has_card(card_name):

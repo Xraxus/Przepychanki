@@ -5,35 +5,8 @@ class JostlingCard():
 
     def __repr__(self):
         return "%s - %s" % (self.color, self.name)
-    def use_card(self,name):
-        if name == "Pan tu nie stał":
-            pass
-        elif name == "Matka z dzieckiem":
 
-            pass
-        elif name == "Krytyka władzy":
-            pass
 
-        elif name == "Zwiększona dostawa":
-
-            pass
-        elif name == "Pomyłka w dostawie":
-            pass
-
-        elif name == "Kolega w Komitecie":
-            pass
-
-        elif name == "Lista społeczna":
-            pass
-
-        elif name == "Towar spod lady":
-
-            pass
-        elif name == "Szczęśliwy traf":
-            pass
-
-        elif name == "Remanent":
-            pass
 
 
 # 1. Pan tu nie stał - przesuń swój pionek o 1 miejsce do przodu.
