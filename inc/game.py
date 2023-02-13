@@ -9,20 +9,21 @@ import random
 
 class Game():
 
-    def __init__(self, name='Anonim'):
+    def __init__(self, name, mode):
         colors_iterator = iter(['niebieski', 'żółty', 'czerwony', 'zielony', 'brązowy'])
         shopping_list_numbers = [1, 2, 3, 4, 5]
         random.shuffle(shopping_list_numbers)
         shopping_list_iterator = iter(shopping_list_numbers)
 
         self.players = list()
+        if mode =='local':
+            self.current_player_index = 0
+            self.players.append(Player(next(colors_iterator), next(shopping_list_iterator), name))
+            self.players.append(Player(next(colors_iterator), next(shopping_list_iterator), 'Michalek'))
+            # self.players.append(Player(next(colors_iterator), next(shopping_list_iterator),'Karolek'))
+            # self.players.append(Player(next(colors_iterator), next(shopping_list_iterator), 'Klarek'))
+            # self.players.append(Player(next(colors_iterator), next(shopping_list_iterator), 'Karusek'))
 
-        self.players.append(Player(next(colors_iterator), next(shopping_list_iterator), name))
-        self.players.append(Player(next(colors_iterator), next(shopping_list_iterator), 'Michalek'))
-        # self.players.append(Player(next(colors_iterator), next(shopping_list_iterator),'Karolek'))
-        # self.players.append(Player(next(colors_iterator), next(shopping_list_iterator), 'Klarek'))
-        # self.players.append(Player(next(colors_iterator), next(shopping_list_iterator), 'Karusek'))
-        self.current_player_index = 0
         
 
         self.board = Board()
