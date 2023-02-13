@@ -47,3 +47,9 @@ class Player():
         else:
             self.pass_status = True
 
+    def has_card(self, card):
+        if card in self.jostling_hand:
+            return True
+        else:
+            return False
+
