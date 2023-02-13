@@ -35,15 +35,24 @@ def check():
 
 @app.route('/local/form', methods=['GET','POST'])
 def local_form():
-    if request.method == 'POST':
-        return new_local_game(request.form.get('name'))
-    return render_template('local/form.htm')
-
-def new_local_game(name):
     if not check_simple():
         return redirect('/', code=302)
 
-    games[session['key']] = Game(name, 'local')
+    if request.method == 'POST':
+        players = [x for x in request.form.getlist('names') if x]
+        print(players)
+
+        if len(players) >= 2 and len(players) <= 5:
+            return new_local_game(players)
+
+
+    return render_template('local/form.htm')
+
+def new_local_game(names):
+    if not check_simple():
+        return redirect('/', code=302)
+
+    games[session['key']] = Game(names, 'local')
 
     return redirect('/local/phase0', code=302, )
 
@@ -51,6 +60,9 @@ def new_local_game(name):
 #Faza 0 - ustawianie pionków + dostarczenie towarów na koniec ustawiania
 @app.route('/local/phase0', methods=['GET','POST'])
 def local_phase0():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method== 'POST':
         category = request.form['shop_name']
         result = games[session['key']].place_pawn(category, games[session['key']].players[games[session['key']].current_player_index].color)
@@ -71,6 +83,9 @@ def local_phase0():
 #Faza 1 - użyj kart przepychanek kolejkowych, by zapewnić sobie najlepszą pozycje
 @app.route('/local/phase1', methods=['GET','POST'])
 def local_phase1():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method == 'POST':
         picked_card = request.form['card']
         if picked_card == "Pan tu nie stał":
@@ -108,6 +123,9 @@ def local_phase1():
 
 @app.route('/local/phase1_use_pan', methods=['GET','POST'] )
 def local_phase1_use_pan():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -120,6 +138,9 @@ def local_phase1_use_pan():
 
 @app.route('/local/phase1_use_matka', methods=['GET','POST'] )
 def local_phase1_use_matka():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -133,6 +154,9 @@ def local_phase1_use_matka():
 
 @app.route('/local/phase1_use_krytyka', methods=['GET','POST'] )
 def local_phase1_use_krytyka():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -146,6 +170,9 @@ def local_phase1_use_krytyka():
 
 @app.route('/local/phase1_use_lista', methods=['GET','POST'] )
 def local_phase1_use_lista():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -159,6 +186,9 @@ def local_phase1_use_lista():
 
 @app.route('/local/phase1_use_szczesliwy', methods=['GET', 'POST'])
 def local_phase1_use_szczesliwy():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -172,6 +202,9 @@ def local_phase1_use_szczesliwy():
 
 @app.route('/local/phase1_use_remanent', methods=['GET', 'POST'])
 def local_phase1_use_remanent():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -184,6 +217,9 @@ def local_phase1_use_remanent():
 
 @app.route('/local/phase1_use_towar', methods=['GET','POST'])
 def local_phase1_use_towar():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -199,6 +235,9 @@ def local_phase1_use_towar():
 
 @app.route('/local/phase1_use_kolega', methods=['GET','POST'])
 def local_phase1_use_kolega():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method == 'POST':
         games[session['key']].players[games[session['key']].current_player_index].remove_jostling_card("Kolega w Komitecie")
         games[session['key']].move_to_next_player()
@@ -207,6 +246,9 @@ def local_phase1_use_kolega():
 
 @app.route('/local/phase1_use_zwiekszona', methods=['GET', 'POST'])
 def local_phase1_use_zwiekszona():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -219,6 +261,9 @@ def local_phase1_use_zwiekszona():
 
 @app.route('/local/phase1_use_pomylka', methods=['GET', 'POST'])
 def local_phase1_use_pomylka():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
             return redirect('/local/phase1', code=302)
@@ -233,6 +278,9 @@ def local_phase1_use_pomylka():
 #Gracze i spekulanci zbierają przedmioty
 @app.route('/local/phase2', methods=['GET', 'POST'])
 def local_phase2():
+    if not check():
+        return redirect('/', code=302)
+
     if request.method=='POST':
         if games[session['key']].board.shops.get(request.form['shop_name']).available_goods and games[session['key']].board.shops.get(request.form['shop_name']).queue:
             games[session['key']].take_good_player(games[session['key']].get_first_pawn(request.form['shop_name']), request.form['shop_name'], request.form['good_name'], games[session['key']].players[games[session['key']].get_pawn_owner_index(games[session['key']].get_first_pawn(request.form['shop_name']))] )

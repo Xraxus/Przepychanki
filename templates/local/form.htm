@@ -1,12 +1,12 @@
 {% extends "base.htm" %}
 
-
-
 {% block body %}
 <form method="post">
-    <label for="name">Imię:</label>
-    <input id="name" name="name" value="Kamil">
+    Imię gracza pierwszego: <input name="names" value="Kamil"><br>
+    Imię gracza drugiego: <input name="names" value="Klara"><br>
+    Imię gracza trzeciego: <input name="names" value=""><br>
+    Imię gracza czwartego: <input name="names" value=""><br>
 
-    <input type="submit" value="Rozpocznij grę">
+    <input type="submit" value="Rozpocznij grę" />
 </form>
 {% endblock %}
