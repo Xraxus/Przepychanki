@@ -1,13 +1,28 @@
 {% extends "base.htm" %}
 
 {% block body %}
-<form method="post">
-    Imię gracza pierwszego: <input name="names" value="Kamil"><br>
-    Imię gracza drugiego: <input name="names" value="Klara"><br>
-    Imię gracza trzeciego: <input name="names" value=""><br>
-    Imię gracza czwartego: <input name="names" value=""><br>
-    Imię gracza piątego: <input name="names" value=""><br>
+    <form method="post">
+        <label>
+            Imię gracza pierwszego:
+            <input name="names" value="Kamil">
+        </label><br>
+        <label>
+            Imię gracza drugiego:
+            <input type="text" name="names" value="Klara">
+        </label><br>
+        <label>
+            Imię gracza trzeciego:
+            <input type="text" name="names" value="">
+        </label><br>
+        <label>
+            Imię gracza czwartego:
+            <input type="text" name="names" value="">
+        </label><br>
+        <label>
+            Imię gracza piątego:
+            <input type="text" name="names" value="">
+        </label><br>
 
-    <input type="submit" value="Rozpocznij grę" />
-</form>
+        <input type="submit" value="Rozpocznij grę"/>
+    </form>
 {% endblock %}

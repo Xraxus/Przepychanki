@@ -1,40 +1,36 @@
+import random
+
 from inc.board import Board
 from inc.player import Player
-from inc.shop import Shop
-from inc.supplyDeck import SupplyDeck
-from inc.goodsDeck import GoodsDeck
-from inc.shoppingList import ShoppingList
 
-import random
 
 class Game():
 
     def __init__(self, names, mode):
         colors_iterator = iter(['niebieski', 'żółty', 'czerwony', 'zielony', 'brązowy'])
+
         shopping_list_numbers = [1, 2, 3, 4, 5]
         random.shuffle(shopping_list_numbers)
         shopping_list_iterator = iter(shopping_list_numbers)
+
         self.current_player_index = 0
 
         self.players = list()
-        if mode =='local':
+        if mode == 'local':
             for name in names:
                 self.players.append(Player(next(colors_iterator), next(shopping_list_iterator), name))
-
-        
 
         self.board = Board()
 
         self.jostling_draw()
         print("Deck przepychanek:" + str(self.board.jostling_deck))
 
-
         print(self.board.bazaar)
         print("Decki z towarami:" + str(self.board.goods_deck) + "\n~~~~\n")
-        #do testu dostaw
+        # do testu dostaw
         print("Sklepy wraz z dostawionymi towarami:\n" + str(self.board.shops) + "\n~~~~\n")
 
-        #Test obiektów
+        # Test obiektów
         print("Deck kart dostawy:\n" + str(self.board.supply_deck) + "\n~~~~\n")
         print("Gracze i ich staty:\n" + str(self.players) + "\n~~~~\n")
 
@@ -61,21 +57,21 @@ class Game():
     def move_to_next_player(self):
         while True:
             self.current_player_index = (self.current_player_index + 1) % len(self.players)
-            if self.players[self.current_player_index].pass_status == False:
+            if not self.players[self.current_player_index].pass_status:
                 break
 
-    #Zwraca fałsz jeśli jakiś gracz jeszcze nie spasował, prawde jesli wszyscy spasowali
+    # Zwraca fałsz jeśli jakiś gracz jeszcze nie spasował, prawde jesli wszyscy spasowali
     def did_all_players_pass(self):
         for player in self.players:
-            if player.pass_status == False:
+            if not player.pass_status:
                 return False
         return True
 
-    #Zwraca prawde jeśli jakiś gracz ma jeszcze karty, a jak żaden nie ma kart to fałsz
+    # Zwraca prawde jeśli jakiś gracz ma jeszcze karty, a jak żaden nie ma kart to fałsz
     def does_any_player_have_cards(self):
         for player in self.players:
             print(player.jostling_hand)
-            if player.jostling_hand:
+            if player.jostling_hand and not player.pass_status:
                 return True
         return False
 
@@ -114,7 +110,7 @@ class Game():
             player.draw_jostling_card(self.board.jostling_deck)
             # print("\n\n" + str(player.jostling_hand) + "\n\n")
 
-    def get_pawn_in_queue(self,pawn_id, category):
+    def get_pawn_in_queue(self, pawn_id, category):
         shop_queue = self.get_shop_queue(category)
         for obj in shop_queue:
             if obj.pawn_id == pawn_id:
@@ -123,7 +119,7 @@ class Game():
 
     def use_pan(self, pawn_id, category):
         shop_queue = self.get_shop_queue(category)
-        pawn = self.get_pawn_in_queue(pawn_id,category)
+        pawn = self.get_pawn_in_queue(pawn_id, category)
         index = shop_queue.index(pawn)
         if index != 0:
             shop_queue.pop(index)
@@ -144,7 +140,7 @@ class Game():
         pawn = self.get_pawn_in_queue(pawn_id, category)
         index = shop_queue.index(pawn)
         shop_queue.pop(index)
-        shop_queue.insert(index+2, pawn)
+        shop_queue.insert(index + 2, pawn)
         self.set_shop_queue(category, shop_queue)
 
     def use_szczesliwy(self, pawn_id, start_category, go_to_category):
@@ -169,7 +165,8 @@ class Game():
 
     def take_good_player(self, pawn_id, shop_name, good_name, player):
         shop = self.board.shops.get(shop_name)
-        player.equipment.append(shop.available_goods.pop( shop.available_goods.index(self.get_good_item(shop_name, good_name)) ))
+        player.equipment.append(
+            shop.available_goods.pop(shop.available_goods.index(self.get_good_item(shop_name, good_name))))
         player.pawns.append(shop.queue.pop(shop.queue.index(pawn_id)))
 
     def take_good_speculant(self, pawn_id, shop_name):
@@ -188,7 +185,7 @@ class Game():
 
     def use_towar(self, shop_name, good_name, player):
         shop = self.board.shops.get(shop_name)
-        if shop.is_open == False:
+        if not shop.is_open:
             print("remanent")
             return "Nie możesz tego zrobić - sklep jest zamknięty z powodu remanentu."
         elif not self.is_player_pawn_first(shop_name, player.color):
@@ -200,7 +197,7 @@ class Game():
 
     def use_zwiekszona(self, shop_name):
         shop = self.board.shops.get(shop_name)
-        if shop.is_open == False:
+        if not shop.is_open:
             print("remanent")
             return "remanent"
         else:
@@ -212,7 +209,9 @@ class Game():
             print("remanent")
             return "remanent"
         else:
-            self.board.shops.get(go_to_shop).available_goods.append(self.board.shops.get(start_shop).available_goods.pop(self.board.shops.get(start_shop).available_goods.index(self.get_good_item(start_shop, good_name))))
+            self.board.shops.get(go_to_shop).available_goods.append(
+                self.board.shops.get(start_shop).available_goods.pop(
+                    self.board.shops.get(start_shop).available_goods.index(self.get_good_item(start_shop, good_name))))
 
     def get_pawn_owner_index(self, pawn):
         for player in self.players:
@@ -224,9 +223,29 @@ class Game():
 
     def can_use_card(self, card_name):
         print(self.players[self.current_player_index])
-        if card_name=="Spasuj":
+        if card_name == "Spasuj":
             return True
         elif self.players[self.current_player_index].has_card(card_name):
             return True
         else:
             return False
+
+    def go_to_next_day(self):
+        self.board.set_next_day()  # sets current_day attribute for the next day, also changes the bazaar on sale category accordingly
+        # TODO: Change starting player to the next one
+
+    def move_player_item_to_bazaar(self, item_name):
+        self.board.bazaar.available_goods.get(self.players[
+            self.get_pawn_owner_index(self.board.bazaar.queue[0])].get_good(
+            item_name).category).append(
+            # Remove selected item from player's eq
+            self.players[self.get_pawn_owner_index(
+                self.board.bazaar.queue[0])].remove_good(item_name)
+        )
+
+
+    def give_player_bazaar_item_and_pop_queue_first_pawn(self, category):
+        self.players[self.get_pawn_owner_index(self.board.bazaar.queue[0])].equipment.append(
+            self.board.bazaar.available_goods.get(category).pop())
+
+        self.players[self.get_pawn_owner_index(self.board.bazaar.queue[0])].pawns.append(self.board.bazaar.queue.pop(0))

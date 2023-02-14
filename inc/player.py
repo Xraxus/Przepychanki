@@ -1,6 +1,6 @@
 from inc.pawn import Pawn
 from inc.shoppingList import ShoppingList
-from inc.board import Board
+
 
 class Player():
 
@@ -15,7 +15,6 @@ class Player():
         self.pawns = []
         #Karty przepychanek
         self.jostling_hand = []
-        self.remaining_jostling_cards = [] #Stos z pozostałymi kartami przep.
         self.used_jostling_cards = [] #Stos z zużytymi kartami przep.
 
         for x in range (5):
@@ -37,7 +36,7 @@ class Player():
     def remove_jostling_card(self, card_name):
         for card in self.jostling_hand:
             if card.name == card_name:
-                self.jostling_hand.remove(card)
+                self.used_jostling_cards.append(self.jostling_hand.pop(self.jostling_hand.index(card)))
 
     #Jeśli gracz spasował to zresetuj jego status,
     #A jeśli nie ustaw mu status jako gracz, ktory spasowal
@@ -48,10 +47,20 @@ class Player():
             self.pass_status = True
 
     def has_card(self, card):
-        print(card)
         if any(card_in_hand.name == card for card_in_hand in self.jostling_hand):
             return True
         else:
-            print("huehueheuhe")
             return False
+
+    def remove_good(self, good_name):
+        for good in self.equipment:
+            if good.name == good_name:
+                return self.equipment.pop(self.equipment.index(good))
+
+    def get_good(self, good_name):
+        for good in self.equipment:
+            if good.name == good_name:
+                return self.equipment[(self.equipment.index(good))]
+
+
 
