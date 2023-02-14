@@ -35,6 +35,9 @@ def check():
     return False
 
 
+### LOCAL(HOTSEAT) ###
+
+@app.route('/local', methods=['GET', 'POST'])
 @app.route('/local/form', methods=['GET', 'POST'])
 def local_form():
     if not check_simple():
