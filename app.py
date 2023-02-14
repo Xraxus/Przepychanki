@@ -38,6 +38,9 @@ def check():
 ### LOCAL(HOTSEAT) ###
 
 @app.route('/local', methods=['GET', 'POST'])
+def local():
+    return redirect('/local/form', code=302)
+
 @app.route('/local/form', methods=['GET', 'POST'])
 def local_form():
     if not check_simple():
