@@ -1,5 +1,5 @@
 from inc.goodsCard import GoodsCard
-
+import random
 class GoodsDeck():
     shop_types = ["Spożywczy", "RTV-AGD", "Odzież", "Meblowy", "Kiosk"]
     def __init__(self, shop_name):
@@ -7,7 +7,7 @@ class GoodsDeck():
         self.cards = list()
 
         original_cards = {
-            "Spożywczy": (
+            "Spożywczy": [
                 ("Piwo", "To jest moje paliwo"),
                 ("Chleb", "Jeszcze gorący"),
                 ("Bombonierka", "Pełna czekoladowych bomb"),
@@ -20,8 +20,8 @@ class GoodsDeck():
                 ("Cukier", "Dla osłody życia"),
                 ("Kawa", "Doda ci siły!"),
                 ("Ocet", "Zawsze się przyda")
-            ),
-            "RTV-AGD": (
+            ],
+            "RTV-AGD": [
                 ("Termos", "By ciepło zawsze było blisko"),
                 ("Lodówka", "Mrozi..."),
                 ("Mikser", "Wszędzie potrafi namieszać"),
@@ -34,8 +34,8 @@ class GoodsDeck():
                 ("Telefon", "Przedzwoń do sąsiada!"),
                 ("Telewizor", "Atrakcja dla każdego domu"),
                 ("Radiomagnetofon", "Dwa w jednym!")
-            ),
-            "Meblowy": (
+            ],
+            "Meblowy": [
                 ("Stołek", "Solidny i stabilny"),
                 ("Lampa", "Do przytulnego pokoju"),
                 ("Krzesło", "Pełna wygoda"),
@@ -48,8 +48,8 @@ class GoodsDeck():
                 ("Obraz", "Kultura wyższa"),
                 ("Wersalka", "Do siedzenia i spania"),
                 ("Meblościanka", "Królowa salonów")
-            ),
-            "Odzież":(
+            ],
+            "Odzież":[
                 ("Czapka z daszkiem", "Chroni przed słońcem"),
                 ("Futro", "Pełen styl"),
                 ("Krawat", "Kultura i elegancja"),
@@ -62,8 +62,8 @@ class GoodsDeck():
                 ("Okulary", "Stylowe akcesorium"),
                 ("Torebka", "Dla kobiety nowoczesnej"),
                 ("Zestaw koszul", "Dla poważnych")
-            ),
-            "Kiosk":(
+            ],
+            "Kiosk":[
                 ("Perfumy", "By uwodzić zapachem"),
                 ("Gra elektroniczna", "Marzenie dzeciaków"),
                 ("Mydło", "Wszystko umyje"),
@@ -76,29 +76,15 @@ class GoodsDeck():
                 ("Płyn do naczyń", "Ludwiku, do rondla"),
                 ("Papierosy", "Klubowe"),
                 ("Kredki", "Pomaluj mi życie")
-            )
+            ]
         }
 
 
         for category in self.shop_types:
+            random.shuffle(original_cards[category])
             if self.shop_name == category:
                 for card, description in original_cards[category]:
                     self.cards.append(GoodsCard(self.shop_name, card, description))
-        # if shop_name == 'Spożywczy':
-        #     for card, description in original_cards['Spożywczy']:
-        #         self.cards.add(GoodsCard(shop_name, card, description))
-        # elif shop_name == 'RTV-AGD':
-        #     for card, description in original_cards['RTV-AGD']:
-        #         self.cards.add(GoodsCard(shop_name, card, description))
-        # elif shop_name == 'Meblowy':
-        #     for card, description in original_cards['Meblowy']:
-        #         self.cards.add(GoodsCard(shop_name, card, description))
-        # elif shop_name == 'Odzież':
-        #     for card, description in original_cards['Odzież']:
-        #         self.cards.add(GoodsCard(shop_name, card, description))
-        # elif shop_name == 'Kiosk':
-        #     for card, description in original_cards['Kiosk']:
-        #         self.cards.add(GoodsCard(shop_name, card, description))
 
     def __repr__(self):
          return "%s: \n%s" % (self.shop_name, self.cards)

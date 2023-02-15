@@ -73,7 +73,7 @@
             <th colspan="100%">Bazar</th>
         </tr>
         {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
-            <tr>
+            <tr {% if shop_name == game.board.bazaar.sale_category %} class="yellow-background"{% endif %}>
                 <th>{{ shop_name }}</th>
 
                 {% for good in shop_items %}

@@ -14,6 +14,7 @@ class Game():
         shopping_list_iterator = iter(shopping_list_numbers)
 
         self.current_player_index = 0
+        self.day_count = 0
 
         self.players = list()
         if mode == 'local':
@@ -75,17 +76,23 @@ class Game():
                 return True
         return False
 
-    def place_pawn(self, category, player_color):
+    def place_pawn(self, category):
+        # print("placing pawn 1")
         next_player = self.players[self.get_next_player_index()]
-        player = [x for x in self.players if x.color == player_color][0]
+        player = self.players[self.current_player_index]
 
+        # print("placing pawn 2")
+
+        #TODO: Check if any player as pawns and not only the next one
         if category == 'Bazaar':
             if player.pawns:
                 self.board.bazaar.queue.append(player.pawns.pop())
                 if next_player.pawns:
                     self.move_to_next_player()
                 else:
-                    return 'player has no pawns'
+                    return 'next players have no pawns'
+            elif next_player.pawns:
+                self.move_to_next_player()
         else:
             shop_queue = self.get_shop_queue(category)
             if player.pawns:
@@ -95,7 +102,7 @@ class Game():
                     self.move_to_next_player()
                 else:
                     self.move_to_next_player()
-                    return 'player has no pawns'
+                    return 'next players have no pawns'
 
     def place_speculant(self, shop_name):
         shop = self.board.shops.get(shop_name)
@@ -172,7 +179,9 @@ class Game():
     def take_good_speculant(self, pawn_id, shop_name):
         shop = self.board.shops.get(shop_name)
         self.board.bazaar.available_goods.get(shop_name).append(shop.available_goods.pop())
-        shop.speculant.append(shop.queue.pop(shop.queue.index(pawn_id)))
+        # shop.speculant.append(shop.queue.pop(shop.queue.index(pawn_id)))
+        shop.queue.append(shop.queue.pop(shop.queue.index(pawn_id)))
+
 
     def is_player_pawn_first(self, shop_name, player_color):
         shop_queue = self.get_shop_queue(shop_name)
@@ -232,7 +241,7 @@ class Game():
 
     def go_to_next_day(self):
         self.board.set_next_day()  # sets current_day attribute for the next day, also changes the bazaar on sale category accordingly
-        # TODO: Change starting player to the next one
+        self.day_count = self.day_count + 1
 
     def move_player_item_to_bazaar(self, item_name):
         self.board.bazaar.available_goods.get(self.players[
@@ -246,6 +255,21 @@ class Game():
 
     def give_player_bazaar_item_and_pop_queue_first_pawn(self, category):
         self.players[self.get_pawn_owner_index(self.board.bazaar.queue[0])].equipment.append(
-            self.board.bazaar.available_goods.get(category).pop())
+            self.board.bazaar.available_goods.get(category).pop(0))
 
         self.players[self.get_pawn_owner_index(self.board.bazaar.queue[0])].pawns.append(self.board.bazaar.queue.pop(0))
+
+    def right_shift_players(self):
+        self.players.append(self.players.pop(0))
+
+    def reset_players_pass_status(self):
+        for player in self.players:
+            player.pass_status = False
+
+    def get_index_of_next_player_with_pawns(self, current_player_index):
+        for player in self.players:
+            if self.players.index(player) == current_player_index:
+                continue
+            if player.pawns:
+                return self.players.index(player)
+            return current_player_index

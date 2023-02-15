@@ -5,7 +5,7 @@
     <h2>Gracz</h2>
 
     <form {% if stage == "2b" %} onsubmit="return checkSelected()" {% endif %} method="post">
-    <input type="hidden" name="category" value="{{ category }}">
+        <input type="hidden" name="category" value="{{ category }}">
         <table border=1>
             <tr>
                 <th>{{ player.color }}: {{ player.name }}</th>
@@ -102,27 +102,27 @@
                 <input type="hidden" name="stage" value="1">
                 {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
                     {% if shop_items %}
-                    <tr>
-                        <th>
-                            <button type="submit" name="shop_name" value="{{ shop_name }}">{{ shop_name }}</button>
-                        </th>
+                        <tr {% if shop_name == game.board.bazaar.sale_category %} class="yellow-background"{% endif %}>
+                            <th>
+                                <button type="submit" name="shop_name" value="{{ shop_name }}">{{ shop_name }}</button>
+                            </th>
 
-                        {% for good in shop_items %}
-                            <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>
-                        {% endfor %}
-                    </tr>
+                            {% for good in shop_items %}
+                                <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>
+                            {% endfor %}
+                        </tr>
                     {% else %}
-                    <tr>
-                        <th>{{ shop_name }}</th>
-                    </tr>
+                        <tr{% if shop_name == game.board.bazaar.sale_category %} class="yellow-background"{% endif %}>
+                            <th>{{ shop_name }}</th>
+                        </tr>
                     {% endif %}
                 {% endfor %}
             </form>
         {% else %}
             {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
-                <tr>
+                <tr class="{% if category == shop_name %}red-text {% endif %}{% if shop_name == game.board.bazaar.sale_category %} yellow-background{% endif %}"
+                    {>
                     <th>{{ shop_name }}</th>
-
                     {% for good in shop_items %}
                         <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>
                     {% endfor %}

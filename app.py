@@ -70,26 +70,26 @@ def new_local_game(names):
 def local_phase0():
     if not check():
         return redirect('/', code=302)
-
     if request.method == 'POST':
-        category = request.form['shop_name']
-        result = games[session['key']].place_pawn(category, games[session['key']].players[
-            games[session['key']].current_player_index].color)
+        print("jest post")
+        result = games[session['key']].place_pawn(request.form['shop_name'])
+        print(request.form['shop_name'])
+        print(result)
 
-        if result == 'player has no pawns':
-            games[session['key']].place_all_speculants()
+        if result == 'next players have no pawns':
+            if games[session['key']].day_count == 0:
+                games[session['key']].place_all_speculants()
             games[session['key']].board.draw_restock()
             return redirect('/local/phase1', code=302)
         else:
-            return render_template('local/phase0.htm', game=games[session['key']], message='Pawn placed',
+            return render_template('local/phase0.htm', game=games[session['key']],
                                    player=games[session['key']].players[games[session['key']].current_player_index],
-                                   categories=['Bazaar'] + [x.name for x in games[session['key']].board.shops.values()],
                                    pawns=games[session['key']].players[
                                        games[session['key']].current_player_index].pawns)
     else:
+        print("nie ma posta")
         return render_template('local/phase0.htm', game=games[session['key']],
                                player=games[session['key']].players[games[session['key']].current_player_index],
-                               categories=['Bazaar'] + [x.name for x in games[session['key']].board.shops.values()],
                                pawns=games[session['key']].players[games[session['key']].current_player_index].pawns)
 
 
@@ -381,6 +381,7 @@ def local_phase2():
                                                                request.form['shop_name']))])
 
     for shop in games[session['key']].board.shops.values():
+        did_speculant_take_good = False #This variable determines if speculant did take a good in this round already.
         if shop.is_open:
             for _ in shop.available_goods:
                 if shop.queue:
@@ -390,11 +391,13 @@ def local_phase2():
                                                    games[session['key']].get_pawn_owner_index(shop.queue[0])],
                                                shop=shop, owner='player')
                     else:
-                        games[session['key']].take_good_speculant(games[session['key']].get_first_pawn(shop.name),
-                                                                  shop.name)
+                        if not did_speculant_take_good: #Check if speculant took a good in this round
+                            games[session['key']].take_good_speculant(games[session['key']].get_first_pawn(shop.name),
+                                                                      shop.name)
+                            did_speculant_take_good = True #Speculant takes good, so make this True
     return redirect('/local/phase3', code=302)
 
-
+#Bazaar trades
 @app.route('/local/phase3', methods=['GET', 'POST'])
 def local_phase3():
     if not check():
@@ -427,8 +430,7 @@ def local_phase3():
                                                    games[session['key']].board.bazaar.queue[0])],
                                            stage='2b', category=request.form['shop_name'])
 
-            #TODO: Check if player even has enough items to make a trade
-            elif request.form['stage'] == "2a":  # one to one
+            elif request.form['stage'] == "2a" and 'item_name' in request.form:  # one to one
                 item = request.form['item_name']
                 category = request.form['category']
 
@@ -437,7 +439,7 @@ def local_phase3():
                 # Add item of selected category to player's eq & pop the pawn back to player hand
                 games[session['key']].give_player_bazaar_item_and_pop_queue_first_pawn(category)
 
-            elif request.form['stage'] == "2b":  # two to one
+            elif request.form['stage'] == "2b" and 'item_name' in request.form:  # two to one
                 items = request.form.getlist('item_name')
                 category = request.form['category']
 
@@ -447,7 +449,6 @@ def local_phase3():
                 # Add item of selected category to player's eq & pop the pawn back to player hand
                 games[session['key']].give_player_bazaar_item_and_pop_queue_first_pawn(category)
 
-    #TODO: Check if bazaar available goods is not empty
     if games[session['key']].board.bazaar.queue:
         # Stage 1 - choose the category from which you want to receive an item or go back and take your pawn with you
         return render_template('local/phase3.htm', game=games[session['key']],
@@ -455,8 +456,35 @@ def local_phase3():
                                    games[session['key']].board.bazaar.queue[0])],
                                stage='1')
     else:
-        return render_template('local/stats.htm', game=games[session['key']],
-                               player=games[session['key']].players[games[session['key']].current_player_index])
+        return redirect('/local/phase_tpz', code=302)
+
+@app.route('/local/phase_tpz', methods=['GET', 'POST'])
+def phase_tpz():
+    if not check():
+        return redirect('/', code=302)
+
+    #Remove used supply cards
+    games[session['key']].board.todays_supply_cards.clear()
+
+    #Stop 'remanent' cards
+    games[session['key']].board.reset_remanents()
+
+    #Set next day of a week
+    #Move to next sale_category on bazaar
+    games[session['key']].go_to_next_day()
+
+    #Draw jostling cards so every player has 3 of them in hand (unless the player ran out of cards)
+    games[session['key']].jostling_draw()
+
+    #Change starting player
+    games[session['key']].right_shift_players()
+
+    #Reset player pass status
+    games[session['key']].reset_players_pass_status()
+
+    return redirect('/local/phase0', code=302)
+
+
 
 
 if __name__ == '__main__':

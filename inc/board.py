@@ -50,10 +50,15 @@ class Board():
     def update_bazaar_sale(self):
         self.bazaar.sale_category = self.shop_types[self.week_days.index(self.current_day)]
 
-    #Goes to the next day of the week & updates bazaar sale accordingly
+    #Goes to the next day of the week & updates bazaar sale, remove used supply cards
     def set_next_day(self):
         self.current_day = self.week_days[(self.week_days.index(self.current_day) + 1) % 5]
         self.update_bazaar_sale()
+
+    def reset_remanents(self):
+        for shop in self.shops.values():
+           shop.is_open = True
+
 
 
 
