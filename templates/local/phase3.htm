@@ -2,6 +2,7 @@
 
 {% block body %}
     <h1>Otwarcie bazaru</h1>
+    <p>Dzień {{ game.day_count }}</p>
     <h2>Gracz</h2>
 
     <form {% if stage == "2b" %} onsubmit="return checkSelected()" {% endif %} method="post">

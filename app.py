@@ -70,14 +70,16 @@ def new_local_game(names):
 def local_phase0():
     if not check():
         return redirect('/', code=302)
+
+
+
     if request.method == 'POST':
         print("jest post")
-        result = games[session['key']].place_pawn(request.form['shop_name'])
+        games[session['key']].place_pawn(request.form['shop_name'])
         print(request.form['shop_name'])
-        print(result)
 
-        if result == 'next players have no pawns':
-            if games[session['key']].day_count == 0:
+        if not games[session['key']].does_any_player_have_pawns():
+            if games[session['key']].day_count == 1:
                 games[session['key']].place_all_speculants()
             games[session['key']].board.draw_restock()
             return redirect('/local/phase1', code=302)
@@ -88,7 +90,15 @@ def local_phase0():
                                        games[session['key']].current_player_index].pawns)
     else:
         print("nie ma posta")
-        return render_template('local/phase0.htm', game=games[session['key']],
+        if not games[session['key']].does_any_player_have_pawns():
+            if games[session['key']].day_count == 1:
+                games[session['key']].place_all_speculants()
+            games[session['key']].board.draw_restock()
+            return redirect('/local/phase1', code=302)
+        else:
+            if not games[session['key']].players[games[session['key']].current_player_index].pawns:
+                games[session['key']].move_to_next_player_with_pawns()
+            return render_template('local/phase0.htm', game=games[session['key']],
                                player=games[session['key']].players[games[session['key']].current_player_index],
                                pawns=games[session['key']].players[games[session['key']].current_player_index].pawns)
 
@@ -373,6 +383,7 @@ def local_phase2():
     if request.method == 'POST':
         if games[session['key']].board.shops.get(request.form['shop_name']).available_goods and games[
             session['key']].board.shops.get(request.form['shop_name']).queue:
+
             games[session['key']].take_good_player(games[session['key']].get_first_pawn(request.form['shop_name']),
                                                    request.form['shop_name'], request.form['good_name'],
                                                    games[session['key']].players[
@@ -381,7 +392,7 @@ def local_phase2():
                                                                request.form['shop_name']))])
 
     for shop in games[session['key']].board.shops.values():
-        did_speculant_take_good = False #This variable determines if speculant did take a good in this round already.
+        did_speculant_take_good = False #This variable determines if speculant did take a good in this shop and round already.
         if shop.is_open:
             for _ in shop.available_goods:
                 if shop.queue:
