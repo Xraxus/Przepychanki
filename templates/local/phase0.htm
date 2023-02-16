@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Faza 0</h1>
     <p>Ustawianie pionków w kolejkach</p>
-    <p>Dzień: {{ game.board.current_day }}</p>
+    <p>Dzień {{ game.day_count }}: {{ game.board.current_day }}</p>
 
     <h1>Gracz {{ player.color }}: {{ player.name }}</h1>
     <p>Pozostałe pionki: {{ player.pawns|length }}</p>
