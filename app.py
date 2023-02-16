@@ -424,7 +424,7 @@ def local_phase2():
                                                                request.form['shop_name']))])
 
     for shop in games[session['key']].board.shops.values():
-        did_speculant_take_good = False  # This variable determines if speculant did take a good in this shop and round already.
+        did_speculant_take_good = False  # This variable determines if speculant did take a good in this shop and round already. #TODO: move this variable to shop
         for _ in shop.queue:
             if shop.is_open and shop.available_goods:
                 if shop.queue[0].color not in ['Kiosk', 'Meblowy', 'Spożywczy', 'Odzież', 'RTV-AGD']:

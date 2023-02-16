@@ -36,17 +36,16 @@
                 </tr>
                 <tr>
                     <th>Towary</th>
-                    {% for good in shop_value.available_goods %}
-                        {% if shop_value.is_open == True %}
-                            <td>
-                                <input type="radio" id="good_id" name="good_id"
-                                       value={{ good.name + '#' + shop_value.name }} required>
-                                <label for="good_id"><strong>{{ good.name }}</strong>, {{ good.description }}</label>
-                            </td>
-                        {% else %}
-                            <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>
-                        {% endif %}
-                    {% endfor %}
+                        {% for good in shop_value.available_goods %}
+                            {% if shop_value.is_open == True and good.name%}
+                                <td>
+                                    <input type="radio" id="good_id" name="good_id" value="{{ good.name + '#' + shop_value.name }}" required>
+                                    <label for="good_id"><strong>{{ good.name }}</strong>, {{ good.description }}</label>
+                                </td>
+                            {% else %}
+                                <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>
+                            {% endif %}
+                        {% endfor %}
                 </tr>
                 <tr>
                     <th>Kolejka</th>

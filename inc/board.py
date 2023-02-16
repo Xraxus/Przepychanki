@@ -40,9 +40,17 @@ class Board():
     def draw_restock(self):
             for i in range(3):
                 drawn_card = self.supply_deck.draw()
+                print("Drawn card: ")
+                print(drawn_card)
+                print("Deck tej kategorii: ")
+                print(self.goods_deck.get(drawn_card.category).cards)
                 if drawn_card is not None:
                     self.todays_supply_cards.append(drawn_card)
-                    self.shops[drawn_card.category].delivery(drawn_card.amount, self.goods_deck[drawn_card.category])
+                    if self.goods_deck.get(drawn_card.category).cards:
+                        if drawn_card.amount <= len(self.goods_deck.get(drawn_card.category).cards):
+                            self.shops[drawn_card.category].delivery(drawn_card.amount, self.goods_deck[drawn_card.category])
+                        else:
+                            self.shops[drawn_card.category].delivery(len(self.goods_deck.get(drawn_card.category).cards),self.goods_deck[drawn_card.category])
 
     def count_by_shop_type(self, shop_type):
         return len(self.goods_deck[shop_type].cards)

@@ -214,7 +214,8 @@ class Game():
             return "remanent"
         else:
             print("zwiekszenie dostawy " + shop_name)
-            self.board.shops[shop_name].delivery(1, self.board.goods_deck[shop_name])
+            if self.board.goods_deck.get(shop_name).cards:
+                self.board.shops[shop_name].delivery(1, self.board.goods_deck[shop_name])
 
     def use_pomylka(self, good_name, start_shop, go_to_shop):
         if self.board.shops.get(start_shop).is_open == False or self.board.shops.get(go_to_shop).is_open == False:
@@ -297,4 +298,5 @@ class Game():
             player.used_jostling_cards.clear()
         random.shuffle(self.board.jostling_deck.deck)
 
-        print("~~reshuffled jostling deck" + self.board.jostling_deck)
+        print("~~reshuffled jostling deck")
+        print("self.board.jostling_deck")
