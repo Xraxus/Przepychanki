@@ -75,12 +75,13 @@ def local_phase0():
 
     if request.method == 'POST':
         print("jest post")
-        games[session['key']].place_pawn(request.form['shop_name'])
+        games[session['key']].place_pawn(request.form['shop_name']) #places pawn and moves to the next player that has a pawn
         print(request.form['shop_name'])
 
         if not games[session['key']].does_any_player_have_pawns():
             if games[session['key']].day_count == 1:
                 games[session['key']].place_all_speculants()
+            games[session['key']].current_player_index = 0
             games[session['key']].board.draw_restock()
             return redirect('/local/phase1', code=302)
         else:
@@ -90,6 +91,7 @@ def local_phase0():
                                        games[session['key']].current_player_index].pawns)
     else:
         print("nie ma posta")
+        games[session['key']].current_player_index = 0
         if not games[session['key']].does_any_player_have_pawns():
             if games[session['key']].day_count == 1:
                 games[session['key']].place_all_speculants()
@@ -486,9 +488,6 @@ def phase_tpz():
 
     #Draw jostling cards so every player has 3 of them in hand (unless the player ran out of cards)
     games[session['key']].jostling_draw()
-
-    #Change starting player
-    games[session['key']].right_shift_players()
 
     #Reset player pass status
     games[session['key']].reset_players_pass_status()

@@ -248,6 +248,8 @@ class Game():
     def go_to_next_day(self):
         self.board.set_next_day()  # sets current_day attribute for the next day, also changes the bazaar on sale category accordingly
         self.day_count = self.day_count + 1
+        self.right_shift_players()
+        self.current_player_index = 0
 
     def move_player_item_to_bazaar(self, item_name):
         self.board.bazaar.available_goods.get(self.players[
