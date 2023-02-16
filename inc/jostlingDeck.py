@@ -20,7 +20,4 @@ class JostlingDeck():
         random.shuffle(self.deck)
 
     def __repr__(self):
-        return "%d: %s" % (len(self.deck), self.deck)
-
-    def count(self):
-        return len(self.deck)
+        return "Jost deck: %d: %s" % (len(self.deck), self.deck)

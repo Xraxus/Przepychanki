@@ -20,7 +20,6 @@ class Game():
         if mode == 'local':
             for name in names:
                 self.players.append(Player(next(colors_iterator), next(shopping_list_iterator), name))
-
         self.board = Board()
 
         self.jostling_draw()
@@ -291,3 +290,11 @@ class Game():
             if len(player.pawns) < 5:
                 return player
         return False
+
+    def reshuffle_jostling_deck_at_end_of_week(self):
+        for player in self.players:
+            self.board.jostling_deck.deck.extend(player.used_jostling_cards)
+            player.used_jostling_cards.clear()
+        random.shuffle(self.board.jostling_deck.deck)
+
+        print("~~reshuffled jostling deck" + self.board.jostling_deck)

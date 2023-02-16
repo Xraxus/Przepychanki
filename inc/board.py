@@ -59,6 +59,9 @@ class Board():
         for shop in self.shops.values():
            shop.is_open = True
 
+    def reset_supply_deck(self):
+        self.supply_deck = SupplyDeck()
+
 
 
 

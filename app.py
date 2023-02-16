@@ -523,6 +523,10 @@ def phase_tpz():
     # Reset player pass status
     games[session['key']].reset_players_pass_status()
 
+    if games[session['key']].board.current_day == "Piątek":
+        games[session['key']].board.reset_supply_deck()
+        games[session['key']].reshuffle_jostling_deck_at_end_of_week()
+
     return redirect('/local/phase_withdraw', code=302)
 
 

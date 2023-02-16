@@ -6,9 +6,6 @@ class JostlingCard():
     def __repr__(self):
         return "%s - %s" % (self.color, self.name)
 
-
-
-
 # 1. Pan tu nie stał - przesuń swój pionek o 1 miejsce do przodu.
 # 2. Zwiększona dostawa - dołóż 1 towar więcej do sklepu, w którym była dostawa w tej rundzie.
 # 3. Lista społeczna - obróć wybraną kolejkę tył na przód.

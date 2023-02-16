@@ -3,7 +3,7 @@
 {% block body %}
 
     <h1>Otwarcie sklepów</h1>
-    <p>Dzień {{ game.day_count }}</p>
+    <p>Dzień: {{ game.board.current_day }}</p>
     <p>Gracz {{ player.name }} ({{ player.color }}) wybiera towar ze sklepu {{ shop.name }}</p>
     {% for shop_key, shop_value in game.board.shops.items() %}
         {% if shop_value.name == shop.name %}
