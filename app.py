@@ -395,19 +395,18 @@ def local_phase2():
 
     for shop in games[session['key']].board.shops.values():
         did_speculant_take_good = False #This variable determines if speculant did take a good in this shop and round already.
-        if shop.is_open:
-            for _ in shop.available_goods:
-                if shop.queue:
-                    if shop.queue[0].color not in ['Kiosk', 'Meblowy', 'Spożywczy', 'Odzież', 'RTV-AGD']:
-                        return render_template('local/phase2.htm', game=games[session['key']],
-                                               player=games[session['key']].players[
-                                                   games[session['key']].get_pawn_owner_index(shop.queue[0])],
-                                               shop=shop, owner='player')
-                    else:
-                        if not did_speculant_take_good: #Check if speculant took a good in this round
-                            games[session['key']].take_good_speculant(games[session['key']].get_first_pawn(shop.name),
-                                                                      shop.name)
-                            did_speculant_take_good = True #Speculant takes good, so make this True
+        for _ in shop.queue:
+            if shop.is_open and shop.available_goods:
+                if shop.queue[0].color not in ['Kiosk', 'Meblowy', 'Spożywczy', 'Odzież', 'RTV-AGD']:
+                    return render_template('local/phase2.htm', game=games[session['key']],
+                                           player=games[session['key']].players[
+                                               games[session['key']].get_pawn_owner_index(shop.queue[0])],
+                                           shop=shop, owner='player')
+                else:
+                    if not did_speculant_take_good: #Check if speculant took a good in this round
+                        games[session['key']].take_good_speculant(games[session['key']].get_first_pawn(shop.name),
+                                                                  shop.name)
+                        did_speculant_take_good = True #Speculant takes good, so make this True
     return redirect('/local/phase3', code=302)
 
 #Bazaar trades

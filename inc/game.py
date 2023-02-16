@@ -184,10 +184,8 @@ class Game():
 
     def take_good_speculant(self, pawn_id, shop_name):
         shop = self.board.shops.get(shop_name)
-        self.board.bazaar.available_goods.get(shop_name).append(shop.available_goods.pop())
-        # shop.speculant.append(shop.queue.pop(shop.queue.index(pawn_id)))
+        self.board.bazaar.available_goods.get(shop_name).append(shop.available_goods.pop(0))
         shop.queue.append(shop.queue.pop(shop.queue.index(pawn_id)))
-
 
     def is_player_pawn_first(self, shop_name, player_color):
         shop_queue = self.get_shop_queue(shop_name)
