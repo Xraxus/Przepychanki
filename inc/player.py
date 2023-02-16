@@ -41,9 +41,6 @@ class Player():
     #Jeśli gracz spasował to zresetuj jego status,
     #A jeśli nie ustaw mu status jako gracz, ktory spasowal
     def do_pass(self):
-        if self.pass_status:
-            self.pass_status = False
-        else:
             self.pass_status = True
 
     def has_card(self, card):

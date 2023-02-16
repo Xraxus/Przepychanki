@@ -41,6 +41,7 @@ def check():
 def local():
     return redirect('/local/form', code=302)
 
+
 @app.route('/local/form', methods=['GET', 'POST'])
 def local_form():
     if not check_simple():
@@ -65,17 +66,46 @@ def new_local_game(names):
     return redirect('/local/phase0', code=302, )
 
 
+# Faza następująca w kolejnych rundach, przed faza ustawiania pionków
+# Gracze mogą wycofać swoje pionki, żeby ustawić je w kolejnej fazie (fazie 0)
+@app.route('/local/phase_withdraw', methods=['GET', 'POST'])
+def local_withdraw():
+    if not check():
+        return redirect('/', code=302)
+
+    if request.method == 'POST':  # 'do_pass', 'shop_name', 'pawn_id'
+        if 'do_pass' in request.form and request.form['do_pass'] == 'yes':
+            games[session['key']].players[games[session['key']].current_player_index].do_pass()
+            if not games[session['key']].did_all_players_pass():
+                games[session['key']].move_to_next_player()
+        else:
+            print(games[session['key']].board.shops.get(request.form['shop_name']).queue)
+            games[session['key']].players[games[session['key']].current_player_index].pawns.append(
+                games[session['key']].board.shops.get(request.form['shop_name']).queue.pop(
+                    games[session['key']].board.shops.get(request.form['shop_name']).queue.index(
+                        games[session['key']].get_pawn_in_queue(request.form['pawn_id'], request.form['shop_name']))))
+            if not games[session['key']].did_all_players_pass():
+                games[session['key']].move_to_next_player()
+
+    if games[session['key']].did_all_players_pass() or not games[session['key']].does_any_player_have_pawns_on_board():
+        games[session['key']].current_player_index = 0
+        games[session['key']].reset_players_pass_status()
+        return redirect('/local/phase0', code=302)
+
+    return render_template('local/phase_withdraw.htm', game=games[session['key']],
+                           player=games[session['key']].players[games[session['key']].current_player_index])
+
+
 # Faza 0 - ustawianie pionków + dostarczenie towarów na koniec ustawiania
 @app.route('/local/phase0', methods=['GET', 'POST'])
 def local_phase0():
     if not check():
         return redirect('/', code=302)
 
-
-
     if request.method == 'POST':
         print("jest post")
-        games[session['key']].place_pawn(request.form['shop_name']) #places pawn and moves to the next player that has a pawn
+        games[session['key']].place_pawn(
+            request.form['shop_name'])  # places pawn and moves to the next player that has a pawn
         print(request.form['shop_name'])
 
         if not games[session['key']].does_any_player_have_pawns():
@@ -101,8 +131,9 @@ def local_phase0():
             if not games[session['key']].players[games[session['key']].current_player_index].pawns:
                 games[session['key']].move_to_next_player_with_pawns()
             return render_template('local/phase0.htm', game=games[session['key']],
-                               player=games[session['key']].players[games[session['key']].current_player_index],
-                               pawns=games[session['key']].players[games[session['key']].current_player_index].pawns)
+                                   player=games[session['key']].players[games[session['key']].current_player_index],
+                                   pawns=games[session['key']].players[
+                                       games[session['key']].current_player_index].pawns)
 
 
 # Faza 1 - użyj kart przepychanek kolejkowych, by zapewnić sobie najlepszą pozycje
@@ -385,7 +416,6 @@ def local_phase2():
     if request.method == 'POST':
         if games[session['key']].board.shops.get(request.form['shop_name']).available_goods and games[
             session['key']].board.shops.get(request.form['shop_name']).queue:
-
             games[session['key']].take_good_player(games[session['key']].get_first_pawn(request.form['shop_name']),
                                                    request.form['shop_name'], request.form['good_name'],
                                                    games[session['key']].players[
@@ -394,7 +424,7 @@ def local_phase2():
                                                                request.form['shop_name']))])
 
     for shop in games[session['key']].board.shops.values():
-        did_speculant_take_good = False #This variable determines if speculant did take a good in this shop and round already.
+        did_speculant_take_good = False  # This variable determines if speculant did take a good in this shop and round already.
         for _ in shop.queue:
             if shop.is_open and shop.available_goods:
                 if shop.queue[0].color not in ['Kiosk', 'Meblowy', 'Spożywczy', 'Odzież', 'RTV-AGD']:
@@ -403,13 +433,14 @@ def local_phase2():
                                                games[session['key']].get_pawn_owner_index(shop.queue[0])],
                                            shop=shop, owner='player')
                 else:
-                    if not did_speculant_take_good: #Check if speculant took a good in this round
+                    if not did_speculant_take_good:  # Check if speculant took a good in this round
                         games[session['key']].take_good_speculant(games[session['key']].get_first_pawn(shop.name),
                                                                   shop.name)
-                        did_speculant_take_good = True #Speculant takes good, so make this True
+                        did_speculant_take_good = True  # Speculant takes good, so make this True
     return redirect('/local/phase3', code=302)
 
-#Bazaar trades
+
+# Bazaar trades
 @app.route('/local/phase3', methods=['GET', 'POST'])
 def local_phase3():
     if not check():
@@ -470,30 +501,29 @@ def local_phase3():
     else:
         return redirect('/local/phase_tpz', code=302)
 
+
 @app.route('/local/phase_tpz', methods=['GET', 'POST'])
 def phase_tpz():
     if not check():
         return redirect('/', code=302)
 
-    #Remove used supply cards
+    # Remove used supply cards
     games[session['key']].board.todays_supply_cards.clear()
 
-    #Stop 'remanent' cards
+    # Stop 'remanent' cards
     games[session['key']].board.reset_remanents()
 
-    #Set next day of a week
-    #Move to next sale_category on bazaar
+    # Set next day of a week
+    # Move to next sale_category on bazaar
     games[session['key']].go_to_next_day()
 
-    #Draw jostling cards so every player has 3 of them in hand (unless the player ran out of cards)
+    # Draw jostling cards so every player has 3 of them in hand (unless the player ran out of cards)
     games[session['key']].jostling_draw()
 
-    #Reset player pass status
+    # Reset player pass status
     games[session['key']].reset_players_pass_status()
 
-    return redirect('/local/phase0', code=302)
-
-
+    return redirect('/local/phase_withdraw', code=302)
 
 
 if __name__ == '__main__':

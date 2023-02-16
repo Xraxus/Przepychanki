@@ -285,3 +285,9 @@ class Game():
             self.current_player_index = (self.current_player_index + 1) % len(self.players)
             if not self.players[self.current_player_index].pass_status and self.players[self.current_player_index].pawns:
                 break
+
+    def does_any_player_have_pawns_on_board(self):
+        for player in self.players:
+            if len(player.pawns) < 5:
+                return player
+        return False
