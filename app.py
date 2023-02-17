@@ -34,6 +34,9 @@ def check():
         return True
     return False
 
+def check_phase():
+    pass
+
 
 ### LOCAL(HOTSEAT) ###
 
@@ -424,7 +427,7 @@ def local_phase2():
                                                                request.form['shop_name']))])
 
     for shop in games[session['key']].board.shops.values():
-        did_speculant_take_good = False  # This variable determines if speculant did take a good in this shop and round already. #TODO: move this variable to shop
+        # did_speculant_take_good = False
         for _ in shop.queue:
             if shop.is_open and shop.available_goods:
                 if shop.queue[0].color not in ['Kiosk', 'Meblowy', 'Spożywczy', 'Odzież', 'RTV-AGD']:
@@ -433,10 +436,12 @@ def local_phase2():
                                                games[session['key']].get_pawn_owner_index(shop.queue[0])],
                                            shop=shop, owner='player')
                 else:
-                    if not did_speculant_take_good:  # Check if speculant took a good in this round
+                    if not shop.did_speculant_take_good:  # Check if speculant took a good in this round, this variable determines if speculant took a good in this shop and round already.
                         games[session['key']].take_good_speculant(games[session['key']].get_first_pawn(shop.name),
                                                                   shop.name)
-                        did_speculant_take_good = True  # Speculant takes good, so make this True
+                        shop.did_speculant_take_good = True  # Speculant takes good, so make this True
+
+    games[session['key']].board.reset_speculant_good_status()
     return redirect('/local/phase3', code=302)
 
 
@@ -507,6 +512,9 @@ def phase_tpz():
     if not check():
         return redirect('/', code=302)
 
+    if games[session['key']].check_if_any_player_won():
+        return redirect('/local/win', code=302)
+
     # Remove used supply cards
     games[session['key']].board.todays_supply_cards.clear()
 
@@ -528,6 +536,14 @@ def phase_tpz():
         games[session['key']].reshuffle_jostling_deck_at_end_of_week()
 
     return redirect('/local/phase_withdraw', code=302)
+
+@app.route('/local/win', methods=['GET', 'POST'])
+def local_win():
+
+    winner = games[session['key']].check_if_any_player_won()
+    return render_template('local/win.htm', game=games[session['key']], winner=winner)
+
+
 
 
 if __name__ == '__main__':

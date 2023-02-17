@@ -300,3 +300,12 @@ class Game():
 
         print("~~reshuffled jostling deck")
         print("self.board.jostling_deck")
+
+    def check_if_any_player_won(self):
+        for player in self.players:
+            if player.check_shopping_list():
+                print("\n!!! " + player.name + "completed his shopping list")
+                return player
+            else:
+                print("\n? " + player.name + "still needs some items")
+        return False

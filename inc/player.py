@@ -59,5 +59,16 @@ class Player():
             if good.name == good_name:
                 return self.equipment[(self.equipment.index(good))]
 
+    def check_shopping_list(self):
+        category_counts = {category: 0 for category in self.shopping_list.needed_items.keys()}
 
+        for item in self.equipment:
+            if item.category in category_counts:
+                category_counts[item.category] += 1
+
+        for category, min_quantity in self.shopping_list.needed_items.items():
+            if category_counts[category] < min_quantity:
+                return False
+
+        return True
 

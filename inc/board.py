@@ -70,6 +70,9 @@ class Board():
     def reset_supply_deck(self):
         self.supply_deck = SupplyDeck()
 
+    def reset_speculant_good_status(self):
+        for shop in self.shops.values():
+            shop.did_speculant_take_good = False
 
 
 

@@ -7,6 +7,7 @@ class Shop():
         self.queue = []
         self.speculant = [Pawn(name, '#')]
         self.is_open = True
+        self.did_speculant_take_good = False
     def __repr__(self):
         return "\n%s,\n  Towary: %s,\n  Kolejka: %s\n" % (self.name, self.available_goods, self.queue)
 
