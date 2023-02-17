@@ -29,7 +29,40 @@
             <tr>
                 {% for card in player.jostling_hand %}
                     <td>
-                        <button type="submit" name="card" value="{{ card.name }}">{{ card.name }}</button>
+                        <button type="submit" name="card" value="{{ card.name }}" class="tooltip jost-card">
+                            <img alt="{{ card.name }}"
+                            {% if card.name == "Kolega w Komitecie" %}
+                                src="/static/img/kolega.png">
+                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>sprawdź dwie dostawy zaplanowane na kolejny dzień.</span>
+                            {% elif card.name == "Krytyka władzy" %}
+                                src="/static/img/krytyka.png">
+                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń wybrany pionek o dwa miejsca do tyłu.</span>
+                            {% elif card.name == "Lista społeczna" %}
+                                src="/static/img/lista.png">
+                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>odwróć kolejkę tył na przód.</span>
+                            {% elif card.name == "Matka z dzieckiem" %}
+                                src="/static/img/matka.png">
+                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń swój pionek na pierwsze miejsce kolejki.</span>
+                            {% elif card.name == "Pan tu nie stał" %}
+                                src="/static/img/pan.png">
+                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż swój pionek o jedno miejsce do przodu.</span>
+                            {% elif card.name == "Pomyłka w dostawie" %}
+                                src="/static/img/pomylka.png">
+                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż wybrany towar do dowolnego sklepu.</span>
+                            {% elif card.name == "Remanent" %}
+                                src="/static/img/remanent.png">
+                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>zamknij sklep w tej turze (nie działają na niego karty: "Zwiekszona dostawa", "Pomyłka w dostawie", "Towar spod lady").</span>
+                            {% elif card.name == "Szczęśliwy traf" %}
+                                src="/static/img/szczesliwy.png">
+                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń własny pionek na drugie miejsce do dowonlej kolejki.</span>
+                            {% elif card.name == "Towar spod lady" %}
+                                src="/static/img/towar.png">
+                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>jeśli jesteś pierwszy w kolejce, natychmiastowo weź towar.</span>
+                            {% elif card.name == "Zwiększona dostawa" %}
+                                src="/static/img/zwiekszona.png">
+                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>dołóż jeden towar do sklepu.</span>
+                            {% endif %}
+                        </button>
                     </td>
                 {% endfor %}
             </tr>

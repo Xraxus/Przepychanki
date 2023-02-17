@@ -34,8 +34,28 @@ def check():
         return True
     return False
 
-def check_phase():
-    pass
+def check_local_phase(phase_index):
+    if games[session['key']].current_phase != phase_index:
+        if games[session['key']].current_phase == '0':
+            return redirect('/local/phase0', code=302)
+        elif games[session['key']].current_phase == '1':
+            return redirect('/local/phase1', code=302)
+        elif games[session['key']].current_phase == '2':
+            return redirect('/local/phase2', code=302)
+        elif games[session['key']].current_phase == '3':
+            return redirect('/local/phase3', code=302)
+        elif games[session['key']].current_phase == 'tpz':
+            return redirect('/local/phase_tpz', code=302)
+        elif games[session['key']].current_phase == 'win':
+            return redirect('/local/win', code=302)
+        elif games[session['key']].current_phase == 'withdraw':
+            return redirect('/local/phase_withdraw', code=302)
+        else:
+            return redirect('/local/form', code=302)
+    else:
+        return False
+
+
 
 
 ### LOCAL(HOTSEAT) ###
@@ -76,6 +96,10 @@ def local_withdraw():
     if not check():
         return redirect('/', code=302)
 
+    phase_check = check_local_phase('withdraw')
+    if phase_check:
+        return phase_check
+
     if request.method == 'POST':  # 'do_pass', 'shop_name', 'pawn_id'
         if 'do_pass' in request.form and request.form['do_pass'] == 'yes':
             games[session['key']].players[games[session['key']].current_player_index].do_pass()
@@ -93,6 +117,8 @@ def local_withdraw():
     if games[session['key']].did_all_players_pass() or not games[session['key']].does_any_player_have_pawns_on_board():
         games[session['key']].current_player_index = 0
         games[session['key']].reset_players_pass_status()
+
+        games[session['key']].current_phase = '0'
         return redirect('/local/phase0', code=302)
 
     return render_template('local/phase_withdraw.htm', game=games[session['key']],
@@ -105,6 +131,10 @@ def local_phase0():
     if not check():
         return redirect('/', code=302)
 
+    phase_check = check_local_phase('0')
+    if phase_check:
+        return phase_check
+
     if request.method == 'POST':
         print("jest post")
         games[session['key']].place_pawn(
@@ -116,6 +146,8 @@ def local_phase0():
                 games[session['key']].place_all_speculants()
             games[session['key']].current_player_index = 0
             games[session['key']].board.draw_restock()
+
+            games[session['key']].current_phase = '1'
             return redirect('/local/phase1', code=302)
         else:
             return render_template('local/phase0.htm', game=games[session['key']],
@@ -129,6 +161,8 @@ def local_phase0():
             if games[session['key']].day_count == 1:
                 games[session['key']].place_all_speculants()
             games[session['key']].board.draw_restock()
+
+            games[session['key']].current_phase = '1'
             return redirect('/local/phase1', code=302)
         else:
             if not games[session['key']].players[games[session['key']].current_player_index].pawns:
@@ -144,6 +178,10 @@ def local_phase0():
 def local_phase1():
     if not check():
         return redirect('/', code=302)
+
+    phase_check = check_local_phase('1')
+    if phase_check:
+        return phase_check
 
     if request.method == 'POST':
         picked_card = request.form['card']
@@ -171,6 +209,8 @@ def local_phase1():
         elif picked_card == "Spasuj":
             games[session['key']].players[games[session['key']].current_player_index].do_pass()
             if games[session['key']].did_all_players_pass():
+
+                games[session['key']].current_phase = '2'
                 return redirect('/local/phase2', code=302)
             else:
                 games[session['key']].move_to_next_player()
@@ -179,6 +219,8 @@ def local_phase1():
 
     else:
         if not games[session['key']].does_any_player_have_cards():
+
+            games[session['key']].current_phase = '2'
             return redirect('/local/phase2', code=302)
         return render_template('local/phase1.htm', game=games[session['key']],
                                player=games[session['key']].players[games[session['key']].current_player_index])
@@ -188,6 +230,10 @@ def local_phase1():
 def local_phase1_use_pan():
     if not check():
         return redirect('/', code=302)
+
+    phase_check = check_local_phase('1')
+    if phase_check:
+        return phase_check
 
     if not games[session['key']].can_use_card("Pan tu nie stał"):
         return redirect('/local/phase1', code=302)
@@ -211,6 +257,10 @@ def local_phase1_use_matka():
     if not check():
         return redirect('/', code=302)
 
+    phase_check = check_local_phase('1')
+    if phase_check:
+        return phase_check
+
     if not games[session['key']].can_use_card("Matka z dzieckiem"):
         return redirect('/local/phase1', code=302)
 
@@ -232,6 +282,10 @@ def local_phase1_use_matka():
 def local_phase1_use_krytyka():
     if not check():
         return redirect('/', code=302)
+
+    phase_check = check_local_phase('1')
+    if phase_check:
+        return phase_check
 
     if not games[session['key']].can_use_card("Krytyka władzy"):
         return redirect('/local/phase1', code=302)
@@ -255,6 +309,10 @@ def local_phase1_use_lista():
     if not check():
         return redirect('/', code=302)
 
+    phase_check = check_local_phase('1')
+    if phase_check:
+        return phase_check
+
     if not games[session['key']].can_use_card("Lista społeczna"):
         return redirect('/local/phase1', code=302)
 
@@ -276,6 +334,10 @@ def local_phase1_use_lista():
 def local_phase1_use_szczesliwy():
     if not check():
         return redirect('/', code=302)
+
+    phase_check = check_local_phase('1')
+    if phase_check:
+        return phase_check
 
     if not games[session['key']].can_use_card("Szczęśliwy traf"):
         return redirect('/local/phase1', code=302)
@@ -301,6 +363,10 @@ def local_phase1_use_remanent():
     if not check():
         return redirect('/', code=302)
 
+    phase_check = check_local_phase('1')
+    if phase_check:
+        return phase_check
+
     if not games[session['key']].can_use_card("Remanent"):
         return redirect('/local/phase1', code=302)
 
@@ -321,6 +387,10 @@ def local_phase1_use_remanent():
 def local_phase1_use_towar():
     if not check():
         return redirect('/', code=302)
+
+    phase_check = check_local_phase('1')
+    if phase_check:
+        return phase_check
 
     if not games[session['key']].can_use_card("Towar spod lady"):
         return redirect('/local/phase1', code=302)
@@ -351,6 +421,10 @@ def local_phase1_use_kolega():
     if not check():
         return redirect('/', code=302)
 
+    phase_check = check_local_phase('1')
+    if phase_check:
+        return phase_check
+
     if not games[session['key']].can_use_card("Kolega w Komitecie"):
         return redirect('/local/phase1', code=302)
 
@@ -368,6 +442,10 @@ def local_phase1_use_kolega():
 def local_phase1_use_zwiekszona():
     if not check():
         return redirect('/', code=302)
+
+    phase_check = check_local_phase('1')
+    if phase_check:
+        return phase_check
 
     if not games[session['key']].can_use_card("Zwiększona dostawa"):
         return redirect('/local/phase1', code=302)
@@ -390,6 +468,10 @@ def local_phase1_use_zwiekszona():
 def local_phase1_use_pomylka():
     if not check():
         return redirect('/', code=302)
+
+    phase_check = check_local_phase('1')
+    if phase_check:
+        return phase_check
 
     if not games[session['key']].can_use_card("Pomyłka w dostawie"):
         return redirect('/local/phase1', code=302)
@@ -416,6 +498,10 @@ def local_phase2():
     if not check():
         return redirect('/', code=302)
 
+    phase_check = check_local_phase('2')
+    if phase_check:
+        return phase_check
+
     if request.method == 'POST':
         if games[session['key']].board.shops.get(request.form['shop_name']).available_goods and games[
             session['key']].board.shops.get(request.form['shop_name']).queue:
@@ -441,7 +527,9 @@ def local_phase2():
                                                                   shop.name)
                         shop.did_speculant_take_good = True  # Speculant takes good, so make this True
 
+
     games[session['key']].board.reset_speculant_good_status()
+    games[session['key']].current_phase = '3'
     return redirect('/local/phase3', code=302)
 
 
@@ -450,6 +538,10 @@ def local_phase2():
 def local_phase3():
     if not check():
         return redirect('/', code=302)
+
+    phase_check = check_local_phase('3')
+    if phase_check:
+        return phase_check
 
     if request.method == 'POST':
         if 'go_back' in request.form and request.form['go_back'] == 'yes':
@@ -504,6 +596,7 @@ def local_phase3():
                                    games[session['key']].board.bazaar.queue[0])],
                                stage='1')
     else:
+        games[session['key']].current_phase = 'tpz'
         return redirect('/local/phase_tpz', code=302)
 
 
@@ -512,7 +605,12 @@ def phase_tpz():
     if not check():
         return redirect('/', code=302)
 
+    phase_check = check_local_phase('tpz')
+    if phase_check:
+        return phase_check
+
     if games[session['key']].check_if_any_player_won():
+        games[session['key']].current_phase = 'win'
         return redirect('/local/win', code=302)
 
     # Remove used supply cards
@@ -535,13 +633,21 @@ def phase_tpz():
         games[session['key']].board.reset_supply_deck()
         games[session['key']].reshuffle_jostling_deck_at_end_of_week()
 
+    games[session['key']].current_phase = 'withdraw'
     return redirect('/local/phase_withdraw', code=302)
 
 @app.route('/local/win', methods=['GET', 'POST'])
 def local_win():
+    if not check():
+        return redirect('/', code=302)
 
-    winner = games[session['key']].check_if_any_player_won()
-    return render_template('local/win.htm', game=games[session['key']], winner=winner)
+
+    phase_check = check_local_phase('win')
+    if phase_check:
+        return phase_check
+
+    winners = games[session['key']].check_if_any_player_won()
+    return render_template('local/win.htm', game=games[session['key']], winners=winners)
 
 
 

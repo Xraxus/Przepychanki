@@ -122,7 +122,7 @@
         {% else %}
             {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
                 <tr class="{% if category == shop_name %}red-text {% endif %}{% if shop_name == game.board.bazaar.sale_category %} yellow-background{% endif %}"
-                    {>
+                    >
                     <th>{{ shop_name }}</th>
                     {% for good in shop_items %}
                         <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>

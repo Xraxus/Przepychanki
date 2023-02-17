@@ -15,6 +15,7 @@ class Game():
 
         self.current_player_index = 0
         self.day_count = 1
+        self.current_phase = '0'
 
         self.players = list()
         if mode == 'local':
@@ -302,10 +303,13 @@ class Game():
         print("self.board.jostling_deck")
 
     def check_if_any_player_won(self):
+        winners = []
+
         for player in self.players:
             if player.check_shopping_list():
                 print("\n!!! " + player.name + "completed his shopping list")
-                return player
+                winners.append(player)
             else:
                 print("\n? " + player.name + "still needs some items")
-        return False
+
+        return winners

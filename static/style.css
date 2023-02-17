@@ -3,36 +3,65 @@
 
 
 body{
-    position:absolute;
-    top:0;
+    position: absolute;
+    top: 0;
     font-family: 'Mali', 'Comic Sans MS', 'Helvetica', sans-serif;
-    margin: 0 0 0 83px;
-
-
+    margin: 0 0 0 69px;
+    font-size: 11px;
 }
 
 button {
-  font-family: 'Mali', 'Comic Sans MS', 'Helvetica', sans-serif;
-  border: 1px solid black;
-  border-radius: 5px;
-  color: black;
-  text-align: center;
-  display: inline-block;
-  cursor: pointer;
+    font-family: 'Mali', 'Comic Sans MS', 'Helvetica', sans-serif;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: black;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 11px;
+    background: rgba(185, 185, 185, 0.38);
 }
 
 .notebook-background{
-  background-image: linear-gradient(#444cf724 1px, #fff0 1px), linear-gradient(to right, #444cf724 1px, #fff 1px);
-  background-size: 25px 25px;
-  background-position: 0 0;
+    background-image: linear-gradient(#444cf724 1px, #fff0 1px), linear-gradient(to right, #444cf724 1px, #fff 1px);
+    background-size: 20px 20px;
+    background-position: 0 0;
 }
 
 .margin-line {
-        position: fixed;
-        width: 1px;
-        min-height: 100%;
-        margin-left: -10px;
-        border-right: 1px solid rgba(245, 2, 75, 0.4);
+    position: fixed;
+    width: 1px;
+    min-height: 100%;
+    margin-left: -10px;
+    border-right: 1px solid rgba(245, 2, 75, 0.4);
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgba(65, 65, 65, 0.8);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 3px 2px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 
 .red-alert{

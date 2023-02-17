@@ -1,6 +1,17 @@
 {% extends "base.htm" %}
 
 {% block body %}
-    <h1>Gratulacje!</h1>
-    <p>Wygrał {{ winner.color }} - {{ winner.name }}</p>
+    {% if products|length > 1 %}
+        <h1>Gratulacje!</h1>
+        <p>Wygrali, ex aequo:</p>
+            {% for winner in winners %}
+                <p> {{ winner.color }} - {{ winner.name }}</p>
+            {% endfor %}
+
+    {% else %}
+        <h1>Gratulacje!</h1>
+            {% for winner in winners %}
+               <p>Wygrał {{ winner.color }} - {{ winner.name }}</p>
+            {% endfor %}
+    {% endif %}
 {% endblock %}
