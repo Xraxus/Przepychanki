@@ -21,7 +21,6 @@ class Board():
             "Kiosk": GoodsDeck("Kiosk")
         }
 
-
         self.shops = {
             "Spożywczy": Shop("Spożywczy"),
             "RTV-AGD": Shop("RTV-AGD"),
@@ -62,6 +61,9 @@ class Board():
     def set_next_day(self):
         self.current_day = self.week_days[(self.week_days.index(self.current_day) + 1) % 5]
         self.update_bazaar_sale()
+
+    def get_next_day_name(self):
+        return self.week_days[(self.week_days.index(self.current_day) + 1) % 5]
 
     def reset_remanents(self):
         for shop in self.shops.values():

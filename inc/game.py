@@ -313,3 +313,13 @@ class Game():
                 print("\n? " + player.name + "still needs some items")
 
         return winners
+
+    def does_any_player_have_cards_and_didnt_pass(self):
+        for player in self.players:
+            if not player.pass_status and player.jostling_hand: # If status is True - this player did pass, we are looking for active players, so we do not care about this player
+                return True
+            # elif player.jostling_hand:
+            #     return True
+        return False
+
+

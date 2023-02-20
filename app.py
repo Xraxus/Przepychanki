@@ -40,6 +40,8 @@ def check_local_phase(phase_index):
             return redirect('/local/phase0', code=302)
         elif games[session['key']].current_phase == '1':
             return redirect('/local/phase1', code=302)
+        elif games[session['key']].current_phase == '1_kolega':
+            return redirect('/local/phase1_use_kolega', code=302)
         elif games[session['key']].current_phase == '2':
             return redirect('/local/phase2', code=302)
         elif games[session['key']].current_phase == '3':
@@ -72,7 +74,7 @@ def local_form():
 
     if request.method == 'POST':
         players = [x for x in request.form.getlist('names') if x]
-        print(players)
+        # print(players)
 
         if 2 <= len(players) <= 5:
             return new_local_game(players)
@@ -106,13 +108,14 @@ def local_withdraw():
             if not games[session['key']].did_all_players_pass():
                 games[session['key']].move_to_next_player()
         else:
-            print(games[session['key']].board.shops.get(request.form['shop_name']).queue)
-            games[session['key']].players[games[session['key']].current_player_index].pawns.append(
-                games[session['key']].board.shops.get(request.form['shop_name']).queue.pop(
-                    games[session['key']].board.shops.get(request.form['shop_name']).queue.index(
-                        games[session['key']].get_pawn_in_queue(request.form['pawn_id'], request.form['shop_name']))))
-            if not games[session['key']].did_all_players_pass():
-                games[session['key']].move_to_next_player()
+            if games[session['key']].get_pawn_in_queue(request.form['pawn_id'], request.form['shop_name']) is not None:
+                print(games[session['key']].board.shops.get(request.form['shop_name']).queue)
+                games[session['key']].players[games[session['key']].current_player_index].pawns.append(
+                    games[session['key']].board.shops.get(request.form['shop_name']).queue.pop(
+                        games[session['key']].board.shops.get(request.form['shop_name']).queue.index(
+                            games[session['key']].get_pawn_in_queue(request.form['pawn_id'], request.form['shop_name']))))
+                if not games[session['key']].did_all_players_pass():
+                    games[session['key']].move_to_next_player()
 
     if games[session['key']].did_all_players_pass() or not games[session['key']].does_any_player_have_pawns_on_board():
         games[session['key']].current_player_index = 0
@@ -201,6 +204,7 @@ def local_phase1():
         elif picked_card == "Towar spod lady":
             return redirect('/local/phase1_use_towar')
         elif picked_card == "Kolega w Komitecie":
+            games[session['key']].current_phase = '1_kolega'
             return redirect('/local/phase1_use_kolega')
         elif picked_card == "Zwiększona dostawa":
             return redirect('/local/phase1_use_zwiekszona')
@@ -208,7 +212,7 @@ def local_phase1():
             return redirect('/local/phase1_use_pomylka')
         elif picked_card == "Spasuj":
             games[session['key']].players[games[session['key']].current_player_index].do_pass()
-            if games[session['key']].did_all_players_pass():
+            if not games[session['key']].does_any_player_have_cards_and_didnt_pass():
 
                 games[session['key']].current_phase = '2'
                 return redirect('/local/phase2', code=302)
@@ -218,8 +222,7 @@ def local_phase1():
                                        player=games[session['key']].players[games[session['key']].current_player_index])
 
     else:
-        if not games[session['key']].does_any_player_have_cards():
-
+        if not games[session['key']].does_any_player_have_cards_and_didnt_pass():
             games[session['key']].current_phase = '2'
             return redirect('/local/phase2', code=302)
         return render_template('local/phase1.htm', game=games[session['key']],
@@ -421,18 +424,17 @@ def local_phase1_use_kolega():
     if not check():
         return redirect('/', code=302)
 
-    phase_check = check_local_phase('1')
+    phase_check = check_local_phase('1_kolega')
     if phase_check:
         return phase_check
 
-    if not games[session['key']].can_use_card("Kolega w Komitecie"):
-        return redirect('/local/phase1', code=302)
-
-    if request.method == 'POST':
-        games[session['key']].players[games[session['key']].current_player_index].remove_jostling_card(
-            "Kolega w Komitecie")
+    if request.method == 'POST' or not games[session['key']].can_use_card("Kolega w Komitecie"):
         games[session['key']].move_to_next_player()
+        games[session['key']].current_phase = '1'
         return redirect('/local/phase1', code=302)
+    else:
+        games[session['key']].players[games[session['key']].current_player_index].remove_jostling_card("Kolega w Komitecie")
+
     return render_template('local/phase1_use_kolega.htm', game=games[session['key']],
                            player=games[session['key']].players[games[session['key']].current_player_index],
                            picked_card="Kolega w Komitecie")
@@ -619,12 +621,6 @@ def phase_tpz():
     # Stop 'remanent' cards
     games[session['key']].board.reset_remanents()
 
-    # Set next day of a week
-    # Move to next sale_category on bazaar
-    games[session['key']].go_to_next_day()
-
-    # Draw jostling cards so every player has 3 of them in hand (unless the player ran out of cards)
-    games[session['key']].jostling_draw()
 
     # Reset player pass status
     games[session['key']].reset_players_pass_status()
@@ -632,6 +628,13 @@ def phase_tpz():
     if games[session['key']].board.current_day == "Piątek":
         games[session['key']].board.reset_supply_deck()
         games[session['key']].reshuffle_jostling_deck_at_end_of_week()
+
+    # Draw jostling cards so every player has 3 of them in hand (unless the player ran out of cards)
+    games[session['key']].jostling_draw()
+
+    # Set next day of a week
+    # Move to next sale_category on bazaar
+    games[session['key']].go_to_next_day()
 
     games[session['key']].current_phase = 'withdraw'
     return redirect('/local/phase_withdraw', code=302)

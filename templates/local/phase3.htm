@@ -1,173 +1,327 @@
 {% extends "base.htm" %}
 
 {% block body %}
-    <h1>Otwarcie bazaru</h1>
-    <p>Dzień {{ game.day_count }}: {{ game.board.current_day }}</p>
-    <h2>Gracz</h2>
 
-    <form {% if stage == "2b" %} onsubmit="return checkSelected()" {% endif %} method="post">
-        <input type="hidden" name="category" value="{{ category }}">
-        <table border=1>
-            <tr>
-                <th>{{ player.color }}: {{ player.name }}</th>
-            </tr>
-            <tr>
-                <th>Twoje towary</th>
-            </tr>
-            {% if stage == "2a" %}
-                <p>Wybierz 1 towar do wymiany</p>
-                <tr>
-                    {% for item in player.equipment %}
+
+    <div class="flexbox-container-column">
+        <div class="flexbox-container-row margin-bottom-4px">
+            <div class="width-50">
+
+                <table class="player-table">
+                <form {% if stage == "2b" %} onsubmit="return checkSelected()" {% endif %} method="post">
+                    <input type="hidden" name="category" value="{{ category }}">
+                    <tr>
+                        <th class="player-color-{{ player.color }}">Gracz {{ player.name }}</th>
+                        {% if stage == "2a" %}
+                            <td class="align-right"><span><button type="submit" name="stage" value="2a">Wymień</button></span></td>
+                        {% elif stage == "2b" %}
+                            <td class="align-right"><span><button type="submit" name="stage" value="2b">Wymień</button></span></td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th>Karty</th>
                         <td>
-
-                            <label>
-                                <input type="radio" name="item_name" value="{{ item.name }}" required>
-                                ({{ item.category }}) <strong>{{ item.name }}</strong>
-                            </label>
-                        </td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit" name="stage" value="2a">Wymień</button>
-                    </td>
-                </tr>
-            {% elif stage == "2b" %}
-                <p>Wybierz 2 towary do wymiany</p>
-                <tr>
-                    {% for item in player.equipment %}
-                        <td>
-                            <label>
-                                <input type="checkbox" name="item_name" value="{{ item.name }}">
-                                ({{ item.category }}) <strong>{{ item.name }}</strong>
-                            </label>
-                        </td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit" name="stage" value="2b">Wymień</button>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    {% for item in player.equipment %}
-                        <td>({{ item.category }}) <strong>{{ item.name }}</strong></td>
-                    {% endfor %}
-                </tr>
-            {% endif %}
-        </table>
-    </form>
-    {% if stage !="1" %}
-        <form method="post">
-            <button type="submit" name="go_back" value="yes">Wróć</button>
-        </form>
-    {% else %}
-        <form method="post">
-            <button type="submit" name="cancel" value="yes">Anuluj wymianę</button>
-        </form>
-    {% endif %}
-
-    <br>
-
-    {% for shop_key, shop_value in game.board.shops.items() %}
-        <table border=1>
-            <tr>
-                <th>{{ shop_value.name }}{% if shop_value.is_open == False %}
-                    <span style="color: red"> (remanent)</span>{% endif %}</th>
-            </tr>
-            <tr>
-                <th>Towary</th>
-                {% for good in shop_value.available_goods %}
-                    <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <th>Kolejka</th>
-                <td colspan="100%">{{ shop_value.queue }}</td>
-            </tr>
-            <tr>
-                <th>Pozostałe towary:</th>
-                <td>{{ game.board.count_by_shop_type(shop_value.name) }}</td>
-            </tr>
-
-        </table><br>
-    {% endfor %}
-
-    <table border="1">
-        <tr>
-            <th colspan="100%">Bazar</th>
-        </tr>
-        {% if stage=="1" %}
-            <form method="post">
-                <input type="hidden" name="stage" value="1">
-                {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
-                    {% if shop_items %}
-                        <tr {% if shop_name == game.board.bazaar.sale_category %} class="yellow-background"{% endif %}>
-                            <th>
-                                <button type="submit" name="shop_name" value="{{ shop_name }}">{{ shop_name }}</button>
-                            </th>
-
-                            {% for good in shop_items %}
-                                <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>
+                            {% for card in player.jostling_hand %}
+                                <div
+                                        class="tooltip jost-card jost-card-{{ player.color }}">
+                                    <img alt="{{ card.name }}"
+                                            {% if card.name == "Kolega w Komitecie" %}
+                                         src="/static/img/kolega.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>sprawdź dwie dostawy zaplanowane na kolejny dzień.</span>
+                                            {% elif card.name == "Krytyka władzy" %}
+                                                src="/static/img/krytyka.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń wybrany pionek o dwa miejsca do tyłu.</span>
+                                            {% elif card.name == "Lista społeczna" %}
+                                                src="/static/img/lista.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>odwróć kolejkę tył na przód.</span>
+                                            {% elif card.name == "Matka z dzieckiem" %}
+                                                src="/static/img/matka.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń swój pionek na pierwsze miejsce kolejki.</span>
+                                            {% elif card.name == "Pan tu nie stał" %}
+                                                src="/static/img/pan.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż swój pionek o jedno miejsce do przodu.</span>
+                                            {% elif card.name == "Pomyłka w dostawie" %}
+                                                src="/static/img/pomylka.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż wybrany towar do dowolnego sklepu.</span>
+                                            {% elif card.name == "Remanent" %}
+                                                src="/static/img/remanent.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>zamknij sklep w tej turze (nie działają na niego karty: "Zwiekszona dostawa", "Pomyłka w dostawie", "Towar spod lady").</span>
+                                            {% elif card.name == "Szczęśliwy traf" %}
+                                                src="/static/img/szczesliwy.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń własny pionek na drugie miejsce do dowonlej kolejki.</span>
+                                            {% elif card.name == "Towar spod lady" %}
+                                                src="/static/img/towar.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>jeśli jesteś pierwszy w kolejce, natychmiastowo weź towar.</span>
+                                            {% elif card.name == "Zwiększona dostawa" %}
+                                                src="/static/img/zwiekszona.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>dołóż jeden towar do sklepu.</span>
+                                            {% endif %}
+                                </div>
                             {% endfor %}
-                        </tr>
-                    {% else %}
-                        <tr{% if shop_name == game.board.bazaar.sale_category %} class="yellow-background"{% endif %}>
-                            <th>{{ shop_name }}</th>
-                        </tr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Towary</th>
+                        <td>
+                            {% if stage=="2a" %}
+                                {% for good in player.equipment %}
+                                    <label>
+                                        <span class="tooltip">
+                                            <input type="radio" name="item_name" value="{{ good.name }}" required>
+                                            <img alt="{{ good.name }}" src="/static/img/good.png"
+                                                 class="filter-{{ good.category }}">
+                                            <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
+                                        </span>
+                                    </label>
+                                {% endfor %}
+                            {% elif stage=="2b" %}
+                                {% for good in player.equipment %}
+                                    <label>
+                                        <span class="tooltip">
+                                             <input type="checkbox" name="item_name" value="{{ good.name }}">
+                                            <img alt="{{ good.name }}" src="/static/img/good.png"
+                                                 class="filter-{{ good.category }}">
+                                            <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
+                                        </span>
+                                    </label>
+                                {% endfor %}
+                            {% else %}
+                                {% for good in player.equipment %}
+                                    <span class="tooltip">
+                                        <img alt="{{ good.name }}" src="/static/img/good.png"
+                                             class="filter-{{ good.category }}">
+                                        <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
+                                        </span>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Pionki</th>
+                        <td>
+                            {% for pawn in player.pawns %}
+                                <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    </form>
+                    <tr>
+                        {% if stage !="1" %}
+                            <td colspan="100%" class="align-right">
+                                <form method="post"><button type="submit" name="go_back" value="yes">Wróć</button></form>
+                            </td>
+                        {% endif %}
+                    </tr>
+                </table>
+            </div>
+            <div class="width-50">
+                <div>
+                    <h1 class="inline-block margin-bottom-25px margin-top-12px">Faza 3</h1>
+                    <p class="inline-block"><strong>Otwarcie bazaru.</strong></p>
+                    <p class="inline-block">
+                        {% if stage=="1" %}Wybierz <strong>kategorię przedmiotu</strong>, który chcesz otrzymać.
+                        {% elif stage=="2a" %}Wybierz <strong>1 przedmiot</strong>, który chcesz wymienić.
+                        {% elif stage=="2b" %}Wybierz <strong>2 przedmioty</strong>, które chcesz wymienić.{% endif %}
+                    </p>
+                    <p class="margin-bottom-25px">Dzień {{ game.day_count }}: {{ game.board.current_day }}</p>
+                </div>
+                <div class="details-flex margin-bottom-25px">
+                    <details class="inline-block">
+                        <summary>Status graczy</summary>
+                        <div class="details">
+
+                            <table>
+                                <tr>
+                                    <th class="primary-table-header"
+                                        colspan="100%">Status graczy
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="secondary-table-header border-right-1px">Imię</th>
+                                    <th class="secondary-table-header border-right-1px">Pas?</th>
+                                    <th class="secondary-table-header border-right-1px">Karty</th>
+                                </tr>
+                                {% for player in game.players %}
+                                    <tr>
+                                        <th class="player-color-{{ player.color }} border-right-1px">{{ player.name }}</th>
+                                        <td class="border-right-1px">{% if player.pass_status %}Tak{% else %}Nie
+                                            </td>{% endif %}
+                                        <td class="border-right-1px">{{ player.jostling_hand|length }}
+                                            ({{ game.board.jostling_deck.count_by_color(player.color) }} w talii )
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </details>
+                    <details class="inline-block">
+                        <summary>Informacje o planszy</summary>
+                        <div class="details">
+                            <table>
+                                <tr>
+                                    <th class="primary-table-header">Dzisiejsze dostawy</th>
+                                </tr>
+                                {% for supply_card in game.board.todays_supply_cards %}
+                                    <tr>
+                                        <td>{{ supply_card.category }} : {{ supply_card.amount }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                            <table>
+                                <tr>
+                                    <th class="primary-table-header" colspan="100%">Pozostałe towary</th>
+                                </tr>
+                                {% for shop in game.board.shops.values() %}
+                                    <tr>
+                                        <th>{{ shop.name }}</th>
+                                        <td>{{ game.board.count_by_shop_type(shop.name) }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </details>
+                    <details class="inline-block">
+                        <summary>Listy zakupów</summary>
+                        <div class="details">
+                            {% for player in game.players %}
+                                <table>
+                                    <tr>
+                                        <th class="primary-table-header"
+                                            colspan="100%">{{ player.name }}: {{ player.shopping_list.shopping_list_number }}
+                                            - {{ player.shopping_list.shopping_list_name }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="secondary-table-header border-right-1px">Kategoria</th>
+                                        <th class="secondary-table-header border-right-1px">Potrzebne</th>
+                                        <th class="secondary-table-header border-right-1px">Posiadane</th>
+                                    </tr>
+                                    {% for category, amount in player.shopping_list.needed_items.items()|sort(attribute='1', reverse=True) %}
+                                        <tr>
+                                            {% if amount != 0 %}
+                                                <td class="border-right-1px"><strong>{{ category }}</strong></td>
+                                                <td class="border-right-1px">{{ amount }}</td>
+                                                <td class="border-right-1px">{{ player.count_goods_by_category(category) }}</td>
+                                            {% else %}
+                                                <td class="border-right-1px"><strong>{{ category }}</strong></td>
+                                                <td class="border-right-1px"> —</td>
+                                                <td class="border-right-1px">{{ player.count_goods_by_category(category) }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% endfor %}
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+        <div class="margin-line-horizontal"></div>
+        <div class="flexbox-container-row min-height-60">
+            <div class="width-50 margin-top-12px">
+                {% for shop_key, shop_value in game.board.shops.items() %}
+                    <div class="overflow-x-scroll overflow-y-hidden">
+                        <table class="shop-table shop-table-{{ shop_value.name }}">
+                            <tr>
+                                <th colspan="100%"><span
+                                        class="filter-{{ shop_value.name }}">{{ shop_value.name }}</span>
+                                    {% if shop_value.is_open == False %}
+                                        <span class="red-text">(remanent)</span>
+                                    {% endif %}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Towary</th>
+                                <td>
+                                    {% for good in shop_value.available_goods %}
+                                        <span class="tooltip">
+                        <img alt="{{ good.name }}" src="/static/img/good.png" class="filter-{{ good.category }}">
+                        <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
+                        </span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Kolejka</th>
+                                <td>
+                                    {% for pawn in shop_value.queue %}
+                                        {% if pawn.color not in ["Spożywczy", "RTV-AGD", "Odzież", "Meblowy", "Kiosk"] %}
+                                            <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
+                                        {% else %}
+                                            <img alt="spekulant-{{ pawn }}" src="/static/img/pionek-spekulant.png">
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    {% if shop_value.name =="Odzież" %}
+                        </div>
+                        <div class="width-50 margin-top-12px">
                     {% endif %}
                 {% endfor %}
-            </form>
-        {% else %}
-            {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
-                <tr class="{% if category == shop_name %}red-text {% endif %}{% if shop_name == game.board.bazaar.sale_category %} yellow-background{% endif %}"
-                    >
-                    <th>{{ shop_name }}</th>
-                    {% for good in shop_items %}
-                        <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        {% endif %}
-        <tr>
-            <th>Kolejka</th>
-            <td colspan="100%">{{ game.board.bazaar.queue }}</td>
-        </tr>
-    </table>
-    {% for player in game.players %}
-        <br>
-        <table border="1">
-            <tr>
-                <th colspan="100%">Lista zakupów gracza {{ player.name }}</th>
-            </tr>
-            <tr>
-                <td colspan="100%"><strong>{{ player.shopping_list.shopping_list_number }}
-                    - {{ player.shopping_list.shopping_list_name }}</strong></td>
-            </tr>
-            {% for category, amount in player.shopping_list.needed_items.items()|sort(attribute='1', reverse=True) %}
-                {% if amount != 0 %}
-                    <tr>
-                        <td><strong>{{ category }}</strong></td>
-                        <td>{{ amount }}</td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
-        </table>
-    {% endfor %}
 
-    {% for player in game.players %}
-        <br>
-        <table border="1">
-            <tr>
-                <th colspan="100%">Towary gracza {{ player.name }}</th>
-            </tr>
-            {% for item in player.equipment %}
-                <tr>
-                    <td>({{ item.category }}) <strong>{{ item.name }}</strong> - {{ item.description }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% endfor %}
+                <div>
+                    <table class="bazaar-table">
+                        <tr>
+                            <th class="primary-table-header" {% if stage != "1" %} colspan="100%"{% endif %}>Bazar</th>
+                            {% if stage == "1" %}
+                                <td class="align-right primary-table-header">
+                                    <form method="post"><button type="submit" name="cancel" value="yes">Anuluj wymianę</button></form>
+                                </td>
+                            {% endif %}
+                        </tr>
 
+                        {% if stage=="1" %}
+                            <form method="post">
+                            <input type="hidden" name="stage" value="1">
+                            <tr class="secondary-table-header">
+                                <th>Kategoria</th>
+                                <th>Ilość towarów</th>
+                            </tr>
+                            {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
+                                {% if shop_items %}
+                                <tr {% if shop_name == game.board.bazaar.sale_category %}
+                                    class="yellow-background"{% endif %}>
+                                    <td><button type="submit" name="shop_name" value="{{ shop_name }}" class="shop-button-{{ shop_name }}"><strong class="filter-{{ shop_name }}">{{ shop_name }}</strong></button></td>
+
+                                    <td>{{ shop_items|length }}</td>
+                                </tr>
+                                {% else %}
+                                <tr {% if shop_name == game.board.bazaar.sale_category %}
+                                    class="yellow-background"{% endif %}>
+                                    <td class="filter-{{ shop_name }}"><strong>{{ shop_name }}</strong></td>
+                                    <td>{{ shop_items|length }}</td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </form>
+                        {% else %}
+                            <tr class="secondary-table-header">
+                                <th>Kategoria</th>
+                                <th>Ilość towarów</th>
+                            </tr>
+                            {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
+                                <tr class="{% if category == shop_name %}red-text red-transparent-background {% endif %}{% if shop_name == game.board.bazaar.sale_category %} yellow-background{% endif %}">
+                                    <td class="{% if category == shop_name %}red-text{% else %}filter-{{ shop_name }}{% endif %}"><strong>{{ shop_name }}</strong></td>
+
+                                    <td>{{ shop_items|length }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                        {% endif %}
+
+
+                        <tr>
+                            <th>Kolejka</th>
+                            <td>
+                                {% for pawn in game.board.bazaar.queue %}
+                                    <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+        </div>
+    </div>
 {% endblock %}

@@ -72,3 +72,10 @@ class Player():
 
         return True
 
+    def count_goods_by_category(self, category):
+        counter = 0
+        for good in self.equipment:
+            if good.category == category:
+                counter += 1
+        return counter
+

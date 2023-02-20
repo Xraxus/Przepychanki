@@ -1,28 +1,33 @@
 {% extends "base.htm" %}
 
 {% block body %}
-    <form method="post">
-        <label>
-            Imię gracza pierwszego:
-            <input name="names" value="Kamil">
-        </label><br>
-        <label>
-            Imię gracza drugiego:
-            <input type="text" name="names" value="Klara">
-        </label><br>
-        <label>
-            Imię gracza trzeciego:
-            <input type="text" name="names" value="">
-        </label><br>
-        <label>
-            Imię gracza czwartego:
-            <input type="text" name="names" value="">
-        </label><br>
-        <label>
-            Imię gracza piątego:
-            <input type="text" name="names" value="">
-        </label><br>
+        <div class="flexbox-container-column">
+        <div><img src="/static/img/main-logo.png" alt="przepychanki"></div>
+            <h1 class="font-36px">Imiona graczy</h1>
+            <p class="margin-bottom-25px">(podaj 2-5 imion, tyle ile ma być graczy)</p>
+            <form method="post" class="flexbox-container-column">
+                <label>
+                    Imię gracza <span class="player-color-niebieski">pierwszego</span><br>
+                    <input type="text" name="names">
+                </label><br>
+                <label>
+                    Imię gracza <span class="player-color-żółty">drugiego</span><br>
+                    <input type="text" name="names">
+                </label><br>
+                <label>
+                    Imię gracza <span class="player-color-czerwony">trzeciego</span><br>
+                    <input type="text" name="names" value="">
+                </label><br>
+                <label>
+                    Imię gracza <span class="player-color-zielony">czwartego</span><br>
+                    <input type="text" name="names" value="">
+                </label><br>
+                <label>
+                    Imię gracza <span class="player-color-brązowy">piątego</span><br>
+                    <input type="text" name="names" value="">
+                </label><br>
 
-        <input type="submit" value="Rozpocznij grę"/>
-    </form>
+                <button type="submit">Rozpocznij</button>
+            </form>
+        </div>
 {% endblock %}
