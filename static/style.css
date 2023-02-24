@@ -148,7 +148,7 @@ table tr:first-child > *:first-child {
 }
 
 .overflow-x-scroll {
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .overflow-y-hidden{
