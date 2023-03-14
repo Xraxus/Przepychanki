@@ -58,7 +58,9 @@ def check_local_phase(phase_index):
         return False
 
 
-
+@app.route('/info', methods=['GET'])
+def info():
+    return render_template('info.htm')
 
 ### LOCAL(HOTSEAT) ###
 
