@@ -199,7 +199,9 @@
                                     </th>
                                     {% if shop_value.is_open == True %}
                                         <td class="align-right">
-                                            <button type="submit" name="go_to_shop" value="{{ shop_value.name }}">Przełóż tutaj</button>
+                                            <button type="submit" name="go_to_shop" value="{{ shop_value.name }}">
+                                                Przełóż tutaj
+                                            </button>
                                         </td>
                                     {% endif %}
                                 </tr>
@@ -210,7 +212,8 @@
                                             {% if shop_value.is_open == True and good.name %}
                                                 <label>
                                                     <span class="tooltip">
-                                                        <input type="radio" id="good_id" name="good_id" value="{{ good.name + '#' + shop_value.name }}" required>
+                                                        <input type="radio" id="good_id" name="good_id"
+                                                               value="{{ good.name + '#' + shop_value.name }}" required>
                                                         <img alt="{{ good.name }}" src="/static/img/good.png"
                                                              class="filter-{{ good.category }}">
                                                         <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
@@ -245,34 +248,38 @@
                             <div class="width-50 margin-top-12px">
                         {% endif %}
                     {% endfor %}
-
+                    </form>
+                    <div class="overflow-x-scroll overflow-y-hidden">
                         <table class="bazaar-table">
                             <tr>
-                                <th colspan="100%" class="primary-table-header">Bazar</th>
+                                <th colspan=100% class="primary-table-header">Bazar</th>
                             </tr>
-                            <tr class="secondary-table-header">
-                                <th>Kategoria</th>
-                                <th>Ilość towarów</th>
-                            </tr>
-                            {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
-                                <tr {% if shop_name == game.board.bazaar.sale_category %}
-                                    class="yellow-background"{% endif %}>
-                                    <td>{{ shop_name }}</td>
-                                    <td>{{ shop_items|length }}</td>
-                                </tr>
-                            {% endfor %}
                             <tr>
+                                <th>Towary</th>
+                                <td colspan="100%">
+                                    <div class="bazaar-goods-container">
+                                        {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
+                                            <div class="background-image-container {% if shop_name == game.board.bazaar.sale_category %}yellow-background{% endif %}">
+                                                <img src="/static/img/bazaar-category-border.png"
+                                                     alt="{{ shop_name }} - {{ shop_items|length }}"
+                                                     class="filter-{{ shop_name }} ">
+                                                <div class="image-centered-text bazaar-category-number filter-{{ shop_name }}">{{ shop_items|length }}</div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                            </tr>
                             <tr>
                                 <th>Kolejka</th>
-                                <td>
+                                <td colspan="100%">
                                     {% for pawn in game.board.bazaar.queue %}
                                         <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
                                     {% endfor %}
                                 </td>
                             </tr>
                         </table>
-                    </form>
-                </div>
+                    </div>
+                    </div>
         </div>
     </div>
 

@@ -57,7 +57,8 @@
                             <td>
                                 {% for good in player.equipment %}
                                     <span class="tooltip">
-                                    <img alt="{{ good.name }}" src="/static/img/good.png" class="filter-{{ good.category }}">
+                                    <img alt="{{ good.name }}" src="/static/img/good.png"
+                                         class="filter-{{ good.category }}">
                                     <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
                                     </span>
                                 {% endfor %}
@@ -66,9 +67,9 @@
                         <tr>
                             <th>Pionki</th>
                             <td colspan="100%">
-                            {% for pawn in player.pawns %}
-                                <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
-                            {% endfor %}
+                                {% for pawn in player.pawns %}
+                                    <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
+                                {% endfor %}
                             </td>
                         </tr>
                         <tr>
@@ -81,36 +82,40 @@
             </div>
             <div class="width-50">
                 <div>
-                    <h1 class="inline-block margin-bottom-25px margin-top-12px" >Faza 1</h1>
+                    <h1 class="inline-block margin-bottom-25px margin-top-12px">Faza 1</h1>
                     <p class="inline-block">Czas na <strong>przepychanki kolejkowe.</strong></p>
                     <p class="inline-block">Wybierz kartę z ręki.</p>
                     <p class="margin-bottom-25px">Dzień {{ game.day_count }}: {{ game.board.current_day }}</p>
                 </div>
                 <div class="details-flex">
-                <details class="inline-block">
-                            <summary>Status graczy</summary>
-                            <div class="details">
+                    <details class="inline-block">
+                        <summary>Status graczy</summary>
+                        <div class="details">
 
-                                    <table>
-                                        <tr>
-                                            <th class="primary-table-header"
-                                                colspan="100%">Status graczy</th>
-                                        </tr>
-                                        <tr>
-                                            <th class="secondary-table-header border-right-1px">Imię</th>
-                                            <th class="secondary-table-header border-right-1px">Pas?</th>
-                                            <th class="secondary-table-header border-right-1px">Karty</th>
-                                        </tr>
-                                    {% for player in game.players %}
-                                        <tr>
-                                            <th class="player-color-{{ player.color }} border-right-1px">{{ player.name }}</th>
-                                            <td class="border-right-1px">{% if player.pass_status %}Tak{% else %}Nie</td>{% endif %}
-                                            <td class="border-right-1px">{{ player.jostling_hand|length }} ({{ game.board.jostling_deck.count_by_color(player.color) }} w talii )</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </table>
-                            </div>
-                        </details>
+                            <table>
+                                <tr>
+                                    <th class="primary-table-header"
+                                        colspan="100%">Status graczy
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="secondary-table-header border-right-1px">Imię</th>
+                                    <th class="secondary-table-header border-right-1px">Pas?</th>
+                                    <th class="secondary-table-header border-right-1px">Karty</th>
+                                </tr>
+                                {% for player in game.players %}
+                                    <tr>
+                                        <th class="player-color-{{ player.color }} border-right-1px">{{ player.name }}</th>
+                                        <td class="border-right-1px">{% if player.pass_status %}Tak{% else %}Nie
+                                            </td>{% endif %}
+                                        <td class="border-right-1px">{{ player.jostling_hand|length }}
+                                            ({{ game.board.jostling_deck.count_by_color(player.color) }} w talii )
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </details>
                     <details class="inline-block">
                         <summary>Informacje o planszy</summary>
                         <div class="details">
@@ -153,17 +158,17 @@
                                         <th class="secondary-table-header border-right-1px">Posiadane</th>
                                     </tr>
                                     {% for category, amount in player.shopping_list.needed_items.items()|sort(attribute='1', reverse=True) %}
-                                            <tr>
-                                                {% if amount != 0 %}
+                                        <tr>
+                                            {% if amount != 0 %}
                                                 <td class="border-right-1px"><strong>{{ category }}</strong></td>
                                                 <td class="border-right-1px">{{ amount }}</td>
                                                 <td class="border-right-1px">{{ player.count_goods_by_category(category) }}</td>
-                                                {% else %}
+                                            {% else %}
                                                 <td class="border-right-1px"><strong>{{ category }}</strong></td>
-                                                <td class="border-right-1px"> — </td>
+                                                <td class="border-right-1px"> —</td>
                                                 <td class="border-right-1px">{{ player.count_goods_by_category(category) }}</td>
-                                                {% endif %}
-                                            </tr>
+                                            {% endif %}
+                                        </tr>
                                     {% endfor %}
                                 </table>
                             {% endfor %}
@@ -216,30 +221,29 @@
                         <div class="width-50 margin-top-12px">
                     {% endif %}
                 {% endfor %}
-                <div>
+                <div class="overflow-x-scroll overflow-y-hidden">
                     <table class="bazaar-table">
                         <tr>
-                            <th class="primary-table-header" colspan="100%">Bazar</th>
+                            <th colspan=100% class="primary-table-header">Bazar</th>
                         </tr>
-                        <tr class="secondary-table-header">
-                            <th>Kategoria</th>
-                            <th>Ilość towarów</th>
-                        </tr>
-                        {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
-                            <tr {% if shop_name == game.board.bazaar.sale_category %}
-                                class="yellow-background"{% endif %}>
-                                <td>{{ shop_name }}</td>
-
-                                <td>{{ shop_items|length }}</td>
-                                {#                                            {% for good in shop_items %}#}
-                                {#                                                <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>#}
-                                {#                                            {% endfor %}#}
-                            </tr>
-                        {% endfor %}
                         <tr>
+                            <th>Towary</th>
+                            <td colspan="100%">
+                                <div class="bazaar-goods-container">
+                                    {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
+                                        <div class="background-image-container {% if shop_name == game.board.bazaar.sale_category %}yellow-background{% endif %}">
+                                            <img src="/static/img/bazaar-category-border.png"
+                                                 alt="{{ shop_name }} - {{ shop_items|length }}"
+                                                 class="filter-{{ shop_name }} ">
+                                            <div class="image-centered-text bazaar-category-number filter-{{ shop_name }}">{{ shop_items|length }}</div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
                         <tr>
                             <th>Kolejka</th>
-                            <td>
+                            <td colspan="100%">
                                 {% for pawn in game.board.bazaar.queue %}
                                     <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
                                 {% endfor %}

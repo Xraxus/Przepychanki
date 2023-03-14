@@ -9,3 +9,11 @@ function checkSelected() {
     return false;
   }
 }
+
+function post_refresh_check(){
+    if ( window.history.replaceState ) {
+
+  window.history.replaceState( null, null, window.location.href );
+
+  }
+}

@@ -198,14 +198,16 @@
                                         {% endif %}
                                     </th>
                                     <td class="align-right">
-                                        <button type="submit" name="go_to_shop" value="{{ shop_value.name }}">Przesuń tutaj</button>
+                                        <button type="submit" name="go_to_shop" value="{{ shop_value.name }}">Przesuń
+                                            tutaj
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Towary</th>
                                     <td>
                                         {% for good in shop_value.available_goods %}
-                                                <span class="tooltip">
+                                            <span class="tooltip">
                                                     <img alt="{{ good.name }}" src="/static/img/good.png"
                                                          class="filter-{{ good.category }}">
                                                     <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
@@ -220,8 +222,11 @@
                                             {% if pawn.color not in ["Spożywczy", "RTV-AGD", "Odzież", "Meblowy", "Kiosk"] %}
                                                 {% if pawn.color == player.color %}
                                                     <label class="filter-{{ pawn.color }}">
-                                                        <input type="radio" id="pawn_id" name="pawn_id" value="{{ pawn.pawn_id + '#' + shop_value.name }}" required>
-                                                        <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
+                                                        <input type="radio" id="pawn_id" name="pawn_id"
+                                                               value="{{ pawn.pawn_id + '#' + shop_value.name }}"
+                                                               required>
+                                                        <img alt="{{ pawn }}"
+                                                             src="/static/img/pionek-{{ pawn.color }}.png">
                                                     </label>
                                                 {% else %}
                                                     <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
@@ -241,33 +246,38 @@
                         {% endif %}
                     {% endfor %}
 
+                    <div class="overflow-x-scroll overflow-y-hidden">
                         <table class="bazaar-table">
                             <tr>
-                                <th colspan="100%" class="primary-table-header">Bazar</th>
+                                <th colspan=100% class="primary-table-header">Bazar</th>
                             </tr>
-                            <tr class="secondary-table-header">
-                                <th>Kategoria</th>
-                                <th>Ilość towarów</th>
-                            </tr>
-                            {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
-                                <tr {% if shop_name == game.board.bazaar.sale_category %}
-                                    class="yellow-background"{% endif %}>
-                                    <td>{{ shop_name }}</td>
-                                    <td>{{ shop_items|length }}</td>
-                                </tr>
-                            {% endfor %}
                             <tr>
+                                <th>Towary</th>
+                                <td colspan="100%">
+                                    <div class="bazaar-goods-container">
+                                        {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
+                                            <div class="background-image-container {% if shop_name == game.board.bazaar.sale_category %}yellow-background{% endif %}">
+                                                <img src="/static/img/bazaar-category-border.png"
+                                                     alt="{{ shop_name }} - {{ shop_items|length }}"
+                                                     class="filter-{{ shop_name }} ">
+                                                <div class="image-centered-text bazaar-category-number filter-{{ shop_name }}">{{ shop_items|length }}</div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                            </tr>
                             <tr>
                                 <th>Kolejka</th>
-                                <td>
+                                <td colspan="100%">
                                     {% for pawn in game.board.bazaar.queue %}
                                         <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
                                     {% endfor %}
                                 </td>
                             </tr>
                         </table>
+                    </div>
                     </form>
-                </div>
+                    </div>
         </div>
     </div>
 

@@ -19,6 +19,7 @@ button {
     background: rgba(185, 185, 185, 0.5);
     padding: 3px;
     margin: 2px;
+    min-width: 15px;
 }
 
 button:hover {
@@ -91,23 +92,21 @@ table tr:first-child > *:first-child {
     width: 90%;
 }
 
-.bazaar-table tr > *:first-child {
-    border-right: 1px solid rgba(0, 0, 0, 0.75);
-    padding: 0 5px;
+.bazaar-table tr:not(:first-child) {
+    height: 70px;
 }
 
-.bazaar-table tr:last-child {
-    height: 64px;
-}
+
 
 .bazaar-table tr > *:first-child {
     padding: 0 5px;
-    border-right: 1px solid rgba(0, 0, 0, 0.75);
     width: 10%;
+    border-right: 1px solid black;
 }
 
-
-
+.bazaar-table tr:first-child >*:first-child{
+    border-right: 0;
+}
 
 .border-right-1px {
     border-right: 1px solid rgba(0, 0, 0, 0.75);
@@ -138,13 +137,18 @@ table tr:first-child > *:first-child {
 
 
 .shop-table tr:not(:first-child) {
-    height: 64px;
+    height: 70px;
 }
 
 .shop-table tr > *:first-child {
     border-right: 1px solid rgba(0, 0, 0, 0.75);
     padding: 0 5px;
     width: 10%;
+    min-width: 70px;
+}
+
+.shop-table tr:first-child > *:first-child{
+    border-right: 0;
 }
 
 .overflow-x-scroll {
@@ -171,16 +175,25 @@ table tr:first-child > *:first-child {
     background-position: 0 0;
 }
 
-.gamemode-ul {
+.gamemode-ul, .info-ul {
+    width: 30%;
+    padding: 0;
     margin-top: 100px;
     display: flex;
     flex-direction: row;
-
+    justify-content: space-between;
 }
 
-.gamemode-ul li {
+
+.info-ul{
+    position: fixed;
+    bottom: 50px;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+
+.gamemode-ul li, .info-ul li {
     list-style-type: none;
-    margin: 40px;
 }
 
 .gamemode-ul li a {
@@ -188,8 +201,14 @@ table tr:first-child > *:first-child {
     font-size: 36px;
     text-decoration: none;
 }
+.info-ul li a {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 24px;
+    text-decoration: none;
+}
 
-.gamemode-ul li a:hover {
+
+.gamemode-ul li a:hover, .info-ul li a:hover  {
     color: rgba(139, 0, 0, 0.7);
 }
 
@@ -481,6 +500,7 @@ table tr:first-child > *:first-child {
     background: rgba(96, 23, 123, 0.2);
 }
 
+
 .shop-button-Kiosk {
     background: rgba(11, 201, 122, 0.1);
     border-color: rgb(11, 201, 122);
@@ -592,4 +612,45 @@ table tr:first-child > *:first-child {
     text-align: center;
     text-decoration: none;
     margin: 5px;
+}
+
+.background-image-container{
+    border-radius: 45%;
+    position: relative;
+    text-align: center;
+    display: inline-block;
+}
+
+.image-centered-text{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.align-center{
+    text-align: center;
+}
+
+.bazaar-category-number{
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.bazaar-goods-container{
+    margin: 0 10% 0 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.bazaar-active-border{
+    border: 2px solid red;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.margin-top-6px{
+    margin-top: 6px;
 }
