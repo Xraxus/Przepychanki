@@ -4,84 +4,84 @@
 {% block body %}
 
 
-                    <div class="flexbox-container-column">
+    <div class="flexbox-container-column">
         <div class="flexbox-container-row margin-bottom-4px">
             <div class="width-50">
-                    <table class="player-table">
-                        <tr>
-                            <th colspan="100%" class="player-color-{{ player.color }}">Gracz {{ player.name }}</th>
-                        </tr>
-                        <tr>
-                            <th>Karty</th>
-                            <td>
-                                {% for card in player.jostling_hand %}
-                                    <div
-                                            class="tooltip jost-card jost-card-{{ player.color }}">
-                                        <img alt="{{ card.name }}"
-                                                {% if card.name == "Kolega w Komitecie" %}
-                                             src="/static/img/kolega.png">
-                                                    <span class="tooltiptext"><strong>{{ card.name }}</strong><br>sprawdź dwie dostawy zaplanowane na kolejny dzień.</span>
-                                                {% elif card.name == "Krytyka władzy" %}
-                                                    src="/static/img/krytyka.png">
-                                                    <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń wybrany pionek o dwa miejsca do tyłu.</span>
-                                                {% elif card.name == "Lista społeczna" %}
-                                                    src="/static/img/lista.png">
-                                                    <span class="tooltiptext"><strong>{{ card.name }}</strong><br>odwróć kolejkę tył na przód.</span>
-                                                {% elif card.name == "Matka z dzieckiem" %}
-                                                    src="/static/img/matka.png">
-                                                    <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń swój pionek na pierwsze miejsce kolejki.</span>
-                                                {% elif card.name == "Pan tu nie stał" %}
-                                                    src="/static/img/pan.png">
-                                                    <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż swój pionek o jedno miejsce do przodu.</span>
-                                                {% elif card.name == "Pomyłka w dostawie" %}
-                                                    src="/static/img/pomylka.png">
-                                                    <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż wybrany towar do dowolnego sklepu.</span>
-                                                {% elif card.name == "Remanent" %}
-                                                    src="/static/img/remanent.png">
-                                                    <span class="tooltiptext"><strong>{{ card.name }}</strong><br>zamknij sklep w tej turze (nie działają na niego karty: "Zwiekszona dostawa", "Pomyłka w dostawie", "Towar spod lady").</span>
-                                                {% elif card.name == "Szczęśliwy traf" %}
-                                                    src="/static/img/szczesliwy.png">
-                                                    <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń własny pionek na drugie miejsce do dowonlej kolejki.</span>
-                                                {% elif card.name == "Towar spod lady" %}
-                                                    src="/static/img/towar.png">
-                                                    <span class="tooltiptext"><strong>{{ card.name }}</strong><br>jeśli jesteś pierwszy w kolejce, natychmiastowo weź towar.</span>
-                                                {% elif card.name == "Zwiększona dostawa" %}
-                                                    src="/static/img/zwiekszona.png">
-                                                    <span class="tooltiptext"><strong>{{ card.name }}</strong><br>dołóż jeden towar do sklepu.</span>
-                                                {% endif %}
-                                    </div>
-                                {% endfor %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Towary</th>
-                            <td>
-                                {% for good in player.equipment %}
-                                    <span class="tooltip">
-                                    <img alt="{{ good.name }}" src="/static/img/good.png"
-                                         class="filter-{{ good.category }}">
+                <table class="player-table">
+                    <tr>
+                        <th colspan="100%" class="player-color-{{ player.color }}">Gracz {{ player.name }}</th>
+                    </tr>
+                    <tr>
+                        <th>Karty</th>
+                        <td>
+                            {% for card in player.jostling_hand %}
+                                <div
+                                        class="tooltip jost-card jost-card-{{ player.color }}">
+                                    <img alt="{{ card.name }}"
+                                            {% if card.name == "Kolega w Komitecie" %}
+                                         src="/static/img/kolega.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>sprawdź dwie dostawy zaplanowane na kolejny dzień.</span>
+                                            {% elif card.name == "Krytyka władzy" %}
+                                                src="/static/img/krytyka.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń wybrany pionek o dwa miejsca do tyłu.</span>
+                                            {% elif card.name == "Lista społeczna" %}
+                                                src="/static/img/lista.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>odwróć kolejkę tył na przód.</span>
+                                            {% elif card.name == "Matka z dzieckiem" %}
+                                                src="/static/img/matka.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń swój pionek na pierwsze miejsce kolejki.</span>
+                                            {% elif card.name == "Pan tu nie stał" %}
+                                                src="/static/img/pan.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż swój pionek o jedno miejsce do przodu.</span>
+                                            {% elif card.name == "Pomyłka w dostawie" %}
+                                                src="/static/img/pomylka.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż wybrany towar do dowolnego sklepu.</span>
+                                            {% elif card.name == "Remanent" %}
+                                                src="/static/img/remanent.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>zamknij sklep w tej turze (nie działają na niego karty: "Zwiekszona dostawa", "Pomyłka w dostawie", "Towar spod lady").</span>
+                                            {% elif card.name == "Szczęśliwy traf" %}
+                                                src="/static/img/szczesliwy.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń własny pionek na drugie miejsce do dowonlej kolejki.</span>
+                                            {% elif card.name == "Towar spod lady" %}
+                                                src="/static/img/towar.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>jeśli jesteś pierwszy w kolejce, natychmiastowo weź towar.</span>
+                                            {% elif card.name == "Zwiększona dostawa" %}
+                                                src="/static/img/zwiekszona.png">
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>dołóż jeden towar do sklepu.</span>
+                                            {% endif %}
+                                </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Towary</th>
+                        <td>
+                            {% for good in player.equipment %}
+                                {% set name_list = good.name.split(' ') %}
+                                <span class="tooltip">
+                                    <img alt="{{ good.name }}" src="/static/img/good-{{ name_list[0] }}.png" class="filter-{{ good.category }}">
                                     <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
                                     </span>
-                                {% endfor %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Pionki</th>
-                            <td>
-                                {% for pawn in player.pawns %}
-                                    <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
-                                {% endfor %}
-                            </td>
-                        </tr>
-                        <tr>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Pionki</th>
+                        <td>
+                            {% for pawn in player.pawns %}
+                                <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
 
-                            <td>
-                                <form method="post">
-                                    <button type="submit" name="do_pass" value="yes">Spasuj</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </table>
+                        <td>
+                            <form method="post">
+                                <button type="submit" name="do_pass" value="yes">Spasuj</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div class="width-50">
                 <div>
@@ -184,42 +184,46 @@
                 {% for shop_key, shop_value in game.board.shops.items() %}
                     <div class="overflow-x-scroll overflow-y-hidden">
                         <form method="post">
-                        <table class="shop-table shop-table-{{ shop_value.name }}">
-                            <tr>
-                                <th colspan="100%"><span
-                                        class="filter-{{ shop_value.name }}">{{ shop_value.name }}</span>
-                                    {% if shop_value.is_open == False %}
-                                        <span class="red-text">(remanent)</span>
-                                    {% endif %}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>Towary</th>
-                                <td>
-                                    {% for good in shop_value.available_goods %}
-                                        <span class="tooltip">
-                        <img alt="{{ good.name }}" src="/static/img/good.png" class="filter-{{ good.category }}">
+                            <table class="shop-table shop-table-{{ shop_value.name }}">
+                                <tr>
+                                    <th colspan="100%"><span
+                                            class="filter-{{ shop_value.name }}">{{ shop_value.name }}</span>
+                                        {% if shop_value.is_open == False %}
+                                            <span class="red-text">(remanent)</span>
+                                        {% endif %}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Towary</th>
+                                    <td>
+                                        {% for good in shop_value.available_goods %}
+                                            {% set name_list = good.name.split(' ') %}
+                                            <span class="tooltip">
+                        <img alt="{{ good.name }}" src="/static/img/good-{{ name_list[0] }}.png" class="filter-{{ good.category }}">
                         <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
                         </span>
-                                    {% endfor %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Kolejka</th>
-                                <td>
-                                <input type="hidden" name="shop_name" value="{{ shop_value.name }}">
-                                    {% for pawn in shop_value.queue %}
-                                        {% if player.color == pawn.color %}
-                                            <button type="submit" name="pawn_id" value="{{ pawn.pawn_id }}" class="pawn-button-{{ pawn.color }}"><img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png"></button>
-                                        {% elif pawn.color not in ["Spożywczy", "RTV-AGD", "Odzież", "Meblowy", "Kiosk"] %}
-                                            <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
-                                        {% else %}
-                                            <img alt="spekulant-{{ pawn }}" src="/static/img/pionek-spekulant.png">
-                                        {% endif %}
-                                    {% endfor %}
-                                </td>
-                            </tr>
-                        </table>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Kolejka</th>
+                                    <td>
+                                        <input type="hidden" name="shop_name" value="{{ shop_value.name }}">
+                                        {% for pawn in shop_value.queue %}
+                                            {% if player.color == pawn.color %}
+                                                <button type="submit" name="pawn_id" value="{{ pawn.pawn_id }}"
+                                                        class="pawn-button-{{ pawn.color }}"><img alt="{{ pawn }}"
+                                                                                                  src="/static/img/pionek-{{ pawn.color }}.png">
+                                                </button>
+                                            {% elif pawn.color not in ["Spożywczy", "RTV-AGD", "Odzież", "Meblowy", "Kiosk"] %}
+                                                <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
+                                            {% else %}
+                                                <img alt="spekulant-{{ pawn }}" src="/static/img/pionek-spekulant.png">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            </table>
                         </form>
                     </div>
                     {% if shop_value.name =="Odzież" %}
@@ -227,7 +231,7 @@
                         <div class="width-50 margin-top-12px">
                     {% endif %}
                 {% endfor %}
-                                <div class="overflow-x-scroll overflow-y-hidden">
+                <div class="overflow-x-scroll overflow-y-hidden">
                     <table class="bazaar-table">
                         <tr>
                             <th colspan=100% class="primary-table-header">Bazar</th>

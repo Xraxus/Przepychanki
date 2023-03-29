@@ -55,13 +55,13 @@
                         <tr>
                             <th>Towary</th>
                             <td>
-                                {% for good in player.equipment %}
-                                    <span class="tooltip">
-                                    <img alt="{{ good.name }}" src="/static/img/good.png"
-                                         class="filter-{{ good.category }}">
+                            {% for good in player.equipment %}
+                                {% set name_list = good.name.split(' ') %}
+                                <span class="tooltip">
+                                    <img alt="{{ good.name }}" src="/static/img/good-{{ name_list[0] }}.png" class="filter-{{ good.category }}">
                                     <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
                                     </span>
-                                {% endfor %}
+                            {% endfor %}
                             </td>
                         </tr>
                         <tr>
@@ -195,8 +195,9 @@
                                 <th>Towary</th>
                                 <td>
                                     {% for good in shop_value.available_goods %}
+                                        {% set name_list = good.name.split(' ') %}
                                         <span class="tooltip">
-                        <img alt="{{ good.name }}" src="/static/img/good.png" class="filter-{{ good.category }}">
+                        <img alt="{{ good.name }}" src="/static/img/good-{{ name_list[0] }}.png" class="filter-{{ good.category }}">
                         <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
                         </span>
                                     {% endfor %}

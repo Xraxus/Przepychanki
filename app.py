@@ -6,7 +6,7 @@ from flask import render_template
 from flask import request
 from flask import session
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.secret_key = '40a1f8b6143c4436905d49a2aff4bf81'
 
 games = {}

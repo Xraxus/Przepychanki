@@ -42,7 +42,7 @@ class GoodsDeck():
                 ("Żyrandol", "Blask i urok"),
                 ("Lampka", "Dla oświecenia umysłu"),
                 ("Schowek", "Przetestuj jego pojemność!"),
-                ("Stolik składany", "Cóż za oszczędność miejsca"),
+                ("Składany stolik", "Cóż za oszczędność miejsca"),
                 ("Stolik kawowy", "Sąsiad ci pozazdrości..."),
                 ("Fotel", "Cóż za luksus"),
                 ("Obraz", "Kultura wyższa"),
@@ -53,29 +53,29 @@ class GoodsDeck():
                 ("Czapka z daszkiem", "Chroni przed słońcem"),
                 ("Futro", "Pełen styl"),
                 ("Krawat", "Kultura i elegancja"),
-                ("Sandały", "Wygodne i przewiewne"),
-                ("Koszula", "W piękne paski"),
+                ("Japonki", "Wygodne i przewiewne"),
+                ("Koszula", "Dla poważnych"),
                 ("Kozaki", "Relaks..."),
-                ("Palto", "Polska skóra"),
+                ("Rękawiczki", "Cieplutkie"),
                 ("Pasek", "Skóra naturalna"),
-                ("Sukienka", "Niejedna ci pozazdrości"),
+                ("Bluzka", "Niejedna ci pozazdrości"),
                 ("Okulary", "Stylowe akcesorium"),
                 ("Torebka", "Dla kobiety nowoczesnej"),
-                ("Zestaw koszul", "Dla poważnych")
+                ("Koszulka", "Podstawa garderoby")
             ],
             "Kiosk":[
                 ("Perfumy", "By uwodzić zapachem"),
                 ("Gra elektroniczna", "Marzenie dzeciaków"),
                 ("Mydło", "Wszystko umyje"),
                 ("Przemysławka", "Lekki zapach cytrusów"),
-                ("Szczoteczka", "Dla zdrowych zębów"),
+                ("Szczoteczka z futerałem", "Dla zdrowych zębów"),
                 ("Przewodnik", "Malbork i okolice"),
                 ("Proszek do prania", "Sam pierze!"),
-                ("Lalka czarnulka", "Czarna perła"),
-                ("Golarka", "Ostra jak przecinak"),
-                ("Płyn do naczyń", "Ludwiku, do rondla"),
-                ("Papierosy", "Klubowe"),
-                ("Kredki", "Pomaluj mi życie")
+                ("Lalka", "Dziecięce marzenie"),
+                ("Golarka z żyletkami", "Ostra jak przecinak"),
+                ("Środek do mycia naczyń", "Ludwiku, do rondla"),
+                ("Paczka papierosów", "Klubowe"),
+                ("Pastele", "Pomaluj mi życie")
             ]
         }
 

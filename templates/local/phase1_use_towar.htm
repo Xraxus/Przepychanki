@@ -59,9 +59,9 @@
                         <th>Towary</th>
                         <td>
                             {% for good in player.equipment %}
+                                {% set name_list = good.name.split(' ') %}
                                 <span class="tooltip">
-                                    <img alt="{{ good.name }}" src="/static/img/good.png"
-                                         class="filter-{{ good.category }}">
+                                    <img alt="{{ good.name }}" src="/static/img/good-{{ name_list[0] }}.png" class="filter-{{ good.category }}">
                                     <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
                                     </span>
                             {% endfor %}
@@ -204,11 +204,12 @@
                                         {% if shop_value.queue and shop_value.queue[0].color == game.players[game.current_player_index].color and shop_value.is_open %}
                                             <input type="hidden" name="shop_name" value="{{ shop_value.name }}">
                                             {% for good in shop_value.available_goods %}
+                                                {% set name_list = good.name.split(' ') %}
                                                 <button type="submit" id="{{ good.name }}" name="good"
                                                         value="{{ good.name }}"
                                                         class="shop-button-{{ good.category }}">
                                                 <span class="tooltip">
-                                                    <img alt="{{ good.name }}" src="/static/img/good.png"
+                                                    <img alt="{{ good.name }}" src="/static/img/good-{{ name_list[0] }}.png"
                                                          class="filter-{{ good.category }}">
                                                     <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
                                                 </span>
@@ -216,8 +217,9 @@
                                             {% endfor %}
                                         {% else %}
                                             {% for good in shop_value.available_goods %}
+                                                {% set name_list = good.name.split(' ') %}
                                                 <span class="tooltip">
-                                                <img alt="{{ good.name }}" src="/static/img/good.png"
+                                                <img alt="{{ good.name }}" src="/static/img/good-{{ name_list[0] }}.png"
                                                      class="filter-{{ good.category }}">
                                                 <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
                                             </span>
