@@ -7,33 +7,41 @@ from inc.player import Player
 class Game():
 
     def __init__(self, names, mode):
-        colors_iterator = iter(['niebieski', 'żółty', 'czerwony', 'zielony', 'brązowy'])
+        self.colors_iterator = iter(['niebieski', 'żółty', 'czerwony', 'zielony', 'brązowy'])
 
         shopping_list_numbers = [1, 2, 3, 4, 5]
         random.shuffle(shopping_list_numbers)
-        shopping_list_iterator = iter(shopping_list_numbers)
+        self.shopping_list_iterator = iter(shopping_list_numbers)
 
         self.current_player_index = 0
         self.day_count = 1
         self.current_phase = '0'
+        self.mode = mode
+
 
         self.players = list()
-        if mode == 'local':
+        if self.mode == 'local':
             for name in names:
-                self.players.append(Player(next(colors_iterator), next(shopping_list_iterator), name))
+                self.players.append(Player(next(self.colors_iterator), next(self.shopping_list_iterator), name))
+        elif self.mode == 'multiplayer':
+            for name in names:
+                self.players.append(Player(next(self.colors_iterator), next(self.shopping_list_iterator), name))
+            self.start = False
         self.board = Board()
 
-        self.jostling_draw()
-        print("Deck przepychanek:" + str(self.board.jostling_deck))
+        if self.mode == 'local':
+            self.jostling_draw()
 
-        print(self.board.bazaar)
-        print("Decki z towarami:" + str(self.board.goods_deck) + "\n~~~~\n")
-        # do testu dostaw
-        print("Sklepy wraz z dostawionymi towarami:\n" + str(self.board.shops) + "\n~~~~\n")
+        # print("Deck przepychanek:" + str(self.board.jostling_deck))
+        #
+        # print(self.board.bazaar)
+        # print("Decki z towarami:" + str(self.board.goods_deck) + "\n~~~~\n")
+        # # do testu dostaw
+        # print("Sklepy wraz z dostawionymi towarami:\n" + str(self.board.shops) + "\n~~~~\n")
 
-        # Test obiektów
-        print("Deck kart dostawy:\n" + str(self.board.supply_deck) + "\n~~~~\n")
-        print("Gracze i ich staty:\n" + str(self.players) + "\n~~~~\n")
+        # # Test obiektów
+        # print("Deck kart dostawy:\n" + str(self.board.supply_deck) + "\n~~~~\n")
+        # print("Gracze i ich staty:\n" + str(self.players) + "\n~~~~\n")
 
     def get_next_player_index(self):
         return (self.current_player_index + 1) % len(self.players)
@@ -247,7 +255,8 @@ class Game():
     def go_to_next_day(self):
         self.board.set_next_day()  # sets current_day attribute for the next day, also changes the bazaar on sale category accordingly
         self.day_count = self.day_count + 1
-        self.right_shift_players()
+        if self.mode != 'multiplayer':
+            self.right_shift_players()
         self.current_player_index = 0
 
     def move_player_item_to_bazaar(self, item_name):
@@ -322,4 +331,15 @@ class Game():
             #     return True
         return False
 
+#### MULTIPLAYER
 
+    def add_player(self, name):
+        if not self.start:
+            self.players.append(Player(next(self.colors_iterator), next(self.shopping_list_iterator), name))
+            return len(self.players) - 1
+        else:
+            return -1
+
+    def start_game(self):
+        self.start = True
+        self.jostling_draw()

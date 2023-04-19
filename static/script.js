@@ -17,3 +17,10 @@ function post_refresh_check(){
 
   }
 }
+
+function reloadPageWithDelay(delayInMilliseconds) {
+  setTimeout(function() {
+    window.location.reload(1);
+  }, delayInMilliseconds);
+}
+

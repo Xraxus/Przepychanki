@@ -1,0 +1,20 @@
+{% extends "base.htm" %}
+
+{% block body %}
+
+    <div class="flexbox-container-column">
+        <div class="margin-bottom-25px"><img src="/static/img/main-logo.png" alt="przepychanki"></div>
+        <h1 class="font-36px">Tworzenie pokoju dla gry sieciowej</h1>
+        <p class="margin-bottom-25px">Podaj swoje imię</p>
+
+          <form method="post" class="flexbox-container-column">
+
+            <label>
+                Imię gracza: <input type="text" name="names" required><br>
+            </label><br>
+
+            <button type="submit">Stwórz pokój</button>
+        </form>
+
+    </div>
+{% endblock %}

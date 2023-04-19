@@ -1,0 +1,82 @@
+{% extends "base.htm" %}
+
+{% block body %}
+    <h1>statystyki</h1>
+    {% for shop_key, shop_value in game.board.shops.items() %}
+        <table border=1>
+            <tr>
+                <th>{{ shop_value.name }}{% if shop_value.is_open == False %}
+                    <span style="color: red"> (remanent)</span>{% endif %}</th>
+            </tr>
+            <tr>
+                <th>Towary</th>
+                {% for good in shop_value.available_goods %}
+                    <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>Kolejka</th>
+                <td colspan="100%">{{ shop_value.queue }}</td>
+            </tr>
+            <tr>
+                <th>Pozostałe towary:</th>
+                <td>{{ game.board.count_by_shop_type(shop_value.name) }}</td>
+            </tr>
+
+        </table><br>
+    {% endfor %}
+
+    <table border="1">
+        <tr>
+            <th colspan="100%">Bazar</th>
+        </tr>
+        {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
+            <tr>
+                <th>{{ shop_name }}</th>
+
+                {% for good in shop_items %}
+                    <td><strong>{{ good.name }}</strong>, {{ good.description }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        <tr>
+            <th>Kolejka</th>
+            <td colspan="100%">{{ game.board.bazaar.queue }}</td>
+        </tr>
+    </table>
+    {% for player in game.players %}
+        <br>
+        <table border="1">
+            <tr>
+                <th colspan="100%">Lista zakupów gracza {{ player.name }}</th>
+            </tr>
+            <tr>
+                <td colspan="100%"><strong>{{ player.shopping_list.shopping_list_number }}
+                    - {{ player.shopping_list.shopping_list_name }}</strong></td>
+            </tr>
+            {% for category, amount in player.shopping_list.needed_items.items()|sort(attribute='1', reverse=True) %}
+                {% if amount != 0 %}
+                    <tr>
+                        <td><strong>{{ category }}</strong></td>
+                        <td>{{ amount }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    {% endfor %}
+
+    {% for player in game.players %}
+        <br>
+        <table border="1">
+            <tr>
+                <th colspan="100%">Towary gracza {{ player.name }}</th>
+            </tr>
+            {% for item in player.equipment %}
+                <tr>
+                    <td>({{ item.category }}) <strong>{{ item.name }}</strong> - {{ item.description }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
+
+{% endblock %}

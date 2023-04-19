@@ -1,0 +1,25 @@
+{% extends "base.htm" %}
+
+{% block body %}
+
+    <div class="flexbox-container-column">
+        <div class="margin-bottom-25px"><img src="/static/img/main-logo.png" alt="przepychanki"></div>
+        <h1 class="font-36px">Tworzenie pokoju dla gry sieciowej</h1>
+        <p class="margin-bottom-25px">Gracze w pokoju:</p>
+
+        <ul>
+            {% for user in game.players %}
+                <li>{{ user }}</li>
+            {% endfor %}
+        </ul>
+
+        {% if game.players|length > 1 %}
+            <a href="{{ url_for('start_game') }}">Rozpocznij grę</a>
+        {% endif %}
+
+        <script>
+reloadPageWithDelay(3000)
+        </script>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.htm" %}
+
+
+{% block body %}
+
+
+    <div class="flexbox-container-column">
+        <div class="margin-bottom-25px"><img src="/static/img/main-logo.png" alt="przepychanki"></div>
+        <h1 class="font-36px">Pokoje gier</h1>
+
+        <a href="{{ url_for('multiplayer_form') }}">NOWY POKÓJ</a>
+
+        <ul>
+            {% for room in multiplayer_games %}
+                {% if not multiplayer_games[room].start and multiplayer_games[room].players|length < 5 %}
+                    <li><a href="{{ url_for('form_join', room=room) }}">{{ room }}</a> -
+                        graczy: {{ multiplayer_games[room].players|length }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+    </div>
+
+    <script>
+    reloadPageWithDelay(6000)
+    </script>
+{% endblock %}

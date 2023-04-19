@@ -1,6 +1,9 @@
 {% extends "base.htm" %}
 
 {% block body %}
+    <script>
+     post_refresh_check()
+    </script>
 
 
     <div class="flexbox-container-column">
@@ -66,12 +69,16 @@
                             {% endfor %}
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="height: 70px">
                         <th>Pionki</th>
                         <td>
+{#                        {% if player.pawns %}#}
                             {% for pawn in player.pawns %}
                                 <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
                             {% endfor %}
+{#                        {% else %}#}
+{#                                <img src="/static/img/pawn-fill.png">#}
+{#                        {% endif %}#}
                         </td>
                     </tr>
                 </table>
@@ -79,8 +86,9 @@
 
             <div class="width-50">
                 <div>
-                    <h1 class="inline-block margin-bottom-25px margin-top-12px">Faza 0</h1>
-                    <p class="inline-block"><strong>Ustawianie pionków</strong> w kolejkach</p>
+                    <h1 class="inline-block margin-bottom-25px margin-top-12px">Czekasz na swój ruch</h1>
+                    <p class="inline-block">Tura gracza: {{ player.name }}</p>
+                    <p class="inline-block">Faza: {{ game.current_phase}}</p>
                     <p class="margin-bottom-25px">Dzień {{ game.day_count }}: {{ game.board.current_day }}</p>
                 </div>
                 <div class="details-flex">
@@ -187,11 +195,6 @@
                                             <span class="red-text">(remanent)</span>
                                         {% endif %}
                                     </th>
-                                    <td class="align-right">
-                                        <button type="submit" id="{{ shop_value.name }}" name="shop_name"
-                                                value="{{ shop_value.name }}">Ustaw się
-                                        </button>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Towary</th>
@@ -231,10 +234,7 @@
                     <div class="overflow-x-scroll overflow-y-hidden">
                         <table class="bazaar-table">
                             <tr>
-                                <th class="primary-table-header">Bazar</th>
-                                <td colspan="100%" class="align-right primary-table-header">
-                                    <button type="submit" id="Bazaar" name="shop_name" value="Bazaar">Ustaw się</button>
-                                </td>
+                                <th colspan="100%" class="primary-table-header">Bazar</th>
                             </tr>
                             <tr>
                                 <th>Towary</th>
@@ -268,4 +268,7 @@
                     </div>
         </div>
     </div>
+<script>
+reloadPageWithDelay(3500)
+</script>
 {% endblock %}

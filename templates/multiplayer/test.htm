@@ -1,0 +1,9 @@
+BOARD<br>
+<br>
+ID_gracza: {{ id_gracza }}<br>
+Czy gracz aktwywny?
+{% if game.current_player_index == id_gracza %}
+    TAK
+{%  else %}
+    NIE
+{% endif %}
