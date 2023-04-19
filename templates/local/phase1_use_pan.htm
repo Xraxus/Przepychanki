@@ -243,10 +243,13 @@
                                 <div class="bazaar-goods-container">
                                     {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
                                         <div class="background-image-container {% if shop_name == game.board.bazaar.sale_category %}yellow-background{% endif %}">
-                                            <img src="/static/img/bazaar-category-border.png"
-                                                 alt="{{ shop_name }} - {{ shop_items|length }}"
-                                                 class="filter-{{ shop_name }} ">
-                                            <div class="image-centered-text bazaar-category-number filter-{{ shop_name }}">{{ shop_items|length }}</div>
+                                            <span class="tooltip">
+                                                <img src="/static/img/bazaar-category-border.png"
+                                                     alt="{{ shop_name }} - {{ shop_items|length }}"
+                                                     class="filter-{{ shop_name }} ">
+                                                <span class="image-centered-text bazaar-category-number filter-{{ shop_name }}">{{ shop_items|length }}</span>
+                                            <span class="tooltiptext">{{ shop_name }}</span>
+                                            </span>
                                         </div>
                                     {% endfor %}
                                 </div>

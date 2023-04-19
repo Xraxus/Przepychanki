@@ -296,6 +296,10 @@
                                         {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
 
                                             {% if shop_items %}
+
+
+
+
                                                 <div class="background-image-container cursor-pointer {% if shop_name == game.board.bazaar.sale_category %}yellow-background{% endif %}">
                                                     <button type="submit" name="shop_name" value="{{ shop_name }}"
                                                             class="shop-button-{{ shop_name }}"><img
@@ -308,10 +312,13 @@
                                                 {#                                        <button type="submit" name="shop_name" value="{{ shop_name }}" class="shop-button-{{ shop_name }}"><strong class="filter-{{ shop_name }}">{{ shop_name }}</strong></button>#}
                                             {% else %}
                                                 <div class="background-image-container {% if shop_name == game.board.bazaar.sale_category %}yellow-background{% endif %}">
-                                                    <img src="/static/img/bazaar-category-border.png"
-                                                         alt="{{ shop_name }} - {{ shop_items|length }}"
-                                                         class="filter-{{ shop_name }} margin-top-6px">
-                                                    <div class="image-centered-text bazaar-category-number filter-{{ shop_name }}">{{ shop_items|length }}</div>
+                                                    <span class="tooltip">
+                                                        <img src="/static/img/bazaar-category-border.png"
+                                                             alt="{{ shop_name }} - {{ shop_items|length }}"
+                                                             class="filter-{{ shop_name }} ">
+                                                        <span class="image-centered-text bazaar-category-number filter-{{ shop_name }}">{{ shop_items|length }}</span>
+                                                    <span class="tooltiptext">{{ shop_name }}</span>
+                                                    </span>
                                                 </div>
                                             {% endif %}
 
@@ -325,12 +332,15 @@
                                 <td colspan="100%">
                                     <div class="bazaar-goods-container">
                                         {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
-                                            <div class="background-image-container {% if category == shop_name %} bazaar-active-border {% endif %}{% if shop_name == game.board.bazaar.sale_category %}yellow-background{% endif %}">
+                                        <div class="background-image-container {% if shop_name == game.board.bazaar.sale_category %}yellow-background{% endif %}">
+                                            <span class="tooltip">
                                                 <img src="/static/img/bazaar-category-border.png"
                                                      alt="{{ shop_name }} - {{ shop_items|length }}"
                                                      class="filter-{{ shop_name }} ">
-                                                <div class="image-centered-text bazaar-category-number filter-{{ shop_name }}">{{ shop_items|length }}</div>
-                                            </div>
+                                                <span class="image-centered-text bazaar-category-number filter-{{ shop_name }}">{{ shop_items|length }}</span>
+                                            <span class="tooltiptext">{{ shop_name }}</span>
+                                            </span>
+                                        </div>
                                         {% endfor %}
                                     </div>
                                 </td>
