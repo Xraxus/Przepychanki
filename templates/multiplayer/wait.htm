@@ -3,9 +3,9 @@
 {% block body %}
 
     <div class="flexbox-container-column">
-        <div class="margin-bottom-25px"><img src="/static/img/main-logo.png" alt="przepychanki"></div>
-        <h1 class="font-36px">Tworzenie pokoju dla gry sieciowej</h1>
-        <p class="margin-bottom-25px">Gracze w pokoju:</p>
+        <div class="margin-bottom-25px"><img class="logo" src="/static/img/main-logo.png" alt="przepychanki"></div>
+        <h1 class="font-36px">Pokój "{{ game }}"</h1>
+        <p class="margin-top-12px margin-bottom-4px">Gracze w pokoju:</p>
 
         <ul>
             {% for user in game.players %}
@@ -14,7 +14,7 @@
         </ul>
 
         {% if game.players|length > 1 %}
-            <a href="{{ url_for('start_game') }}">Rozpocznij grę</a>
+            <button class="margin-top-6px"><a href="{{ url_for('start_game') }}" class="text-decoration-none">Rozpocznij grę</a></button>
         {% endif %}
 
         <script>

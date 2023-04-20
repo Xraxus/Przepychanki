@@ -22,7 +22,7 @@ class Player():
 
 
     def __repr__(self):
-        return 'Name: %s, Color: %s, Mode: %s \nPawns: (%s) \nJost cards: (%s) \n' % (self.name, self.color, self.mode, self.pawns, self.jostling_hand)
+        return 'Nazwa: %s, Kolor: %s' % (self.name, self.color)
 
     def draw_jostling_card(self, jostling_deck):
         if len(self.jostling_hand) < 3:

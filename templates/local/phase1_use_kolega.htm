@@ -5,7 +5,7 @@
 
 
     <div class="flexbox-container-column">
-        <div class="flexbox-container-row margin-bottom-4px">
+        <div class="flexbox-container-row-reverse margin-bottom-4px">
             <div class="width-50">
                 <form method="POST">
                     <table class="player-table">
@@ -151,7 +151,7 @@
                                 <table>
                                     <tr>
                                         <th class="primary-table-header"
-                                            colspan="100%">{{ player.name }}: {{ player.shopping_list.shopping_list_number }}
+                                            colspan="100%"><span class="player-color-{{ player.color }}">■</span> {{ player.name }}: {{ player.shopping_list.shopping_list_number }}
                                             - {{ player.shopping_list.shopping_list_name }}</th>
                                     </tr>
                                     <tr>

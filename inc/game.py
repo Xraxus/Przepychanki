@@ -6,7 +6,7 @@ from inc.player import Player
 
 class Game():
 
-    def __init__(self, names, mode):
+    def __init__(self, names, mode, *room_name):
         self.colors_iterator = iter(['niebieski', 'żółty', 'czerwony', 'zielony', 'brązowy'])
 
         shopping_list_numbers = [1, 2, 3, 4, 5]
@@ -31,6 +31,12 @@ class Game():
 
         if self.mode == 'local':
             self.jostling_draw()
+        elif self.mode == 'multiplayer':
+            self.room_name = room_name
+
+    def __repr__(self):
+        return "%s" % (self.room_name)
+
 
         # print("Deck przepychanek:" + str(self.board.jostling_deck))
         #

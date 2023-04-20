@@ -5,20 +5,24 @@
 
 
     <div class="flexbox-container-column">
-        <div class="margin-bottom-25px"><img src="/static/img/main-logo.png" alt="przepychanki"></div>
+        <div class="margin-bottom-25px"><img class="logo" src="/static/img/main-logo.png" alt="przepychanki"></div>
         <h1 class="font-36px">Pokoje gier</h1>
 
-        <a href="{{ url_for('multiplayer_form') }}">NOWY POKÓJ</a>
 
         <ul>
             {% for room in multiplayer_games %}
                 {% if not multiplayer_games[room].start and multiplayer_games[room].players|length < 5 %}
-                    <li><a href="{{ url_for('form_join', room=room) }}">{{ room }}</a> -
-                        graczy: {{ multiplayer_games[room].players|length }}</li>
+                    <li><a href="{{ url_for('form_join', room=room) }}">{{ multiplayer_games[room] }}</a> | Ilość graczy - {{ multiplayer_games[room].players|length }}:
+                        {% for player in multiplayer_games[room].players  %}
+                            {{ player.name }}{{ "," if not loop.last }}
+                        {% endfor %}
+                    </li>
                 {% endif %}
             {% endfor %}
         </ul>
 
+    <button class="margin-top-12px"><a class="text-decoration-none" href="{{ url_for('multiplayer_form') }}">Stwórz pokój</a></button>
+    <button class="margin-top-6px"><a class="text-decoration-none" href="/" >Wróć</a></button>
     </div>
 
     <script>

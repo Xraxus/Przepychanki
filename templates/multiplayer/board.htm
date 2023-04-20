@@ -8,7 +8,7 @@
 
     <div class="flexbox-container-column">
 
-        <div class="flexbox-container-row margin-bottom-4px">
+        <div class="flexbox-container-row-reverse margin-bottom-4px">
 
             <div class="width-50">
                 <table class="player-table">
@@ -87,8 +87,25 @@
             <div class="width-50">
                 <div>
                     <h1 class="inline-block margin-bottom-25px margin-top-12px">Czekasz na swój ruch</h1>
-                    <p class="inline-block">Tura gracza: {{ player.name }}</p>
-                    <p class="inline-block">Faza: {{ game.current_phase}}</p>
+                    <p class="inline-block">Tura gracza: <span class="player-color-{{ game.players[game.current_player_index].color }}">{{ game.players[game.current_player_index].name }}</span></p>
+                    <p class="inline-block">Faza
+                    {% if game.current_phase == '0'  %}
+                        0 - ustawianie pionków w kolejkach
+                    {% elif game.current_phase in ['1', '1_kolega'] %}
+                        1 - przepychanki kolejkowe
+                    {% elif game.current_phase == '2'%}
+                        2 - otwarcie sklepów
+                    {% elif game.current_phase == '3' %}
+                        3 - otwarcie bazaru
+                    {% elif game.current_phase in ['tpz', 'win']%}
+                        TPZ
+                    {% elif game.current_phase == 'withdraw'%}
+                        wyciągania pionków z kolejek
+                    {% else %}
+                        {{ game.current_phase }}
+                    {% endif %}
+
+                    </p>
                     <p class="margin-bottom-25px">Dzień {{ game.day_count }}: {{ game.board.current_day }}</p>
                 </div>
                 <div class="details-flex">
@@ -153,7 +170,7 @@
                                 <table>
                                     <tr>
                                         <th class="primary-table-header"
-                                            colspan="100%">{{ player.name }}: {{ player.shopping_list.shopping_list_number }}
+                                            colspan="100%"><span class="player-color-{{ player.color }}">■</span> {{ player.name }}: {{ player.shopping_list.shopping_list_number }}
                                             - {{ player.shopping_list.shopping_list_name }}</th>
                                     </tr>
                                     <tr>

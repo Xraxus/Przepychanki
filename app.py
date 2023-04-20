@@ -94,7 +94,15 @@ def check_multiplayer_phase(phase_index):
 
 @app.route('/info', methods=['GET'])
 def info():
-    return render_template('info.htm')  # render the info.htm template when the '/info' route is accessed with the GET method
+    return render_template('info.htm')
+
+@app.route('/historia', methods=['GET'])
+def historia():
+    return render_template('historia.htm')
+
+@app.route('/zasady', methods=['GET'])
+def zasady():
+    return render_template('zasady.htm')
 
 ############################### LOCAL(HOTSEAT) ###############################
 
@@ -729,23 +737,20 @@ def rooms():
 
 @app.route('/multiplayer/form', methods=['GET', 'POST'])
 def multiplayer_form():
-    if not multiplayer_check_simple():
-        return redirect('/', code=302)
 
     if request.method == 'POST':
         players = [x for x in request.form.getlist('names') if x]
+        room_name = request.form['room_name']
 
-        return new_multiplayer_game(players)
+        return new_multiplayer_game(players, room_name)
 
     return render_template('multiplayer/form.htm')
 
 
-def new_multiplayer_game(name):
-    if not multiplayer_check_simple():
-        return redirect('/', code=302)
+def new_multiplayer_game(name, room_name):
     session['game_uuid'] = str(uuid.uuid4())
     session['player_id'] = 0
-    multiplayer_games[session['game_uuid']] = Game(name, 'multiplayer')
+    multiplayer_games[session['game_uuid']] = Game(name, 'multiplayer', room_name)
     return redirect('/multiplayer/wait', code=302)
 
 
@@ -804,7 +809,7 @@ def start_game():
 
 @app.route('/multiplayer/phase_withdraw', methods=['GET', 'POST'])
 def multiplayer_withdraw():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
     phase_check = check_multiplayer_phase('withdraw')
@@ -850,7 +855,7 @@ def multiplayer_withdraw():
 
 @app.route('/multiplayer/phase0', methods=['GET', 'POST'])
 def multiplayer_phase0():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
     phase_check = check_multiplayer_phase('0')
@@ -894,15 +899,19 @@ def multiplayer_phase0():
                 if not multiplayer_games[session['game_uuid']].players[
                     multiplayer_games[session['game_uuid']].current_player_index].pawns:
                     multiplayer_games[session['game_uuid']].move_to_next_player_with_pawns()
-                return render_template('local/phase0.htm', game=multiplayer_games[session['game_uuid']],
-                                       player=multiplayer_games[session['game_uuid']].players[
-                                           multiplayer_games[session['game_uuid']].current_player_index])
+                if not multiplayer_games[session['game_uuid']].current_player_index == session['player_id']:
+                    return render_template('multiplayer/board.htm', game=multiplayer_games[session['game_uuid']],
+                                           player=multiplayer_games[session['game_uuid']].players[session['player_id']])
+                else:
+                    return render_template('local/phase0.htm', game=multiplayer_games[session['game_uuid']],
+                                           player=multiplayer_games[session['game_uuid']].players[
+                                               multiplayer_games[session['game_uuid']].current_player_index])
 
 
 # Faza 1 - użyj kart przepychanek kolejkowych, by zapewnić sobie najlepszą pozycje
 @app.route('/multiplayer/phase1', methods=['GET', 'POST'])
 def multiplayer_phase1():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
     phase_check = check_multiplayer_phase('1')
@@ -959,7 +968,7 @@ def multiplayer_phase1():
 
 @app.route('/multiplayer/phase1_use_pan', methods=['GET', 'POST'])
 def multiplayer_phase1_use_pan():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
     phase_check = check_multiplayer_phase('1')
@@ -991,7 +1000,7 @@ def multiplayer_phase1_use_pan():
 
 @app.route('/multiplayer/phase1_use_matka', methods=['GET', 'POST'])
 def multiplayer_phase1_use_matka():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1024,7 +1033,7 @@ def multiplayer_phase1_use_matka():
 
 @app.route('/multiplayer/phase1_use_krytyka', methods=['GET', 'POST'])
 def multiplayer_phase1_use_krytyka():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1058,7 +1067,7 @@ def multiplayer_phase1_use_krytyka():
 
 @app.route('/multiplayer/phase1_use_lista', methods=['GET', 'POST'])
 def multiplayer_phase1_use_lista():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1091,7 +1100,7 @@ def multiplayer_phase1_use_lista():
 
 @app.route('/multiplayer/phase1_use_szczesliwy', methods=['GET', 'POST'])
 def multiplayer_phase1_use_szczesliwy():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1127,7 +1136,7 @@ def multiplayer_phase1_use_szczesliwy():
 
 @app.route('/multiplayer/phase1_use_remanent', methods=['GET', 'POST'])
 def multiplayer_phase1_use_remanent():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1159,7 +1168,7 @@ def multiplayer_phase1_use_remanent():
 
 @app.route('/multiplayer/phase1_use_towar', methods=['GET', 'POST'])
 def multiplayer_phase1_use_towar():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1205,7 +1214,7 @@ def multiplayer_phase1_use_towar():
 
 @app.route('/multiplayer/phase1_use_kolega', methods=['GET', 'POST'])
 def multiplayer_phase1_use_kolega():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1234,7 +1243,7 @@ def multiplayer_phase1_use_kolega():
 
 @app.route('/multiplayer/phase1_use_zwiekszona', methods=['GET', 'POST'])
 def multiplayer_phase1_use_zwiekszona():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1268,7 +1277,7 @@ def multiplayer_phase1_use_zwiekszona():
 
 @app.route('/multiplayer/phase1_use_pomylka', methods=['GET', 'POST'])
 def multiplayer_phase1_use_pomylka():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1305,7 +1314,7 @@ def multiplayer_phase1_use_pomylka():
 # Gracze i spekulanci zbierają przedmioty
 @app.route('/multiplayer/phase2', methods=['GET', 'POST'])
 def multiplayer_phase2():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1356,7 +1365,7 @@ def multiplayer_phase2():
 # Bazaar trades
 @app.route('/multiplayer/phase3', methods=['GET', 'POST'])
 def multiplayer_phase3():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1445,7 +1454,7 @@ def multiplayer_phase3():
 
 @app.route('/multiplayer/phase_tpz', methods=['GET', 'POST'])
 def multiplayer_phase_tpz():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
 
@@ -1482,7 +1491,7 @@ def multiplayer_phase_tpz():
 
 @app.route('/multiplayer/win', methods=['GET', 'POST'])
 def multiplayer_win():
-    if not multiplayer_check_simple():
+    if not multiplayer_check():
         return redirect('/', code=302)
 
     phase_check = check_multiplayer_phase('win')
