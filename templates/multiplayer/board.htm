@@ -2,7 +2,7 @@
 
 {% block body %}
     <script>
-     post_refresh_check()
+        post_refresh_check()
     </script>
 
 
@@ -42,10 +42,10 @@
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż wybrany towar do dowolnego sklepu.</span>
                                             {% elif card.name == "Remanent" %}
                                                 src="/static/img/remanent.png">
-                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>zamknij sklep w tej turze (nie działają na niego karty: "Zwiekszona dostawa", "Pomyłka w dostawie", "Towar spod lady").</span>
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>zamknij sklep w tej turze (nie działają na niego karty: "Zwiększona dostawa", "Pomyłka w dostawie", "Towar spod lady").</span>
                                             {% elif card.name == "Szczęśliwy traf" %}
                                                 src="/static/img/szczesliwy.png">
-                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń własny pionek na drugie miejsce do dowonlej kolejki.</span>
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń własny pionek na drugie miejsce do dowolnej kolejki.</span>
                                             {% elif card.name == "Towar spod lady" %}
                                                 src="/static/img/towar.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>jeśli jesteś pierwszy w kolejce, natychmiastowo weź towar.</span>
@@ -63,7 +63,8 @@
                             {% for good in player.equipment %}
                                 {% set name_list = good.name.split(' ') %}
                                 <span class="tooltip">
-                                    <img alt="{{ good.name }}" src="/static/img/good-{{ name_list[0] }}.png" class="filter-{{ good.category }}">
+                                    <img alt="{{ good.name }}" src="/static/img/good-{{ name_list[0] }}.png"
+                                         class="filter-{{ good.category }}">
                                     <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
                                     </span>
                             {% endfor %}
@@ -72,13 +73,13 @@
                     <tr style="height: 70px">
                         <th>Pionki</th>
                         <td>
-{#                        {% if player.pawns %}#}
+                            {#                        {% if player.pawns %}#}
                             {% for pawn in player.pawns %}
                                 <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
                             {% endfor %}
-{#                        {% else %}#}
-{#                                <img src="/static/img/pawn-fill.png">#}
-{#                        {% endif %}#}
+                            {#                        {% else %}#}
+                            {#                                <img src="/static/img/pawn-fill.png">#}
+                            {#                        {% endif %}#}
                         </td>
                     </tr>
                 </table>
@@ -87,23 +88,25 @@
             <div class="width-50">
                 <div>
                     <h1 class="inline-block margin-bottom-25px margin-top-12px">Czekasz na swój ruch</h1>
-                    <p class="inline-block">Tura gracza: <span class="player-color-{{ game.players[game.current_player_index].color }}">{{ game.players[game.current_player_index].name }}</span></p>
+                    <p class="inline-block">Tura gracza: <span
+                            class="player-color-{{ game.players[game.current_player_index].color }}">{{ game.players[game.current_player_index].name }}</span>
+                    </p>
                     <p class="inline-block">Faza
-                    {% if game.current_phase == '0'  %}
-                        0 - ustawianie pionków w kolejkach
-                    {% elif game.current_phase in ['1', '1_kolega'] %}
-                        1 - przepychanki kolejkowe
-                    {% elif game.current_phase == '2'%}
-                        2 - otwarcie sklepów
-                    {% elif game.current_phase == '3' %}
-                        3 - otwarcie bazaru
-                    {% elif game.current_phase in ['tpz', 'win']%}
-                        TPZ
-                    {% elif game.current_phase == 'withdraw'%}
-                        wyciągania pionków z kolejek
-                    {% else %}
-                        {{ game.current_phase }}
-                    {% endif %}
+                        {% if game.current_phase == '0' %}
+                            0 - ustawianie pionków w kolejkach
+                        {% elif game.current_phase in ['1', '1_kolega'] %}
+                            1 - przepychanki kolejkowe
+                        {% elif game.current_phase == '2' %}
+                            2 - otwarcie sklepów
+                        {% elif game.current_phase == '3' %}
+                            3 - otwarcie bazaru
+                        {% elif game.current_phase in ['tpz', 'win'] %}
+                            TPZ
+                        {% elif game.current_phase == 'withdraw' %}
+                            wyciągania pionków z kolejek
+                        {% else %}
+                            {{ game.current_phase }}
+                        {% endif %}
 
                     </p>
                     <p class="margin-bottom-25px">Dzień {{ game.day_count }}: {{ game.board.current_day }}</p>
@@ -170,7 +173,8 @@
                                 <table>
                                     <tr>
                                         <th class="primary-table-header"
-                                            colspan="100%"><span class="player-color-{{ player.color }}">■</span> {{ player.name }}: {{ player.shopping_list.shopping_list_number }}
+                                            colspan="100%"><span
+                                                class="player-color-{{ player.color }}">■</span> {{ player.name }}: {{ player.shopping_list.shopping_list_number }}
                                             - {{ player.shopping_list.shopping_list_name }}</th>
                                     </tr>
                                     <tr>
@@ -195,6 +199,7 @@
                             {% endfor %}
                         </div>
                     </details>
+                                <a href="/zasady" target="_blank" class="rules-link">Zasady gry</a>
                 </div>
             </div>
         </div>
@@ -285,7 +290,7 @@
                     </div>
         </div>
     </div>
-<script>
-reloadPageWithDelay(5500)
-</script>
+    <script>
+        reloadPageWithDelay(5500)
+    </script>
 {% endblock %}

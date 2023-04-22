@@ -553,6 +553,14 @@ form{
     color: black;
 }
 
+.rules-link{
+    color: black;
+}
+
+.rules-link:hover{
+    color: darkred;
+}
+
 .filter-niebieski{
     filter: brightness(0) saturate(100%) invert(71%) sepia(59%) saturate(6706%) hue-rotate(167deg) brightness(99%) contrast(101%);
 }
@@ -683,6 +691,10 @@ form{
     margin-top: 6px;
 }
 
+.font-16px{
+    font-size: 16px;
+}
+
 .info-container{
     margin-top: 50px;
     display: flex;
@@ -692,12 +704,26 @@ form{
     gap: 2em
 }
 
+
 .info-container > p:first-child{
     font-size: 30px;
 }
 
-.info-container > p:last-child{
-    font-size: 16px;
+
+.info-container img {
+    max-width: 100%;
+}
+
+.info-container li{
+    text-align: left;
+}
+
+.info-container ul{
+    margin-top: 0;
+}
+
+.text-align-left{
+    text-align: left;
 }
 
 .text-decoration-none{

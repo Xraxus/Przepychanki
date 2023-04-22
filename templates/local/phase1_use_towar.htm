@@ -40,10 +40,10 @@
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż wybrany towar do dowolnego sklepu.</span>
                                             {% elif card.name == "Remanent" %}
                                                 src="/static/img/remanent.png">
-                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>zamknij sklep w tej turze (nie działają na niego karty: "Zwiekszona dostawa", "Pomyłka w dostawie", "Towar spod lady").</span>
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>zamknij sklep w tej turze (nie działają na niego karty: "Zwiększona dostawa", "Pomyłka w dostawie", "Towar spod lady").</span>
                                             {% elif card.name == "Szczęśliwy traf" %}
                                                 src="/static/img/szczesliwy.png">
-                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń własny pionek na drugie miejsce do dowonlej kolejki.</span>
+                                                <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń własny pionek na drugie miejsce do dowolnej kolejki.</span>
                                             {% elif card.name == "Towar spod lady" %}
                                                 src="/static/img/towar.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>jeśli jesteś pierwszy w kolejce, natychmiastowo weź towar.</span>
@@ -178,6 +178,7 @@
                             {% endfor %}
                         </div>
                     </details>
+                                <a href="/zasady" target="_blank" class="rules-link">Zasady gry</a>
                 </div>
             </div>
         </div>
