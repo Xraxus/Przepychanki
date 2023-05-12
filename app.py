@@ -1507,5 +1507,5 @@ def multiplayer_win():
 
 if __name__ == '__main__':
     app.run(host="limba.wzks.uj.edu.pl",
-            # port=5114, 
+            # port=5114,
             debug=True)
