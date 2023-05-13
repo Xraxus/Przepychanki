@@ -6,3 +6,5 @@ Celem niniejszej pracy licencjackiej jest stworzenie wieloosobowej gry interneto
 
 Umożliwienie graczom rozgrywki w dowolnym miejscu i czasie oraz ułatwienie organizacji gry w większych grupach jest szczególnie istotne ze względu na minioną pandemię. W okresie pandemii koronawirusa zwiększyło się zapotrzebowanie na alternatywne formy rozrywki umożliwiające kontakt z innymi ludźmi bez wychodzenia z domu. 
 Obecnie sytuacja uległa poprawie, jednak wiele osób wciąż ceni sobie możliwość grania w gry planszowe w wersji online, co stanowi ważną motywację do dalszego rozwoju tej formy rozrywki.
+
+Aplikacja dostępna pod adresem: https://limba.wzks.uj.edu.pl/20_kobylarz/przepychanki/
