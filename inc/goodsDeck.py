@@ -1,7 +1,11 @@
-from inc.goodsCard import GoodsCard
 import random
+
+from inc.goodsCard import GoodsCard
+
+
 class GoodsDeck():
     shop_types = ["Spożywczy", "RTV-AGD", "Odzież", "Meblowy", "Kiosk"]
+
     def __init__(self, shop_name):
         self.shop_name = shop_name
         self.cards = list()
@@ -49,7 +53,7 @@ class GoodsDeck():
                 ("Wersalka", "Do siedzenia i spania"),
                 ("Meblościanka", "Królowa salonów")
             ],
-            "Odzież":[
+            "Odzież": [
                 ("Czapka z daszkiem", "Chroni przed słońcem"),
                 ("Futro", "Pełen styl"),
                 ("Krawat", "Kultura i elegancja"),
@@ -63,7 +67,7 @@ class GoodsDeck():
                 ("Torebka", "Dla kobiety nowoczesnej"),
                 ("Koszulka", "Podstawa garderoby")
             ],
-            "Kiosk":[
+            "Kiosk": [
                 ("Perfumy", "By uwodzić zapachem"),
                 ("Gra elektroniczna", "Marzenie dzeciaków"),
                 ("Mydło", "Wszystko umyje"),
@@ -79,7 +83,6 @@ class GoodsDeck():
             ]
         }
 
-
         for category in self.shop_types:
             random.shuffle(original_cards[category])
             if self.shop_name == category:
@@ -87,7 +90,7 @@ class GoodsDeck():
                     self.cards.append(GoodsCard(self.shop_name, card, description))
 
     def __repr__(self):
-         return "%s: \n%s" % (self.shop_name, self.cards)
+        return "%s: \n%s" % (self.shop_name, self.cards)
 
     def draw(self):
         if self.count() > 0:
@@ -97,6 +100,3 @@ class GoodsDeck():
 
     def count(self):
         return len(self.cards)
-
-
-

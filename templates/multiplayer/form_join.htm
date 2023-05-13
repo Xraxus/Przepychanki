@@ -5,29 +5,32 @@
 {% block body %}
 
     <div class="flexbox-container-column">
-        <div class="margin-bottom-25px"><img class="logo" src="/static/img/main-logo.png" alt="przepychanki"></div>
+        <div class="margin-bottom-25px"><img class="logo" src="/20_kobylarz/przepychanki/static/img/main-logo.png"
+                                             alt="przepychanki"></div>
         <h1 class="font-36px">Dołączanie do pokoju gry sieciowej</h1>
         <p class="margin-bottom-25px">Podaj swoje imię</p>
 
-{#        <form method="post">#}
-{##}
-{#            <label>#}
-{#                Imię gracza: <input type="text " name="names"><br>#}
-{#            </label><br>#}
-{##}
-{#            <button type="submit">Rozpocznij</button>#}
-{#        </form>#}
+        {#        <form method="post">#}
+        {##}
+        {#            <label>#}
+        {#                Imię gracza: <input type="text " name="names"><br>#}
+        {#            </label><br>#}
+        {##}
+        {#            <button type="submit">Rozpocznij</button>#}
+        {#        </form>#}
 
-    <form method="post">
+        <form method="post">
 
-        <label>
+            <label>
                 Imię gracza: <input type="text" name="names"><br>
             </label><br>
-        <input type="hidden" name="room" value="{{ room }}" required>
+            <input type="hidden" name="room" value="{{ room }}" required>
 
-        <button type="submit">Dołącz do gry</button><br>
-        <button class="margin-top-6px"><a class="text-decoration-none" href="/" >Wróć</a></button>
-    </form>
+            <button type="submit">Dołącz do gry</button>
+            <br>
+            <button class="margin-top-6px"><a class="text-decoration-none" href="/20_kobylarz/przepychanki/">Wróć</a>
+            </button>
+        </form>
 
     </div>
 {% endblock %}

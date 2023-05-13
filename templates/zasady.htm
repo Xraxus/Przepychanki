@@ -2,20 +2,23 @@
 
 {% block body %}
     <div class="flexbox-container-column">
-        <div><a href="/"><img class="logo" src="/static/img/main-logo.png" alt="przepychanki"></a></div>
+        <div><a href="/20_kobylarz/przepychanki/"><img class="logo"
+                                                       src="/20_kobylarz/przepychanki/static/img/main-logo.png"
+                                                       alt="przepychanki"></a></div>
         <div class="info-container text-align-left">
             <h1>Zasady gry</h1>
             <h2>Cel gry</h2>
             <p>Cel gry
                 Celem gry jest zdobycie wszystkich artykułów wymienionych na karcie listy zakupów.
             <div>
-                <img src="/static/img/inst-list.png" alt="Przykładowa lista zakupów">
+                <img src="/20_kobylarz/przepychanki/static/img/inst-list.png" alt="Przykładowa lista zakupów">
                 <p>Przykładowe listy</p>
             </div>
             <p>Gracz, który jako pierwszy zdobędzie ostatni artykuł ze swojej listy, wygrywa.
                 Warunkiem koniecznym do zwycięstwa będzie umiejętne zagrywanie kart przepychanek kolejkowych.</p>
             <div>
-                <img src="/static/img/inst-jostling-example.png" alt="Przykładowe karty przepychanek kolejkowych">
+                <img src="/20_kobylarz/przepychanki/static/img/inst-jostling-example.png"
+                     alt="Przykładowe karty przepychanek kolejkowych">
                 <p>Wygląd kart przepychanek</p>
             </div>
             <h2>Faza 0 - Ustawianie pionków w kolejkach</h2>
@@ -24,7 +27,7 @@
                 Gdy gracze ustawią wszystkie swoje pionki w kolejce, rozpoczyna się następna faza. (W pierwszej turze na
                 końcu kolejki automatycznie ustawia się czarny pionek, czyli spekulant).</p>
             <div>
-                <img src="/static/img/inst-phase0.png" alt="Wygląd planszy pod koniec fazy 0">
+                <img src="/20_kobylarz/przepychanki/static/img/inst-phase0.png" alt="Wygląd planszy pod koniec fazy 0">
                 <p>Przykładowe rozstawienie pionków na koniec fazy 0</p>
             </div>
             <h2>Faza 1 - przepychanki kolejkowe</h2>
@@ -32,7 +35,7 @@
                 talii 15 kart dostawy. Dla każdego z 5 sklepów w talii istnieją karty o wartości: 3, 2 lub 1 towar
                 (Talia karty dostawy przeznaczona jest na 1 tydzień gry).</p>
             <div>
-                <img src="/static/img/inst-delivery.png"
+                <img src="/20_kobylarz/przepychanki/static/img/inst-delivery.png"
                      alt="Tabelka z informacjami o kartach dostawy dla danego dnia oraz ilością pozostałych towarów">
                 <p>Karty dostawy dla danej tury/dnia oraz ilość pozostałych towarów dla sklepów widoczne są w zakładce
                     "Informacje o planszy".</p>
@@ -55,51 +58,51 @@
                 przepychanek:</p>
             <div>
                 <div class="tooltip jost-card jost-card-niebieski">
-                    <img alt="Kolega w Komitecie" src="/static/img/kolega.png">
+                    <img alt="Kolega w Komitecie" src="/20_kobylarz/przepychanki/static/img/kolega.png">
                     <span class="tooltiptext"><strong>Kolega w Komitecie</strong><br>sprawdź dwie dostawy zaplanowane na kolejny dzień.</span>
                 </div>
 
                 <div class="tooltip jost-card jost-card-niebieski">
-                    <img alt="Krytyka władzy" src="/static/img/krytyka.png">
+                    <img alt="Krytyka władzy" src="/20_kobylarz/przepychanki/static/img/krytyka.png">
                     <span class="tooltiptext"><strong>Krytyka władzy</strong><br>przesuń wybrany pionek o dwa miejsca do tyłu.</span>
                 </div>
 
                 <div class="tooltip jost-card jost-card-niebieski">
-                    <img alt="Lista społeczna" src="/static/img/lista.png">
+                    <img alt="Lista społeczna" src="/20_kobylarz/przepychanki/static/img/lista.png">
                     <span class="tooltiptext"><strong>Lista społeczna</strong><br>odwróć kolejkę tył na przód.</span>
                 </div>
 
                 <div class="tooltip jost-card jost-card-niebieski">
-                    <img alt="Matka z dzieckiem" src="/static/img/matka.png">
+                    <img alt="Matka z dzieckiem" src="/20_kobylarz/przepychanki/static/img/matka.png">
                     <span class="tooltiptext"><strong>Matka z dzieckiem</strong><br>przesuń swój pionek na pierwsze miejsce kolejki.</span>
                 </div>
 
                 <div class="tooltip jost-card jost-card-niebieski">
-                    <img alt="Pan tu nie stał" src="/static/img/pan.png">
+                    <img alt="Pan tu nie stał" src="/20_kobylarz/przepychanki/static/img/pan.png">
                     <span class="tooltiptext"><strong>Pan tu nie stał</strong><br>przełóż swój pionek o jedno miejsce do przodu.</span>
                 </div>
 
                 <div class="tooltip jost-card jost-card-niebieski">
-                    <img alt="Pomyłka w dostawie" src="/static/img/pomylka.png">
+                    <img alt="Pomyłka w dostawie" src="/20_kobylarz/przepychanki/static/img/pomylka.png">
                     <span class="tooltiptext"><strong>Pomyłka w dostawie</strong><br>przełóż wybrany towar do dowolnego sklepu.</span>
                 </div>
 
                 <div class="tooltip jost-card jost-card-niebieski">
-                    <img alt="Remanent" src="/static/img/remanent.png">
+                    <img alt="Remanent" src="/20_kobylarz/przepychanki/static/img/remanent.png">
                     <span class="tooltiptext"><strong>Remanent</strong><br>zamknij sklep w tej turze (nie działają na niego karty: "Zwiększona dostawa", "Pomyłka w dostawie", "Towar spod lady").</span>
                 </div>
 
                 <div class="tooltip jost-card jost-card-niebieski">
-                    <img alt="Szczęśliwy traf" src="/static/img/szczesliwy.png">
+                    <img alt="Szczęśliwy traf" src="/20_kobylarz/przepychanki/static/img/szczesliwy.png">
                     <span class="tooltiptext"><strong>Szczęśliwy traf</strong><br>przesuń własny pionek na drugie miejsce do dowolnej kolejki.</span>
                 </div>
 
                 <div class="tooltip jost-card jost-card-niebieski">
-                    <img alt="Towar spod lady" src="/static/img/towar.png">
+                    <img alt="Towar spod lady" src="/20_kobylarz/przepychanki/static/img/towar.png">
                     <span class="tooltiptext"><strong>Towar spod lady</strong><br>jeśli jesteś pierwszy w kolejce, natychmiastowo weź towar.</span>
                 </div>
                 <div class="tooltip jost-card jost-card-niebieski">
-                    <img alt="Zwiększona dostawa" src="/static/img/zwiekszona.png">
+                    <img alt="Zwiększona dostawa" src="/20_kobylarz/przepychanki/static/img/zwiekszona.png">
                     <span class="tooltiptext"><strong>Zwiększona dostawa</strong><br>dostarcz dodatkowe dwa towary do dowolnych sklepów (nie dotyczy zamkniętych sklepów).</span>
                 </div>
             </div>
@@ -112,7 +115,7 @@
                 Jeżeli towarów było więcej niż pionków w kolejce, nadwyżkowe artykuły pozostają w sklepie do następnej
                 tury.</p>
             <div>
-                <img src="/static/img/inst-shop-opening.png" alt="Otwarcie sklepu meblowego">
+                <img src="/20_kobylarz/przepychanki/static/img/inst-shop-opening.png" alt="Otwarcie sklepu meblowego">
                 <p>Gracz niebieski wybiera towar ze sklepu meblowego.</p>
             </div>
             <h2>Faza 3 - otwarcie bazaru</h2>
@@ -126,40 +129,41 @@
                 Jeśli gracz rozmyśli się, może anulować wymianę na bazarze — wtedy pionek wraca do jego ręki.
             </p>
             <div>
-                <img src="/static/img/inst-bazaar-trade.png" alt="Otwarcie bazaru">
+                <img src="/20_kobylarz/przepychanki/static/img/inst-bazaar-trade.png" alt="Otwarcie bazaru">
                 <p>Gracz niebieski wybiera kategorię, z której chce otrzymać przedmiot.</p>
             </div>
-                    <h2>Faza TPZ</h2>
-        <p>Po wcześniejszych fazach, następuje faza TPZ, czyli przejście do kolejnego dnia/tury rozgrywki.
-            Wykonywane są następujące czynności:</p>
-        <ul>
-            <li>zakończenie remanentów,</li>
-            <li>kategoria promocyjna bazaru zmienia się na kolejną,</li>
-            <li>każdy z graczy otrzymuje karty przepychanek kolejkowych, w ręce nie można mieć więcej niż trzy karty
-                (Jeżeli stos kart danego gracza się wyczerpał, nie dobiera więcej kart),
-            </li>
-            <li>kolejny w kolejności rozgrywki gracz zostaje graczem rozpoczynającym (<strong>Uwaga!</strong> W trybie
-                sieciowym gracz rozpoczynający nie zmienia się).
-            </li>
-        </ul>
-        <p>Jeśli dzień rozgrywki to piątek, wykonywane są dodatkowe działania rozpoczynające kolejny tydzień
-            rozgrywki:</p>
-        <ul>
-            <li>każdy gracz otrzymuje nowe karty przepychanek kolejkowych,</li>
-            <li>talia wyznaczająca dostawy zostaje przywrócona do stanu pierwotnego.</li>
-        </ul>
-        <h2>Faza wyciągania pionków</h2>
+            <h2>Faza TPZ</h2>
+            <p>Po wcześniejszych fazach, następuje faza TPZ, czyli przejście do kolejnego dnia/tury rozgrywki.
+                Wykonywane są następujące czynności:</p>
+            <ul>
+                <li>zakończenie remanentów,</li>
+                <li>kategoria promocyjna bazaru zmienia się na kolejną,</li>
+                <li>każdy z graczy otrzymuje karty przepychanek kolejkowych, w ręce nie można mieć więcej niż trzy karty
+                    (Jeżeli stos kart danego gracza się wyczerpał, nie dobiera więcej kart),
+                </li>
+                <li>kolejny w kolejności rozgrywki gracz zostaje graczem rozpoczynającym (<strong>Uwaga!</strong> W
+                    trybie
+                    sieciowym gracz rozpoczynający nie zmienia się).
+                </li>
+            </ul>
+            <p>Jeśli dzień rozgrywki to piątek, wykonywane są dodatkowe działania rozpoczynające kolejny tydzień
+                rozgrywki:</p>
+            <ul>
+                <li>każdy gracz otrzymuje nowe karty przepychanek kolejkowych,</li>
+                <li>talia wyznaczająca dostawy zostaje przywrócona do stanu pierwotnego.</li>
+            </ul>
+            <h2>Faza wyciągania pionków</h2>
             <p>(Nie występuje w pierwszym dniu rozgrywki)</p>
-            <p>Przed rozpoczęciem fazy rozstawiania pionków, każdy z graczy może wyciągnąć dowolną ilość swoich pionków z kolejek. </p>
+            <p>Przed rozpoczęciem fazy rozstawiania pionków, każdy z graczy może wyciągnąć dowolną ilość swoich pionków
+                z kolejek. </p>
 
-        <h2>Wygrana</h2>
-        <p>Gracz, który na koniec dnia uzyskał wszystkie towary ze swojej listy zakupów, wygrywa grę. Jeżeli w tym samym momencie kilku graczy zakończyło grę, zostaje ogłoszony remis.</p>
+            <h2>Wygrana</h2>
+            <p>Gracz, który na koniec dnia uzyskał wszystkie towary ze swojej listy zakupów, wygrywa grę. Jeżeli w tym
+                samym momencie kilku graczy zakończyło grę, zostaje ogłoszony remis.</p>
         </div>
 
 
-
-
-
-        <button class="margin-top-12px margin-bottom-25px win-button"><a href="/">Wróć</a></button>
+        <button class="margin-top-12px margin-bottom-25px win-button"><a href="/20_kobylarz/przepychanki/">Wróć</a>
+        </button>
     </div>
 {% endblock %}

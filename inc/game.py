@@ -7,7 +7,7 @@ from inc.player import Player
 class Game():
 
     def __init__(self, names, mode, *room_name):
-        self.colors_iterator = iter(['niebieski', 'żółty', 'czerwony', 'zielony', 'brązowy'])
+        self.colors_iterator = iter(['niebieski', 'zolty', 'czerwony', 'zielony', 'brazowy'])
 
         shopping_list_numbers = [1, 2, 3, 4, 5]
         random.shuffle(shopping_list_numbers)
@@ -17,7 +17,6 @@ class Game():
         self.day_count = 1
         self.current_phase = '0'
         self.mode = mode
-
 
         self.players = list()
         if self.mode == 'local':
@@ -33,10 +32,10 @@ class Game():
             self.jostling_draw()
         elif self.mode == 'multiplayer':
             self.room_name = room_name
+            self.recorded = False
 
     def __repr__(self):
         return "%s" % (self.room_name)
-
 
         # print("Deck przepychanek:" + str(self.board.jostling_deck))
         #
@@ -96,7 +95,6 @@ class Game():
                 return True
         return False
 
-
     def place_pawn(self, category):
         # print("placing pawn 1")
         # next_player = self.players[self.get_next_player_index()]
@@ -107,19 +105,19 @@ class Game():
         if category == 'Bazaar':
             if player.pawns:
                 self.board.bazaar.queue.append(player.pawns.pop())
-                if self.does_any_player_have_pawns(): # next_player.pawns:
-                    self.move_to_next_player_with_pawns()# self.move_to_next_player()
+                if self.does_any_player_have_pawns():  # next_player.pawns:
+                    self.move_to_next_player_with_pawns()  # self.move_to_next_player()
                 else:
                     return 'next players have no pawns'
-            elif self.does_any_player_have_pawns(): # next_player.pawns:
-                self.move_to_next_player_with_pawns() # self.move_to_next_player()
+            elif self.does_any_player_have_pawns():  # next_player.pawns:
+                self.move_to_next_player_with_pawns()  # self.move_to_next_player()
         else:
             shop_queue = self.get_shop_queue(category)
             if player.pawns:
                 shop_queue.append(player.pawns.pop())
                 self.set_shop_queue(category, shop_queue)
-                if self.does_any_player_have_pawns(): # next_player.pawns:
-                   self.move_to_next_player_with_pawns() # self.move_to_next_player()
+                if self.does_any_player_have_pawns():  # next_player.pawns:
+                    self.move_to_next_player_with_pawns()  # self.move_to_next_player()
                 else:
                     # self.move_to_next_player()
                     return 'next players have no pawns'
@@ -267,13 +265,12 @@ class Game():
 
     def move_player_item_to_bazaar(self, item_name):
         self.board.bazaar.available_goods.get(self.players[
-            self.get_pawn_owner_index(self.board.bazaar.queue[0])].get_good(
+                                                  self.get_pawn_owner_index(self.board.bazaar.queue[0])].get_good(
             item_name).category).append(
             # Remove selected item from player's eq
             self.players[self.get_pawn_owner_index(
                 self.board.bazaar.queue[0])].remove_good(item_name)
         )
-
 
     def give_player_bazaar_item_and_pop_queue_first_pawn(self, category):
         self.players[self.get_pawn_owner_index(self.board.bazaar.queue[0])].equipment.append(
@@ -299,7 +296,8 @@ class Game():
     def move_to_next_player_with_pawns(self):
         while True:
             self.current_player_index = (self.current_player_index + 1) % len(self.players)
-            if not self.players[self.current_player_index].pass_status and self.players[self.current_player_index].pawns:
+            if not self.players[self.current_player_index].pass_status and self.players[
+                self.current_player_index].pawns:
                 break
 
     def does_any_player_have_pawns_on_board(self):
@@ -331,13 +329,13 @@ class Game():
 
     def does_any_player_have_cards_and_didnt_pass(self):
         for player in self.players:
-            if not player.pass_status and player.jostling_hand: # If status is True - this player did pass, we are looking for active players, so we do not care about this player
+            if not player.pass_status and player.jostling_hand:  # If status is True - this player did pass, we are looking for active players, so we do not care about this player
                 return True
             # elif player.jostling_hand:
             #     return True
         return False
 
-#### MULTIPLAYER
+    #### MULTIPLAYER
 
     def add_player(self, name):
         if not self.start:

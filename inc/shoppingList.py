@@ -1,6 +1,3 @@
-import random
-
-
 class ShoppingList:
 
     def __init__(self, shopping_list_number):

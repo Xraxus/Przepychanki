@@ -1,5 +1,5 @@
 class JostlingCard():
-    def __init__(self,color, name):
+    def __init__(self, color, name):
         self.color = color
         self.name = name
 

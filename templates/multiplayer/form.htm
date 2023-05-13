@@ -3,21 +3,23 @@
 {% block body %}
 
     <div class="flexbox-container-column">
-        <div class="margin-bottom-25px"><img class="logo" src="/static/img/main-logo.png" alt="przepychanki"></div>
+        <div class="margin-bottom-25px"><img class="logo" src="/20_kobylarz/przepychanki/static/img/main-logo.png"
+                                             alt="przepychanki"></div>
         <h1 class="font-36px">Tworzenie pokoju dla gry sieciowej</h1>
         <p class="margin-bottom-25px">Podaj dane dla tej rozgrywki</p>
         <p class="margin-top-12px margin-bottom-4px">(Nazwa pokoju musi być pojedynczym słowem!)</p>
 
-          <form method="post" class="flexbox-container-column">
+        <form method="post" class="flexbox-container-column">
 
-              <label>
+            <label>
                 Nazwa pokoju: <input type="text" name="room_name" pattern="[^\s]+" required><br>
-              </label><br>
-              <label>
-                Imię gracza: <input type="text" name="names"  required><br>
-              </label><br>
-              <button type="submit">Stwórz pokój</button>
-              <button class="margin-top-6px"><a class="text-decoration-none" href="/" >Wróć</a></button>
+            </label><br>
+            <label>
+                Imię gracza: <input type="text" name="names" required><br>
+            </label><br>
+            <button type="submit">Stwórz pokój</button>
+            <button class="margin-top-6px"><a class="text-decoration-none" href="/20_kobylarz/przepychanki/">Wróć</a>
+            </button>
         </form>
 
     </div>

@@ -4,7 +4,7 @@ from inc.shoppingList import ShoppingList
 
 class Player():
 
-    def __init__(self, color, shopping_list_number, name='Anonymous', mode ='human'):
+    def __init__(self, color, shopping_list_number, name='Anonymous', mode='human'):
         self.name = name
         self.mode = mode
         self.color = color
@@ -13,13 +13,12 @@ class Player():
         self.shopping_list = ShoppingList(shopping_list_number)
         self.equipment = []
         self.pawns = []
-        #Karty przepychanek
+        # Karty przepychanek
         self.jostling_hand = []
-        self.used_jostling_cards = [] #Stos z zużytymi kartami przep.
-
-        for x in range (5):
+        self.used_jostling_cards = []  # Stos z zużytymi kartami przep.
+        # żółty brązowy filter-
+        for x in range(5):
             self.pawns.append(Pawn(self.color, x))
-
 
     def __repr__(self):
         return 'Nazwa: %s, Kolor: %s' % (self.name, self.color)
@@ -38,10 +37,10 @@ class Player():
             if card.name == card_name:
                 self.used_jostling_cards.append(self.jostling_hand.pop(self.jostling_hand.index(card)))
 
-    #Jeśli gracz spasował to zresetuj jego status,
-    #A jeśli nie ustaw mu status jako gracz, ktory spasowal
+    # Jeśli gracz spasował to zresetuj jego status,
+    # A jeśli nie ustaw mu status jako gracz, ktory spasowal
     def do_pass(self):
-            self.pass_status = True
+        self.pass_status = True
 
     def has_card(self, card):
         if any(card_in_hand.name == card for card_in_hand in self.jostling_hand):
@@ -78,4 +77,3 @@ class Player():
             if good.category == category:
                 counter += 1
         return counter
-

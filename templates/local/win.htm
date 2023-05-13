@@ -2,20 +2,20 @@
 
 {% block body %}
     <div class="flexbox-container-column">
-        <div><img class="logo" src="/static/img/main-logo.png" alt="przepychanki"></div>
+        <div><img class="logo" src="/20_kobylarz/przepychanki/static/img/main-logo.png" alt="przepychanki"></div>
         {% if products|length > 1 %}
             <h1 class="margin-bottom-4px">Gratulacje!</h1>
             <p>Wygrali, ex aequo:</p>
             {% for winner in winners %}
-                <p class="margin-bottom-4px"> {{ winner.color }} - {{ winner.name }}</p>
+                <p class="margin-bottom-4px player-color-{{ winner.color }}">Gracz {{ winner.name }}</p>
             {% endfor %}
 
         {% else %}
             <h1 class="margin-bottom-4px">Gratulacje!</h1>
             {% for winner in winners %}
-                <p class="margin-bottom-4px">Wygrał {{ winner.color }} - {{ winner.name }}</p>
+                <p class="margin-bottom-4px player-color-{{ winner.color }}">Wygrał gracz {{ winner.name }}</p>
             {% endfor %}
         {% endif %}
-        <button class="margin-top-12px win-button"><a href="/">Wróć</a></button>
+        <button class="margin-top-12px win-button"><a href="/20_kobylarz/przepychanki/">Wróć</a></button>
     </div>
 {% endblock %}

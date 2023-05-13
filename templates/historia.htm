@@ -2,10 +2,33 @@
 
 {% block body %}
     <div class="flexbox-container-column">
-        <div><a href="/"><img class="logo" src="/static/img/main-logo.png" alt="przepychanki"></a></div>
+        <div><a href="/20_kobylarz/przepychanki/"><img class="logo"
+                                                       src="/20_kobylarz/przepychanki/static/img/main-logo.png"
+                                                       alt="przepychanki"></a></div>
         <div class="info-container">
-        <h1>Historia rozrywek</h1>
+            <h1>Historia rozrywek</h1>
+            <table class="history-table">
+                <tr class="primary-table-header">
+                    <th>ID</th>
+                    <th>Gracze</th>
+                    <th>Wygrał</th>
+                    <th>Tryb</th>
+                    <th>Pokój</th>
+                    <th>Data</th>
+                </tr>
+                {% for row in rows %}
+                    <tr>
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ row[4] or "-" }}</td>
+                        <td>{{ row[5] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
-    <button class="margin-top-12px margin-bottom-25px win-button"><a href="/">Wróć</a></button>
+        <button class="margin-top-12px margin-bottom-25px win-button"><a href="/20_kobylarz/przepychanki/">Wróć</a>
+        </button>
     </div>
 {% endblock %}

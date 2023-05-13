@@ -1,14 +1,16 @@
-from inc.supplyCard import SupplyCard
 import random
+
+from inc.supplyCard import SupplyCard
+
 
 class SupplyDeck():
     def __init__(self):
         self.deck = list()
 
-        #Zapełnij deck oryginalnymi kartami
+        # Zapełnij deck oryginalnymi kartami
         for categories in ["Spożywczy", "RTV-AGD", "Odzież", "Meblowy", "Kiosk"]:
-            for amounts in [3,2,1]:
-                self.deck.append(SupplyCard(categories,amounts))
+            for amounts in [3, 2, 1]:
+                self.deck.append(SupplyCard(categories, amounts))
         random.shuffle(self.deck)
 
     def draw(self):
@@ -20,4 +22,3 @@ class SupplyDeck():
 
     def __repr__(self):
         return "%s" % (self.deck)
-

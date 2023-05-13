@@ -20,34 +20,34 @@
                                         class="tooltip jost-card jost-card-{{ player.color }}">
                                     <img alt="{{ card.name }}"
                                             {% if card.name == "Kolega w Komitecie" %}
-                                         src="/static/img/kolega.png">
+                                         src="/20_kobylarz/przepychanki/static/img/kolega.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>sprawdź dwie dostawy zaplanowane na kolejny dzień.</span>
                                             {% elif card.name == "Krytyka władzy" %}
-                                                src="/static/img/krytyka.png">
+                                                src="/20_kobylarz/przepychanki/static/img/krytyka.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń wybrany pionek o dwa miejsca do tyłu.</span>
                                             {% elif card.name == "Lista społeczna" %}
-                                                src="/static/img/lista.png">
+                                                src="/20_kobylarz/przepychanki/static/img/lista.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>odwróć kolejkę tył na przód.</span>
                                             {% elif card.name == "Matka z dzieckiem" %}
-                                                src="/static/img/matka.png">
+                                                src="/20_kobylarz/przepychanki/static/img/matka.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń swój pionek na pierwsze miejsce kolejki.</span>
                                             {% elif card.name == "Pan tu nie stał" %}
-                                                src="/static/img/pan.png">
+                                                src="/20_kobylarz/przepychanki/static/img/pan.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż swój pionek o jedno miejsce do przodu.</span>
                                             {% elif card.name == "Pomyłka w dostawie" %}
-                                                src="/static/img/pomylka.png">
+                                                src="/20_kobylarz/przepychanki/static/img/pomylka.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przełóż wybrany towar do dowolnego sklepu.</span>
                                             {% elif card.name == "Remanent" %}
-                                                src="/static/img/remanent.png">
+                                                src="/20_kobylarz/przepychanki/static/img/remanent.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>zamknij sklep w tej turze (nie działają na niego karty: "Zwiększona dostawa", "Pomyłka w dostawie", "Towar spod lady").</span>
                                             {% elif card.name == "Szczęśliwy traf" %}
-                                                src="/static/img/szczesliwy.png">
+                                                src="/20_kobylarz/przepychanki/static/img/szczesliwy.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>przesuń własny pionek na drugie miejsce do dowolnej kolejki.</span>
                                             {% elif card.name == "Towar spod lady" %}
-                                                src="/static/img/towar.png">
+                                                src="/20_kobylarz/przepychanki/static/img/towar.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>jeśli jesteś pierwszy w kolejce, natychmiastowo weź towar.</span>
                                             {% elif card.name == "Zwiększona dostawa" %}
-                                                src="/static/img/zwiekszona.png">
+                                                src="/20_kobylarz/przepychanki/static/img/zwiekszona.png">
                                                 <span class="tooltiptext"><strong>{{ card.name }}</strong><br>dołóż jeden towar do sklepu.</span>
                                             {% endif %}
                                 </div>
@@ -60,7 +60,9 @@
                             {% for good in player.equipment %}
                                 {% set name_list = good.name.split(' ') %}
                                 <span class="tooltip">
-                                    <img alt="{{ good.name }}" src="/static/img/good-{{ name_list[0] }}.png" class="filter-{{ good.category }}">
+                                    <img alt="{{ good.name }}"
+                                         src="/20_kobylarz/przepychanki/static/img/good-{{ name_list[0] | remove_pl_char }}.png"
+                                         class="filter-{{ good.category }}">
                                     <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
                                     </span>
                             {% endfor %}
@@ -70,7 +72,8 @@
                         <th>Pionki</th>
                         <td>
                             {% for pawn in player.pawns %}
-                                <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
+                                <img alt="{{ pawn }}"
+                                     src="/20_kobylarz/przepychanki/static/img/pionek-{{ pawn.color }}.png">
                             {% endfor %}
                         </td>
                     </tr>
@@ -152,7 +155,8 @@
                                 <table>
                                     <tr>
                                         <th class="primary-table-header"
-                                            colspan="100%"><span class="player-color-{{ player.color }}">■</span> {{ player.name }}: {{ player.shopping_list.shopping_list_number }}
+                                            colspan="100%"><span
+                                                class="player-color-{{ player.color }}">■</span> {{ player.name }}: {{ player.shopping_list.shopping_list_number }}
                                             - {{ player.shopping_list.shopping_list_name }}</th>
                                     </tr>
                                     <tr>
@@ -177,7 +181,7 @@
                             {% endfor %}
                         </div>
                     </details>
-                                <a href="/zasady" target="_blank" class="rules-link">Zasady gry</a>
+                    <a href="/20_kobylarz/przepychanki/zasady" target="_blank" class="rules-link">Zasady gry</a>
                 </div>
             </div>
         </div>
@@ -210,7 +214,8 @@
                                         {% for good in shop_value.available_goods %}
                                             {% set name_list = good.name.split(' ') %}
                                             <span class="tooltip">
-                                                    <img alt="{{ good.name }}" src="/static/img/good-{{ name_list[0] }}.png"
+                                                    <img alt="{{ good.name }}"
+                                                         src="/20_kobylarz/przepychanki/static/img/good-{{ name_list[0] | remove_pl_char }}.png"
                                                          class="filter-{{ good.category }}">
                                                     <span class="tooltiptext"><strong>{{ good.name }}</strong><br>{{ good.description }}</span>
                                                 </span>
@@ -228,14 +233,16 @@
                                                                value="{{ pawn.pawn_id + '#' + shop_value.name }}"
                                                                required>
                                                         <img alt="{{ pawn }}"
-                                                             src="/static/img/pionek-{{ pawn.color }}.png">
+                                                             src="/20_kobylarz/przepychanki/static/img/pionek-{{ pawn.color }}.png">
                                                     </label>
                                                 {% else %}
-                                                    <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
+                                                    <img alt="{{ pawn }}"
+                                                         src="/20_kobylarz/przepychanki/static/img/pionek-{{ pawn.color }}.png">
                                                 {% endif %}
 
                                             {% else %}
-                                                <img alt="spekulant-{{ pawn }}" src="/static/img/pionek-spekulant.png">
+                                                <img alt="spekulant-{{ pawn }}"
+                                                     src="/20_kobylarz/przepychanki/static/img/pionek-spekulant.png">
                                             {% endif %}
                                         {% endfor %}
                                     </td>
@@ -258,15 +265,15 @@
                                 <td colspan="100%">
                                     <div class="bazaar-goods-container">
                                         {% for shop_name,shop_items in game.board.bazaar.available_goods.items() %}
-                                        <div class="background-image-container {% if shop_name == game.board.bazaar.sale_category %}yellow-background{% endif %}">
+                                            <div class="background-image-container {% if shop_name == game.board.bazaar.sale_category %}yellow-background{% endif %}">
                                             <span class="tooltip">
-                                                <img src="/static/img/bazaar-category-border.png"
+                                                <img src="/20_kobylarz/przepychanki/static/img/bazaar-category-border.png"
                                                      alt="{{ shop_name }} - {{ shop_items|length }}"
                                                      class="filter-{{ shop_name }} ">
                                                 <span class="image-centered-text bazaar-category-number filter-{{ shop_name }}">{{ shop_items|length }}</span>
                                             <span class="tooltiptext">{{ shop_name }}</span>
                                             </span>
-                                        </div>
+                                            </div>
                                         {% endfor %}
                                     </div>
                                 </td>
@@ -275,7 +282,8 @@
                                 <th>Kolejka</th>
                                 <td colspan="100%">
                                     {% for pawn in game.board.bazaar.queue %}
-                                        <img alt="{{ pawn }}" src="/static/img/pionek-{{ pawn.color }}.png">
+                                        <img alt="{{ pawn }}"
+                                             src="/20_kobylarz/przepychanki/static/img/pionek-{{ pawn.color }}.png">
                                     {% endfor %}
                                 </td>
                             </tr>
