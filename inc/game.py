@@ -51,9 +51,6 @@ class Game():
     def get_next_player_index(self):
         return (self.current_player_index + 1) % len(self.players)
 
-    def get_next_player(self):
-        return self.players[self.get_next_player_index()]
-
     def get_shop_queue(self, shop_name):
         shop = self.board.shops.get(shop_name)
         if shop:
@@ -80,14 +77,6 @@ class Game():
             if not player.pass_status:
                 return False
         return True
-
-    # Zwraca prawde jeśli jakiś gracz ma jeszcze karty, a jak żaden nie ma kart to fałsz
-    def does_any_player_have_cards(self):
-        for player in self.players:
-            print(player.jostling_hand)
-            if player.jostling_hand and not player.pass_status:
-                return True
-        return False
 
     def does_any_player_have_pawns(self):
         for player in self.players:
@@ -284,14 +273,6 @@ class Game():
     def reset_players_pass_status(self):
         for player in self.players:
             player.pass_status = False
-
-    def get_next_player_with_pawns(self):
-        for player in self.players:
-            if self.players.index(player) == self.current_player_index:
-                continue
-            if player.pawns:
-                return player
-            return self.players[self.current_player_index]
 
     def move_to_next_player_with_pawns(self):
         while True:
