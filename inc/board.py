@@ -52,6 +52,8 @@ class Board():
                     else:
                         self.shops[drawn_card.category].delivery(len(self.goods_deck.get(drawn_card.category).cards),
                                                                  self.goods_deck[drawn_card.category])
+    def count_by_shop_type(self, shop_type):
+        return len(self.goods_deck[shop_type].cards)
 
     def update_bazaar_sale(self):
         self.bazaar.sale_category = self.shop_types[self.week_days.index(self.current_day)]
@@ -60,6 +62,9 @@ class Board():
     def set_next_day(self):
         self.current_day = self.week_days[(self.week_days.index(self.current_day) + 1) % 5]
         self.update_bazaar_sale()
+
+    def get_next_day_name(self):
+        return self.week_days[(self.week_days.index(self.current_day) + 1) % 5]
 
 
     def reset_remanents(self):

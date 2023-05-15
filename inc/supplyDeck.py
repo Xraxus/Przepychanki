@@ -17,6 +17,8 @@ class SupplyDeck():
         if self.deck:
             return self.deck.pop()
 
+    def count(self):
+        return len(self.deck)
 
     def __repr__(self):
         return "%s" % (self.deck)
